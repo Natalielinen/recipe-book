@@ -2,5 +2,12 @@
     "Привет, мир!": "Hello, world!",
     "Выберите язык": "Choose language",
     "Переключить на: ": "Switch to: ",
-    "Войти": "Login"
+    "Войти": "Login",
+    "Все рецепты": "All recipes",
+    "Салаты и закуски": "Salads & Snacks",
+    "Первые блюда": "First courses",
+    "Горячие блюда": "Hot meals",
+    "Выпечка": "Bakery",
+    "Десерты и напитки": "Desserts & Beverages",
+    "Домашние заготовки": "Homemade preserves"
 }

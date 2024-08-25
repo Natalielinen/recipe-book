@@ -15,7 +15,8 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ className, lng }) => {
-    const { t } = useTranslation(lng)
+    const { t } = useTranslation(lng);
+
     return <header className={cn('border border-b', className as string)}>
         <Container className="flex items-center justify-between py-8">
             {/* Левая часть */}
@@ -42,23 +43,10 @@ export const Header: React.FC<Props> = ({ className, lng }) => {
                 <ThemeButton />
                 <LanguagesSwitcher lng={lng} />
                 <Button variant="outline">
-                    <User />
+                    <User size={16} className="mr-2" />
                     {t("Войти")}
                 </Button>
             </div>
-            {/* <div className="flex items-center gap-3">
-                <AuthModal
-                    open={openAuthModal}
-                    onClose={() => setOpenAuthModal(false)}
-                />
-                <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
-                {
-                    hasCart && <div>
-                        <CartButton />
-                    </div>
-                }
-
-            </div> */}
         </Container>
     </header>
 };
