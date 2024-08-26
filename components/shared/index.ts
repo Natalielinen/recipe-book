@@ -4,3 +4,6 @@ export {LanguagesSwitcher} from './languages-switcher';
 export {Container} from './container';
 export {Header} from './header';
 export {Title} from './title';
+export {Categories} from './categories';
+export {TopBar} from './top-bar';
+export {RecipeCard} from './recipe-card';
