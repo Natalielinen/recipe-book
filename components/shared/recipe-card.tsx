@@ -45,7 +45,7 @@ export const RecipeCard: React.FC<Props> = ({
                 {shortDescription || ''}
             </p>
 
-            <Button variant="outline">{t('Подробнее...')}</Button>
+            <Button variant="outline" className="w-full mt-4">{t('Подробнее...')}</Button>
         </Link>
     </div>;
 };
