@@ -64,7 +64,7 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
 
             />
             <RecipesGroupList
-              categoryId={1}
+              categoryId={2}
               lng={lng}
               recipes={recipes1}
               title={t("Первые блюда")}

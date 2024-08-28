@@ -15,7 +15,7 @@ interface Props {
 export const TopBar: React.FC<Props> = ({ lng, className }) => {
 
     const { t } = useTranslation(lng)
-    return <div className={cn('sticky top-0 bg-white py-5 shadow-lg shadow-black/5 z-10', className)}>
+    return <div className={cn('sticky top-0 bg-background py-5 shadow-lg shadow-black/5 z-10', className)}>
         <Container className="flex items-center justify-between">
             <Categories lng={lng} />
             <Button variant="outline">{t("Добавить рецепт")} <Plus size={16} className="ml-2" /></Button>
