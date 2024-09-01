@@ -12,14 +12,28 @@ model User {
     id Int @id @default(autoincrement())
 
     fullName String
-    email    String
+    email    String @unique
     password String
+    vip      Boolean  @default(false)
+    recipes  Recipe[]
 
-   // recipes Recipe[] //relation как в корзине
-    vip     Boolean 
+    verificationCode VerificationCode?
+    verified DateTime
+
+    provider   String?
+    providerId String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Category {
+    id Int @id @default(autoincrement())
+
+    nameKey String @unique
+
+    recipes Recipe[] 
+
 }
 
 model Recipe {
@@ -29,10 +43,45 @@ model Recipe {
     imageUrl         String
     shortDescription String
     fullDescription  String
-   // ingredients      Ingredient[]
     servings         Int
-   // category         Category
+
+    category         Category @relation(fields: [categoryId], references: [id])
+    categoryId       Int
+
+    user             User @relation(fields: [userId], references: [id])
+    userId           Int
+
+    ingredients      Ingredient[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Ingredient {
+    id Int @id @default(autoincrement())
+
+    name   String
+    unit   String
+    amount Int
+    price  Int @default(0)
+
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    recipeId Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model VerificationCode {
+    id Int @id @default(autoincrement())
+
+    user User @relation(fields: [userId], references: [id])
+    userId Int @unique
+
+    code String
+
+    createdAt DateTime @default(now())
+
+    @@unique([userId, code])
+
 }
