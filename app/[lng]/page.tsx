@@ -1,10 +1,28 @@
-import { Container, RecipeCard, Title, TopBar } from "@/components/shared";
+
+
+import { Container, RecipesList, Title, TopBar } from "@/components/shared";
 import { useTranslation } from "../i18n";
 import { RecipesGroupList } from "@/components/shared/recipes-group-list";
+import React from "react";
+import { Api } from "../services/api-client";
+import { CategoryDto } from "../services/dto/recipe.dto";
 
 export default async function Home({ params: { lng } }: { params: { lng: string } }) {
 
   const { t } = await useTranslation(lng);
+
+  // const [categories, setCategories] = React.useState<CategoryDto[]>([]);
+  // const fetchRecipes = async () => {
+  //   const response = await Api.recipes();
+
+  //   setCategories(response);
+  // };
+
+  // React.useEffect(() => {
+  //   fetchRecipes();
+  // }, [])
+
+
 
   const recipes1 = [
     {
@@ -53,26 +71,28 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
       <TopBar lng={lng} />
 
       {/* Список рецептов */}
-      <Container className="mt-10 pb-14">
+
+      <RecipesList
+        lng={lng}
+      />
+      {/* <Container className="mt-10 pb-14">
         <div className="flex-1">
           <div className="flex flex-col gap-16">
-            <RecipesGroupList
-              categoryId={1}
-              lng={lng}
-              recipes={recipes1}
-              title={t("Салаты и закуски")}
+            {
+              categories.length && categories.map((category) => (
+                <RecipesGroupList
+                  key={category.id}
+                  categoryId={category.id}
+                  lng={lng}
+                  recipes={category.recipes}
+                  title={t(category.nameKey)}
 
-            />
-            <RecipesGroupList
-              categoryId={2}
-              lng={lng}
-              recipes={recipes1}
-              title={t("Первые блюда")}
-
-            />
+                />
+              ))
+            }
           </div>
         </div>
-      </Container>
+      </Container> */}
 
 
     </>
