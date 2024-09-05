@@ -8,3 +8,4 @@ export {Categories} from './categories';
 export {TopBar} from './top-bar';
 export {RecipeCard} from './recipe-card';
 export {RecipesList} from './recipes-list';
+export {RecipeImage} from './recipe-image';

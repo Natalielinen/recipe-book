@@ -1,4 +1,4 @@
-import { Recipe } from "@prisma/client"
+import { Ingredient, Recipe } from "@prisma/client"
 
 export type CategoryDto = {
     id: number,

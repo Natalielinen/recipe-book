@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
                 recipes: {
                     where: {
                         userId: Number(userId)
-                    }
+                    },
                 },
             },
         });

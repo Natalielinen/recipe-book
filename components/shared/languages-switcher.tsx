@@ -19,6 +19,8 @@ export const LanguagesSwitcher: React.FC<Props> = ({ className, lng }) => {
     const onLangChange = (value: string) => {
         setSelectedLanguage(value);
 
+        //TODO: при переключении языка на странице рецепта перекидывает на главную
+
         router.push(`/${value}`)
     }
 

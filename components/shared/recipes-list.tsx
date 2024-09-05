@@ -6,6 +6,7 @@ import { Api } from "@/app/services/api-client";
 import { CategoryDto } from "@/app/services/dto/recipe.dto";
 import { RecipesGroupList } from "./recipes-group-list";
 import { useTranslation } from "@/app/i18n/client";
+import { Title } from "./title";
 
 interface Props {
     lng: string;
@@ -31,7 +32,8 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
         <div className="flex-1">
             <div className="flex flex-col gap-16">
                 {
-                    categories.length && categories.map((category) => (
+                    Boolean(categories.length) ? categories.map((category) => (
+                        Boolean(category.recipes.length) &&
                         <RecipesGroupList
                             key={category.id}
                             categoryId={category.id}
@@ -41,6 +43,7 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
 
                         />
                     ))
+                        : <Title text={t("Вы пока не добавили рецепты")} />
                 }
             </div>
         </div>
