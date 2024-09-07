@@ -9,3 +9,6 @@ export {TopBar} from './top-bar';
 export {RecipeCard} from './recipe-card';
 export {RecipesList} from './recipes-list';
 export {RecipeImage} from './recipe-image';
+export {CountButton} from './count-button';
+export {CountIconButton} from './count-icon-button';
+export {IngredientListItem} from './ingredient-list-item';

@@ -5,3 +5,7 @@ export type CategoryDto = {
     nameKey: string,
     recipes: Recipe[]
 }
+
+export type RecipeDto = Recipe & {
+    ingredients: Ingredient[]
+}

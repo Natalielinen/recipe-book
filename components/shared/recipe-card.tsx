@@ -29,7 +29,7 @@ export const RecipeCard: React.FC<Props> = ({
 
     return <div className={cn('', className)}>
 
-        <Link href={`/recipe/${id}`}>
+        <Link href={`${lng}/recipe/${id}`}>
             <RecipeImage imageUrl={imageUrl as string} recipeName={recipeName} />
 
             <Title text={recipeName} size="sm" className="mb-1 mt-3 font-bold" />
