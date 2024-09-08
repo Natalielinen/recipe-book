@@ -8,6 +8,9 @@ import { Title } from "./title";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import { useState } from "react";
 import { IngredientListItem } from "./ingredient-list-item";
+import { Button } from "../ui/button";
+import { ListCheck, Pencil } from "lucide-react";
+import { TooltipButton } from "./tooltip-button";
 
 interface Props {
     recipe: RecipeDto;
@@ -37,7 +40,14 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
         <div className="flex flex-1 gap-10">
             <RecipeImage imageUrl={recipe.imageUrl} recipeName={recipe.recipeName} />
             <div>
-                <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
+                <div className="flex gap-10 items-center">
+                    <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
+                    <Button variant="outline">
+                        <Pencil />
+                    </Button>
+
+                </div>
+
 
                 <div className="flex gap-10 items-center">
                     <p className="font-bold">{t("Порции")}</p>
@@ -65,6 +75,15 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
         <div>
             <Title text={t("Способ приготовления")} className="mb-1 font-bold" />
             <p>{recipe.fullDescription}</p>
+        </div>
+
+        <div>
+            <TooltipButton
+                tooltipContent={t("Список покупок")}
+                onButtonClick={() => { }}
+            >
+                <ListCheck />
+            </TooltipButton>
         </div>
 
 
