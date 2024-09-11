@@ -11,6 +11,7 @@ import { IngredientListItem } from "./ingredient-list-item";
 import { Button } from "../ui/button";
 import { ListCheck, Pencil } from "lucide-react";
 import { TooltipButton } from "./tooltip-button";
+import { ShoppinListModal } from "./shopping-list-modal";
 
 interface Props {
     recipe: RecipeDto;
@@ -20,6 +21,7 @@ interface Props {
 export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
 
     const [initialServings, setInitialServings] = useState(recipe.servings);
+    const [showShoppingListModal, setShowShoppingListModal] = useState(false);
 
     const { t } = useTranslation(lng);
 
@@ -80,10 +82,20 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
         <div>
             <TooltipButton
                 tooltipContent={t("Список покупок")}
-                onButtonClick={() => { }}
+                onButtonClick={() => setShowShoppingListModal(true)}
             >
                 <ListCheck />
             </TooltipButton>
+
+            <ShoppinListModal
+                lng={lng}
+                showShoppingListModal={showShoppingListModal}
+                setShoppingListModal={setShowShoppingListModal}
+                ingredientsList={recipe.ingredients.map((ingredient) => ({
+                    ...ingredient,
+                    amount: calculateAmount(ingredient.amount)
+                }))}
+            />
         </div>
 
 
