@@ -25,6 +25,8 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
       <RecipesList
         lng={lng}
       />
+
+
     </>
   );
 } 

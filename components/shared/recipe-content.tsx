@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { ListCheck, Pencil } from "lucide-react";
 import { TooltipButton } from "./tooltip-button";
 import { ShoppinListModal } from "./shopping-list-modal";
+import { useRecipeStore } from "@/app/store/recipe";
 
 interface Props {
     recipe: RecipeDto;
@@ -22,6 +23,13 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
 
     const [initialServings, setInitialServings] = useState(recipe.servings);
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
+
+    const { setAddRecipeModalOpen, setIsEditForm } = useRecipeStore((state) => state);
+
+    const onRecipeEdit = () => {
+        setIsEditForm(true);
+        setAddRecipeModalOpen(true);
+    }
 
     const { t } = useTranslation(lng);
 
@@ -44,7 +52,7 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
             <div>
                 <div className="flex gap-10 items-center">
                     <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={onRecipeEdit}>
                         <Pencil />
                     </Button>
 

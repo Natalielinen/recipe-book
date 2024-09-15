@@ -12,4 +12,6 @@ export {RecipeImage} from './recipe-image';
 export {CountButton} from './count-button';
 export {CountIconButton} from './count-icon-button';
 export {IngredientListItem} from './ingredient-list-item';
-export {ShoppinListModal} from './shopping-list-modal'
+export {ShoppinListModal} from './shopping-list-modal';
+export {ErrorText} from './error-text';
+export * from './add-recipe';

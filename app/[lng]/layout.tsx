@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { dir } from 'i18next';
 import "./globals.css";
-import { Header, ThemeProvider } from "@/components/shared";
+import { AddRecipeModal, Header, ThemeProvider } from "@/components/shared";
 import { languages } from '../i18n/settings'
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
@@ -38,6 +38,7 @@ export default function RootLayout({
           <Header lng={lng} />
           {children}
         </ThemeProvider>
+        <AddRecipeModal lng={lng} />
       </body>
     </html>
   );
