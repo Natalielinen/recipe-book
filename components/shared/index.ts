@@ -14,4 +14,6 @@ export {CountIconButton} from './count-icon-button';
 export {IngredientListItem} from './ingredient-list-item';
 export {ShoppinListModal} from './shopping-list-modal';
 export {ErrorText} from './error-text';
+export {ClearButton} from './clear-button';
 export * from './add-recipe';
+export * from './form-components';

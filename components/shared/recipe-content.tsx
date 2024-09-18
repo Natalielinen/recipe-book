@@ -13,6 +13,7 @@ import { ListCheck, Pencil } from "lucide-react";
 import { TooltipButton } from "./tooltip-button";
 import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
+import { AddRecipeModal } from "./add-recipe";
 
 interface Props {
     recipe: RecipeDto;
@@ -24,10 +25,9 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
     const [initialServings, setInitialServings] = useState(recipe.servings);
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
 
-    const { setAddRecipeModalOpen, setIsEditForm } = useRecipeStore((state) => state);
+    const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
     const onRecipeEdit = () => {
-        setIsEditForm(true);
         setAddRecipeModalOpen(true);
     }
 
@@ -104,6 +104,8 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                     amount: calculateAmount(ingredient.amount)
                 }))}
             />
+
+            <AddRecipeModal lng={lng} recipe={recipe} isEditForm />
         </div>
 
 

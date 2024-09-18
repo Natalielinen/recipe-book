@@ -1,6 +1,6 @@
 
 
-import { Container, RecipesList, Title, TopBar } from "@/components/shared";
+import { AddRecipeModal, Container, RecipesList, Title, TopBar } from "@/components/shared";
 import { useTranslation } from "../i18n";
 import React from "react";
 import { prisma } from "@/prisma/prisma-client";
@@ -26,7 +26,7 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
         lng={lng}
       />
 
-
+      <AddRecipeModal lng={lng} />
     </>
   );
 } 

@@ -17,10 +17,9 @@ interface Props {
 
 export const TopBar: React.FC<Props> = ({ lng, className, categories }) => {
 
-    const { setAddRecipeModalOpen, setIsEditForm } = useRecipeStore((state) => state);
+    const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
     const onRecipeAdd = () => {
-        setIsEditForm(false);
         setAddRecipeModalOpen(true);
     }
 

@@ -38,7 +38,7 @@ export default function RootLayout({
           <Header lng={lng} />
           {children}
         </ThemeProvider>
-        <AddRecipeModal lng={lng} />
+
       </body>
     </html>
   );
