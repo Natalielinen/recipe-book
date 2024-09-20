@@ -28,7 +28,7 @@ export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as
                 }
             </DialogTitle>
 
-            <AddRecipeForm isEditForm={isEditForm} recipe={recipe} />
+            <AddRecipeForm isEditForm={isEditForm} recipe={recipe} lng={lng} />
         </DialogContent>
     </Dialog>;
 };

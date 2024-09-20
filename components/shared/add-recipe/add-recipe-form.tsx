@@ -1,19 +1,25 @@
 'use client';
 
 import { RecipeDto } from '@/app/services/dto/recipe.dto';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AddRecipeFormValues, addRecipeSchema } from './add-recipe-schema';
+import { FormInput } from '../form-components';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     className?: string;
     isEditForm: boolean;
     recipe: RecipeDto;
+    lng?: string;
 }
 
-export const AddRecipeForm: React.FC<Props> = ({ className, recipe, isEditForm }) => {
+export const AddRecipeForm: React.FC<Props> = ({ className, recipe, isEditForm, lng = "ru" }) => {
 
-    const editFormValues = {
+    const { t } = useTranslation(lng);
 
-    };
+    const editFormValues = recipe;
 
     const addFormValues = {
         categoryId: 1,
@@ -24,15 +30,29 @@ export const AddRecipeForm: React.FC<Props> = ({ className, recipe, isEditForm }
 
     };
 
-    // const form = useForm({
-    //     resolver: zodResolver(),
-    //     defaultValues: isEditForm ? editFormValues : addFormValues
-    // })
+    const form = useForm<AddRecipeFormValues>({
+        resolver: zodResolver(addRecipeSchema),
+        defaultValues: isEditForm ? editFormValues : addFormValues
+    })
+
+    const onSubmit = (data: AddRecipeFormValues) => {
+        console.log('data', data);
+
+    }
 
 
-    return <div>
-        {
-            isEditForm ? <div>Edit</div> : <div>Add</div>
-        }
-    </div>;
+    return <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormInput
+                name='recipeName'
+                label={t("Название рецепта")}
+                required
+            />
+
+            <Button type='submit'>
+                {t("Сохранить")}
+            </Button>
+
+        </form>
+    </FormProvider>;
 };

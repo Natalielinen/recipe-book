@@ -21,5 +21,6 @@
     "У меня есть": "I have",
     "Мне нужно": "I need",
     "Сформировать список покупок": "Create shopping list",
-    "Изменить рецепт": "Edit recipe"
+    "Изменить рецепт": "Edit recipe",
+    "Минимальная длина названия рецепта 2 символа": "The minimum length of the recipe name is 2 characters"
 }
