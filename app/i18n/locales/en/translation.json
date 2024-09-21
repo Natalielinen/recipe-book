@@ -22,5 +22,8 @@
     "Мне нужно": "I need",
     "Сформировать список покупок": "Create shopping list",
     "Изменить рецепт": "Edit recipe",
-    "Минимальная длина названия рецепта 2 символа": "The minimum length of the recipe name is 2 characters"
+    "Минимальная длина названия рецепта 2 символа": "The minimum length of the recipe name is 2 characters",
+    "Категория": "Category",
+    "Название рецепта": "Recipe name",
+    "Сохранить": "Save"
 }

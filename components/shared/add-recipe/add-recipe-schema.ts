@@ -2,7 +2,7 @@ import { z } from "zod";
 import { t } from "i18next";
 
 export const addRecipeSchema = z.object({
-    categoryId: z.number(),
+    categoryId: z.string(),
     recipeName: z.string().min(2, t("Минимальная длина названия рецепта 2 символа")),
     fullDescription: z.string().optional(),
     ingredients: z.array(z.object({
