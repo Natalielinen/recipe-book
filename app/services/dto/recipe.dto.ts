@@ -9,3 +9,17 @@ export type CategoryDto = {
 export type RecipeDto = Recipe & {
     ingredients: Ingredient[]
 }
+
+export type FormRecipe = {
+    recipeName: string,
+    imageUrl?: string,
+    fullDescription?: string,
+    servings: number,
+    categoryId: number,
+    ingredients?: {
+        name: string
+        amount: number
+        unit: string
+        price: number
+    }[]
+}

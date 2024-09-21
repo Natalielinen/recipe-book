@@ -25,5 +25,6 @@
     "Минимальная длина названия рецепта 2 символа": "The minimum length of the recipe name is 2 characters",
     "Категория": "Category",
     "Название рецепта": "Recipe name",
-    "Сохранить": "Save"
+    "Сохранить": "Save",
+    "Описание приготовления": "Recipe description"
 }

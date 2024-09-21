@@ -6,12 +6,13 @@ export const addRecipeSchema = z.object({
     recipeName: z.string().min(2, t("Минимальная длина названия рецепта 2 символа")),
     fullDescription: z.string().optional(),
     ingredients: z.array(z.object({
-        name: z.string(),
-        amount: z.number(),
-        unit: z.string(),
+        name: z.string().optional(),
+        amount: z.string().optional(),
+        unit: z.string().optional(),
         price: z.number().optional()
-    })),
-    servings: z.number().min(1)
+    })).optional(),
+    servings: z.string().min(1),
+    imageUrl: z.string().optional(),
 });
 
 export type AddRecipeFormValues = z.infer<typeof addRecipeSchema>;
