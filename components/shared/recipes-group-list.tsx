@@ -6,10 +6,11 @@ import { RecipeCard } from "./recipe-card";
 import { Title } from "./title";
 import { useIntersection } from 'react-use';
 import { useCategoryStore } from "@/app/store/category";
+import { Recipe } from "@prisma/client";
 
 interface Props {
     title: string;
-    recipes: any[];
+    recipes: Recipe[];
     listClassName?: string;
     categoryId: number;
     className?: string;
@@ -49,7 +50,7 @@ export const RecipesGroupList: React.FC<Props> = ({
                     <RecipeCard
                         id={recipe.id}
                         key={recipe.id}
-                        recipeName={recipe.name}
+                        recipeName={recipe.recipeName}
                         imageUrl={recipe.imageUrl}
                         shortDescription={recipe.shortDescription}
                         lng={lng}

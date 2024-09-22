@@ -23,6 +23,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
     const [categoriesOptions, setCategoriesOptions] = useState<{ label: string, value: string }[]>([]);
     const [categoriesSelectLoading, setCategoriesSelectLoading] = useState<boolean>(false);
+    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
     const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
@@ -63,12 +64,10 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
     });
 
     const onSubmit = async (data: AddRecipeFormValues) => {
+        setButtonLoading(true);
         if (isEditForm) {
             console.log('data', data);
         } else {
-
-            console.log('isEditForm', isEditForm);
-
 
             await Api.createRecipe(lng, {
                 recipeName: data.recipeName,
@@ -85,7 +84,10 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
             });
 
             setAddRecipeModalOpen(false);
+
+            await Api.recipes(lng);
         }
+        setButtonLoading(false);
     };
 
     const fetchCategories = async () => {
@@ -159,7 +161,10 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                 })
             }
 
-            <Button type='submit'>
+            <Button
+                type='submit'
+                loading={buttonLoading}
+            >
                 {t("Сохранить")}
             </Button>
 

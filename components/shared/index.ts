@@ -15,5 +15,6 @@ export {IngredientListItem} from './ingredient-list-item';
 export {ShoppinListModal} from './shopping-list-modal';
 export {ErrorText} from './error-text';
 export {ClearButton} from './clear-button';
+export {BackButton} from './back-button';
 export * from './add-recipe';
 export * from './form-components';

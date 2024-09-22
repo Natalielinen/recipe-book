@@ -27,9 +27,8 @@ export const RecipeCard: React.FC<Props> = ({
 
     const { t } = useTranslation(lng)
 
-    return <div className={cn('', className)}>
-
-        <Link href={`${lng}/recipe/${id}`}>
+    return <div className={cn('flex flex-col justify-between', className)}>
+        <div>
             <RecipeImage imageUrl={imageUrl as string} recipeName={recipeName} />
 
             <Title text={recipeName} size="sm" className="mb-1 mt-3 font-bold" />
@@ -37,7 +36,10 @@ export const RecipeCard: React.FC<Props> = ({
             <p className="text-sm text-gray-400">
                 {shortDescription || ''}
             </p>
+        </div>
 
+
+        <Link href={`${lng}/recipe/${id}`}>
             <Button variant="outline" className="w-full mt-4">{t('Подробнее...')}</Button>
         </Link>
     </div>;

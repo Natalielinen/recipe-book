@@ -9,11 +9,12 @@ import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import { useState } from "react";
 import { IngredientListItem } from "./ingredient-list-item";
 import { Button } from "../ui/button";
-import { ListCheck, Pencil } from "lucide-react";
+import { ListCheck, MoveLeft, Pencil } from "lucide-react";
 import { TooltipButton } from "./tooltip-button";
 import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
 import { AddRecipeModal } from "./add-recipe";
+import { useRouter } from 'next/navigation';
 
 interface Props {
     recipe: RecipeDto;
@@ -26,6 +27,8 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
 
     const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
+
+    const router = useRouter();
 
     const onRecipeEdit = () => {
         setAddRecipeModalOpen(true);
@@ -43,10 +46,13 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
     }
 
     const calculateAmount = (amount: number) => {
-        return Math.floor((amount / recipe.servings) * initialServings);
+        return ((amount / recipe.servings) * initialServings).toFixed(2);
     }
 
     return <Container className="flex flex-col my-10 gap-5">
+        <Button onClick={() => router.back()} type="button" className="w-[60px]">
+            <MoveLeft size={16} />
+        </Button>
         <div className="flex flex-1 gap-10">
             <RecipeImage imageUrl={recipe.imageUrl} recipeName={recipe.recipeName} />
             <div>
@@ -70,7 +76,7 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                         {
                             recipe.ingredients.map((ingredient) => <IngredientListItem
                                 key={ingredient.id}
-                                amount={calculateAmount(ingredient.amount)}
+                                amount={Number(calculateAmount(ingredient.amount))}
                                 unit={ingredient.unit}
                                 title={ingredient.name}
                             />)
@@ -101,7 +107,7 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                 setShoppingListModal={setShowShoppingListModal}
                 ingredientsList={recipe.ingredients.map((ingredient) => ({
                     ...ingredient,
-                    amount: calculateAmount(ingredient.amount)
+                    amount: Number(calculateAmount(ingredient.amount))
                 }))}
             />
 
