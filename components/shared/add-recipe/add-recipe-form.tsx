@@ -59,35 +59,37 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
     });
 
     const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-        control: form.control, // control props comes from useForm (optional: if you are using FormProvider)
-        name: "ingredients", // unique name for your Field Array
+        control: form.control,
+        name: "ingredients",
     });
+
 
     const onSubmit = async (data: AddRecipeFormValues) => {
         setButtonLoading(true);
+
+        const body = {
+            recipeName: data.recipeName,
+            fullDescription: data.fullDescription || "",
+            ingredients: data.ingredients?.map((ingredient) => ({
+                name: ingredient.name || "",
+                unit: ingredient.unit || "",
+                amount: Number(ingredient.amount),
+                price: Number(ingredient.price) || 0
+            })),
+            categoryId: Number(data.categoryId),
+            servings: Number(data.servings),
+            imageUrl: data.imageUrl || "",
+        }
         if (isEditForm) {
-            console.log('data', data);
+            await Api.updateRecipe(lng, body, recipe.id);
         } else {
 
-            await Api.createRecipe(lng, {
-                recipeName: data.recipeName,
-                fullDescription: data.fullDescription || "",
-                ingredients: data.ingredients?.map((ingredient) => ({
-                    name: ingredient.name || "",
-                    unit: ingredient.unit || "",
-                    amount: Number(ingredient.amount),
-                    price: Number(ingredient.price) || 0
-                })),
-                categoryId: Number(data.categoryId),
-                servings: Number(data.servings),
-                imageUrl: data.imageUrl || "",
-            });
-
-            setAddRecipeModalOpen(false);
-
+            await Api.createRecipe(lng, body);
             await Api.recipes(lng);
         }
         setButtonLoading(false);
+
+        setAddRecipeModalOpen(false);
     };
 
     const fetchCategories = async () => {
@@ -171,3 +173,4 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
         </form>
     </FormProvider>;
 };
+

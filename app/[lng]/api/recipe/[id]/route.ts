@@ -2,47 +2,36 @@ import { prisma } from "@/prisma/prisma-client";
 import { Ingredient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-//TODO: переделать на токен когда сделаю авторизацию и регистрацию
-
-export async function GET(req: NextRequest) {
-    try {
-
-        const userId = req.cookies.get('userId')?.value;
-
-        if (!userId) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        const categories = await prisma.category.findMany({
-            include: {
-                recipes: {
-                    where: {
-                        userId: Number(userId)
-                    },
-                },
-            },
-        });
-
-        return NextResponse.json(categories);
-
-    } catch (e) {
-        console.error(e);
-        return NextResponse.json({ error: e }, { status: 500 });
-    }
-}
-
-
-export async function POST(req: NextRequest) {
+export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) {
     try {
         // Получаем userId из cookies
        const userId = req.cookies.get('userId')?.value;
 
-        console.log('userId', userId);
+       console.log('userId', userId);
+       
+
+       const {id} = params;
         
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
+
+        const recipe = await prisma.recipe.findFirst({
+            where: {
+                id: Number(id),
+            }
+        });
+
+        console.log('recipe', recipe);
+
+        console.log('params', params);
+        
+        
+
+        if (!recipe) {
+            return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
+        };
 
         // Получаем данные рецепта из тела запроса
         const { recipeName, imageUrl, fullDescription, servings, categoryId, ingredients } = await req.json();
@@ -53,7 +42,10 @@ export async function POST(req: NextRequest) {
         }
 
         // Создаем рецепт
-        const newRecipe = await prisma.recipe.create({
+        const updatedRecipe = await prisma.recipe.update({
+            where: {
+                id: Number(id),
+            },
             data: {
                 recipeName,
                 imageUrl,
@@ -61,7 +53,6 @@ export async function POST(req: NextRequest) {
                 fullDescription,
                 servings,
                 categoryId: Number(categoryId), // Убедитесь, что categoryId преобразован в число
-                userId: Number(userId), // Связываем рецепт с пользователем
                 ingredients: {
                     create: ingredients.map((ingredient: Ingredient) => ({
                         name: ingredient.name,
@@ -73,12 +64,10 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json(newRecipe, { status: 201 });
+        return NextResponse.json(updatedRecipe, { status: 201 });
 
     } catch (e) {
         console.error(e);
-       return NextResponse.json({error: "Не удалось сохранить рецепт"}, {status: 500});
+       return NextResponse.json({error: "Не удалось обновить рецепт"}, {status: 500});
     }
 }
-
-

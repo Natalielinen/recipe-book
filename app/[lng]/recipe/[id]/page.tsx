@@ -1,5 +1,4 @@
 import { useTranslation } from "@/app/i18n";
-import { BackButton } from "@/components/shared/back-button";
 import { RecipeContent } from "@/components/shared/recipe-content";
 import { prisma } from "@/prisma/prisma-client";
 
