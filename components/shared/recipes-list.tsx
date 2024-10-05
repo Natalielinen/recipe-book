@@ -3,10 +3,10 @@
 import React from "react";
 import { Container } from "./container";
 import { Api } from "@/app/services/api-client";
-import { CategoryDto } from "@/app/services/dto/recipe.dto";
 import { RecipesGroupList } from "./recipes-group-list";
 import { useTranslation } from "@/app/i18n/client";
 import { Title } from "./title";
+import { useCategoryStore } from "@/app/store/category";
 
 interface Props {
     lng: string;
@@ -16,7 +16,7 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
 
     const { t } = useTranslation(lng);
 
-    const [categories, setCategories] = React.useState<CategoryDto[]>([]);
+    const { categories, setCategories } = useCategoryStore((state) => state);
     const fetchRecipes = async () => {
         const response = await Api.recipes(lng);
 

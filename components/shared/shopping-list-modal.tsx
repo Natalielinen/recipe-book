@@ -6,7 +6,6 @@ import {
 
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils";
-import { Ingredient } from "@prisma/client";
 import { Title } from "./title";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -14,12 +13,13 @@ import { useTranslation } from "@/app/i18n/client";
 import { Button } from "../ui/button";
 import React from "react";
 import saveAs from "file-saver";
+import { FormRecipe } from "@/app/services/dto/recipe.dto";
 
 interface Props {
     className?: string;
     showShoppingListModal: boolean;
     setShoppingListModal: (value: boolean) => void;
-    ingredientsList: Ingredient[];
+    ingredientsList: FormRecipe['ingredients'];
     lng: string
 }
 
@@ -55,7 +55,7 @@ export const ShoppinListModal: React.FC<Props> = ({
 
     const cresteTextList = () => {
 
-        const textList = ingredientsList.map((ingredient) => {
+        const textList = ingredientsList?.map((ingredient) => {
             return `${ingredient.name} - ${ingredient.amount - (inStockValues.find((value) => value.id === ingredient.id)?.value || 0)} ${ingredient.unit} \n`;
         })
 
@@ -71,8 +71,8 @@ export const ShoppinListModal: React.FC<Props> = ({
             <DialogContent className={cn("p-4 w-[800px] max-w-[1060px]", className)} >
                 <div >
                     {
-                        ingredientsList.map((ingredient) => (
-                            <div key={ingredient.id} className="flex justify-between my-4">
+                        ingredientsList?.map((ingredient) => (
+                            <div key={ingredient.name} className="flex justify-between my-4">
                                 <Title text={ingredient.name} size="sm" className="mb-1 mt-2 font-bold w-[150px]" />
                                 <div className="flex gap-10 items-center w-[300px]">
                                     <Label
@@ -83,7 +83,7 @@ export const ShoppinListModal: React.FC<Props> = ({
                                         id="inStock"
                                         className="w-20"
                                         value={inStockValues.find((value) => value.id === ingredient.id)?.value}
-                                        onChange={(e) => handleInStockChange(ingredient.id, parseInt(e.target.value))}
+                                        onChange={(e) => handleInStockChange(ingredient.id as number, parseInt(e.target.value))}
                                     />
                                     <p className="p-0 m-0">{ingredient.unit}</p>
 

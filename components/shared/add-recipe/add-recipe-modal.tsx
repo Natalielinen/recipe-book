@@ -6,12 +6,13 @@ import { cn } from "@/lib/utils";
 import { AddRecipeForm } from "./add-recipe-form";
 import { useTranslation } from "@/app/i18n/client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
+import React from "react";
 
 interface Props {
     className?: string;
     lng: string;
     isEditForm?: boolean;
-    recipe?: RecipeDto
+    recipe?: RecipeDto;
 }
 
 export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as RecipeDto, isEditForm = false }) => {

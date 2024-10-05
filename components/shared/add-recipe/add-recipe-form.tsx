@@ -1,6 +1,6 @@
 'use client';
 
-import { RecipeDto } from '@/app/services/dto/recipe.dto';
+import { FormRecipe, RecipeDto } from '@/app/services/dto/recipe.dto';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddRecipeFormValues, addRecipeSchema } from './add-recipe-schema';
@@ -12,6 +12,7 @@ import { Api } from '@/app/services/api-client';
 import { Minus, Plus } from 'lucide-react';
 import { Title } from '../title';
 import { useRecipeStore } from '@/app/store/recipe';
+import { useCategoryStore } from '@/app/store/category';
 
 interface Props {
     isEditForm: boolean;
@@ -25,7 +26,8 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
     const [categoriesSelectLoading, setCategoriesSelectLoading] = useState<boolean>(false);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
-    const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
+    const { setAddRecipeModalOpen, setRecipe, setInitialServings } = useRecipeStore((state) => state);
+    const { setCategories } = useCategoryStore((state) => state);
 
     const { t } = useTranslation(lng);
 
@@ -58,7 +60,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
         defaultValues: isEditForm ? editFormValues : addFormValues
     });
 
-    const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control: form.control,
         name: "ingredients",
     });
@@ -67,7 +69,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
     const onSubmit = async (data: AddRecipeFormValues) => {
         setButtonLoading(true);
 
-        const body = {
+        const body: FormRecipe = {
             recipeName: data.recipeName,
             fullDescription: data.fullDescription || "",
             ingredients: data.ingredients?.map((ingredient) => ({
@@ -79,13 +81,20 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
             categoryId: Number(data.categoryId),
             servings: Number(data.servings),
             imageUrl: data.imageUrl || "",
-        }
+        };
+
         if (isEditForm) {
             await Api.updateRecipe(lng, body, recipe.id);
+
+            const data = await Api.getRecipeById(lng, recipe.id);
+
+            setRecipe(data);
+            setInitialServings(data.servings);
         } else {
 
             await Api.createRecipe(lng, body);
-            await Api.recipes(lng);
+            const response = await Api.recipes(lng);
+            setCategories(response);
         }
         setButtonLoading(false);
 
@@ -143,21 +152,21 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                         <FormInput
                             name={`ingredients.${index}.unit`}
                         />
-                        {
-                            index === fields.length - 1
-                                ? <Button
-                                    onClick={() => append({ name: '', amount: '1', unit: 'шт' })}
-                                    type='button'
-                                >
-                                    <Plus size={16} />
-                                </Button>
-                                : <Button
-                                    onClick={() => remove(index)}
-                                    type='button'
-                                >
-                                    <Minus size={16} />
-                                </Button>
-                        }
+                        <div className='flex gap-2 px-2'>
+                            <Button
+                                onClick={() => remove(index)}
+                                type='button'
+                            >
+                                <Minus size={16} />
+                            </Button>
+                            <Button
+                                onClick={() => append({ name: '', amount: '1', unit: 'шт' })}
+                                type='button'
+                            >
+                                <Plus size={16} />
+                            </Button>
+
+                        </div>
 
                     </div>
                 })

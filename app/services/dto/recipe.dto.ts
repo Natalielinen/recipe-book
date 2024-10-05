@@ -17,6 +17,7 @@ export type FormRecipe = {
     servings: number,
     categoryId: number,
     ingredients?: {
+        id?: number
         name: string
         amount: number
         unit: string

@@ -20,5 +20,15 @@ export const createRecipe = async (locale: string, body: FormRecipe) => {
 export const updateRecipe = async (locale: string, body: FormRecipe, id: number) => {
     const axiosInstance = createAxiosInstance(locale);
 
-    await axiosInstance.patch<FormRecipe>('recipe' + `/${id}`, body);
+    const data = await axiosInstance.patch<FormRecipe>(ApiRoutes.RECIPE + `/${id}`, body);
+
+    return data;
 };
+
+export const getRecipeById = async (locale: string, id: number) => {
+    const axiosInstance = createAxiosInstance(locale);
+
+    const { data } = await axiosInstance.get<FormRecipe>(ApiRoutes.RECIPE + `/${id}`);
+
+    return data;
+}

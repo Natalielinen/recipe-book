@@ -5,8 +5,7 @@ import { Container } from "./container";
 import { CountButton } from "./count-button";
 import { RecipeImage } from "./recipe-image";
 import { Title } from "./title";
-import { RecipeDto } from "@/app/services/dto/recipe.dto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IngredientListItem } from "./ingredient-list-item";
 import { Button } from "../ui/button";
 import { ListCheck, MoveLeft, Pencil } from "lucide-react";
@@ -15,18 +14,39 @@ import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
 import { AddRecipeModal } from "./add-recipe";
 import { useRouter } from 'next/navigation';
+import { Api } from "@/app/services/api-client";
+import { RecipeDto } from "@/app/services/dto/recipe.dto";
 
 interface Props {
-    recipe: RecipeDto;
     lng: string;
+    id: number;
 }
 
-export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
+export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
 
-    const [initialServings, setInitialServings] = useState(recipe.servings);
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
 
-    const { setAddRecipeModalOpen } = useRecipeStore((state) => state);
+    const {
+        setAddRecipeModalOpen,
+        recipe,
+        setRecipe,
+        initialServings,
+        setInitialServings
+
+    } = useRecipeStore((state) => state);
+
+    const fetchRecipe = async () => {
+        const recipe = await Api.getRecipeById(lng, id);
+        setRecipe(recipe);
+
+        setInitialServings(recipe.servings);
+
+    }
+
+    useEffect(() => {
+        fetchRecipe();
+
+    }, [])
 
     const router = useRouter();
 
@@ -49,12 +69,12 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
         return ((amount / recipe.servings) * initialServings).toFixed(2);
     }
 
-    return <Container className="flex flex-col my-10 gap-5">
+    return recipe ? (<Container className="flex flex-col my-10 gap-5">
         <Button onClick={() => router.back()} type="button" className="w-[60px]">
             <MoveLeft size={16} />
         </Button>
         <div className="flex flex-1 gap-10">
-            <RecipeImage imageUrl={recipe.imageUrl} recipeName={recipe.recipeName} />
+            <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} />
             <div>
                 <div className="flex gap-10 items-center">
                     <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
@@ -63,7 +83,6 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                     </Button>
 
                 </div>
-
 
                 <div className="flex gap-10 items-center">
                     <p className="font-bold">{t("Порции")}</p>
@@ -74,8 +93,8 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                     <Title text={t("Ингредиенты")} size="md" className="mb-1 mt-2 font-bold" />
                     <div>
                         {
-                            recipe.ingredients.map((ingredient) => <IngredientListItem
-                                key={ingredient.id}
+                            recipe.ingredients?.map((ingredient) => <IngredientListItem
+                                key={ingredient.name}
                                 amount={Number(calculateAmount(ingredient.amount))}
                                 unit={ingredient.unit}
                                 title={ingredient.name}
@@ -105,17 +124,14 @@ export const RecipeContent: React.FC<Props> = ({ recipe, lng }) => {
                 lng={lng}
                 showShoppingListModal={showShoppingListModal}
                 setShoppingListModal={setShowShoppingListModal}
-                ingredientsList={recipe.ingredients.map((ingredient) => ({
+                ingredientsList={recipe.ingredients?.map((ingredient) => ({
                     ...ingredient,
                     amount: Number(calculateAmount(ingredient.amount))
                 }))}
             />
 
-            <AddRecipeModal lng={lng} recipe={recipe} isEditForm />
+            <AddRecipeModal lng={lng} recipe={recipe as RecipeDto} isEditForm />
         </div>
-
-
-    </Container>;
-
+    </Container>) : 'loading';
 
 };

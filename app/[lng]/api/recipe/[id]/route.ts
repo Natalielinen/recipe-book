@@ -2,16 +2,37 @@ import { prisma } from "@/prisma/prisma-client";
 import { Ingredient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) {
+export async function GET(req: NextRequest, {params}: {params: {id: number}}) {
+    try {
+
+        const {id} = params;
+
+        const recipe = await prisma.recipe.findFirst({
+          where: { id: Number(id) },
+          include: {
+            ingredients: true
+          }
+        });
+
+        if (!recipe) {
+            return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
+        };
+
+         return NextResponse.json(recipe, { status: 201 });
+
+
+    } catch (e) {
+        console.error(e);
+        return NextResponse.json({ error: "Не удалось получить рецепт" }, { status: 500 });
+    }
+}
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: number } }) {
     try {
         // Получаем userId из cookies
-       const userId = req.cookies.get('userId')?.value;
+        const userId = req.cookies.get('userId')?.value;
 
-       console.log('userId', userId);
-       
-
-       const {id} = params;
-        
+        const { id } = params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -23,15 +44,9 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) 
             }
         });
 
-        console.log('recipe', recipe);
-
-        console.log('params', params);
-        
-        
-
         if (!recipe) {
             return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
-        };
+        }
 
         // Получаем данные рецепта из тела запроса
         const { recipeName, imageUrl, fullDescription, servings, categoryId, ingredients } = await req.json();
@@ -41,7 +56,14 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) 
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Создаем рецепт
+        // Удаляем все существующие ингредиенты для данного рецепта
+        await prisma.ingredient.deleteMany({
+            where: {
+                recipeId: Number(id),
+            },
+        });
+
+        // Обновляем рецепт и добавляем ингредиенты
         const updatedRecipe = await prisma.recipe.update({
             where: {
                 id: Number(id),
@@ -58,9 +80,9 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) 
                         name: ingredient.name,
                         unit: ingredient.unit,
                         amount: ingredient.amount,
-                        price: ingredient.price || 0 // Если цена не указана, по умолчанию 0
-                    }))
-                }
+                        price: ingredient.price || 0, // Если цена не указана, по умолчанию 0
+                    })),
+                },
             },
         });
 
@@ -68,6 +90,6 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: number}}) 
 
     } catch (e) {
         console.error(e);
-       return NextResponse.json({error: "Не удалось обновить рецепт"}, {status: 500});
+        return NextResponse.json({ error: 'Не удалось обновить рецепт' }, { status: 500 });
     }
 }
