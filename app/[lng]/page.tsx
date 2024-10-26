@@ -4,6 +4,8 @@ import { AddRecipeModal, Container, RecipesList, Title, TopBar } from "@/compone
 import { useTranslation } from "../i18n";
 import React from "react";
 import { prisma } from "@/prisma/prisma-client";
+import { Button } from "@/components/ui/button";
+import { MyRecipesButton } from "@/components/shared/my-recipes-button";
 
 export default async function Home({ params: { lng } }: { params: { lng: string } }) {
 
@@ -14,19 +16,19 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
 
   return (
     <>
-      <Container>
+      <MyRecipesButton lng={lng} />
+      root layout page
+      {/* <Container>
         <Title text={t("Все рецепты")} className="font-extrabold mt-10" />
       </Container>
 
       <TopBar lng={lng} categories={categories} />
 
-      {/* Список рецептов */}
-
       <RecipesList
         lng={lng}
       />
 
-      <AddRecipeModal lng={lng} />
+      <AddRecipeModal lng={lng} /> */}
     </>
   );
 } 

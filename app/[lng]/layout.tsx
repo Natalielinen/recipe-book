@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { dir } from 'i18next';
 import "./globals.css";
-import { AddRecipeModal, Header, ThemeProvider } from "@/components/shared";
+import { Header, ThemeProvider } from "@/components/shared";
 import { languages } from '../i18n/settings'
+import { Providers } from "@/components/shared/providers";
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
@@ -11,7 +12,7 @@ export async function generateStaticParams() {
 const nunito = Nunito({ subsets: ["latin", "cyrillic", "latin-ext"] });
 
 export const metadata: Metadata = {
-  title: "Рецепты | Главная",
+  title: "Главная",
   description: "",
 };
 
@@ -29,16 +30,10 @@ export default function RootLayout({
   return (
     <html lang={lng} dir={dir(lng)}>
       <body className={nunito.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Providers>
           <Header lng={lng} />
           {children}
-        </ThemeProvider>
-
+        </Providers>
       </body>
     </html>
   );
