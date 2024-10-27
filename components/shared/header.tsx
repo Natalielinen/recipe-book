@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { cn } from "../../lib/utils";
 import { Container } from "./container";
-import { useTranslation } from '../../app/i18n/client'
-import { Button } from "../ui/button";
-import { Album, User } from "lucide-react";
+import { Album } from "lucide-react";
 import { ThemeButton } from "./theme-button";
 import { LanguagesSwitcher } from "./languages-switcher";
+import { ProfileButton } from "./profile-button";
 
 interface Props {
     className?: string;
@@ -15,8 +14,6 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ className, lng }) => {
-    const { t } = useTranslation(lng);
-
     return <header className={cn('border border-b', className as string)}>
         <Container className="flex items-center justify-between py-8">
             {/* Левая часть */}
@@ -42,10 +39,7 @@ export const Header: React.FC<Props> = ({ className, lng }) => {
             <div className="flex items-center gap-3">
                 <ThemeButton />
                 <LanguagesSwitcher lng={lng} />
-                <Button variant="outline">
-                    <User size={16} className="mr-2" />
-                    {t("Войти")}
-                </Button>
+                <ProfileButton lng={lng} />
             </div>
         </Container>
     </header>

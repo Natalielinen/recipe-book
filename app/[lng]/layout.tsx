@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { dir } from 'i18next';
 import "./globals.css";
-import { Header, ThemeProvider } from "@/components/shared";
+import { Header } from "@/components/shared";
 import { languages } from '../i18n/settings'
 import { Providers } from "@/components/shared/providers";
 export async function generateStaticParams() {

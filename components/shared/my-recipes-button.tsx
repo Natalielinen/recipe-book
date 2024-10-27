@@ -11,7 +11,6 @@ interface Props {
 
 export const MyRecipesButton: React.FC<Props> = ({ className, lng }) => {
 
-
     const router = useRouter();
 
     const onClick = () => {
