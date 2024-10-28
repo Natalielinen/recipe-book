@@ -7,6 +7,8 @@ import { Album } from "lucide-react";
 import { ThemeButton } from "./theme-button";
 import { LanguagesSwitcher } from "./languages-switcher";
 import { ProfileButton } from "./profile-button";
+import { AuthModal } from "./auth";
+import React from "react";
 
 interface Props {
     className?: string;
@@ -14,6 +16,9 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ className, lng }) => {
+
+    const [showAuthModal, setShowAuthModal] = React.useState(false);
+
     return <header className={cn('border border-b', className as string)}>
         <Container className="flex items-center justify-between py-8">
             {/* Левая часть */}
@@ -37,9 +42,14 @@ export const Header: React.FC<Props> = ({ className, lng }) => {
 
             {/* Правая часть */}
             <div className="flex items-center gap-3">
+                <AuthModal
+                    lng={lng}
+                    open={showAuthModal}
+                    onClose={() => setShowAuthModal(false)}
+                />
                 <ThemeButton />
                 <LanguagesSwitcher lng={lng} />
-                <ProfileButton lng={lng} />
+                <ProfileButton lng={lng} onClickLogin={() => setShowAuthModal(true)} />
             </div>
         </Container>
     </header>

@@ -27,5 +27,10 @@
     "Название рецепта": "Nom de la recette",
     "Сохранить": "Enregistrer",
     "Описание приготовления": "Description de la recette",
-    "Профиль": "Profil"
+    "Профиль": "Profil",
+    "Вход в аккаунт": "Se connecter",
+    "Введите свою почту, чтобы войти в свой аккаунт": "Entrez votre adresse mail pour vous connecter",
+    "Пароль": "Mot de passe",
+    "Не удалось войти в аккаунт": "Impossible de vous connecter",
+    "Вы вошли в аккаунт": "Vous avez connecté"
 }

@@ -27,5 +27,10 @@
     "Название рецепта": "Recipe name",
     "Сохранить": "Save",
     "Описание приготовления": "Recipe description",
-    "Профиль": "Profile"
+    "Профиль": "Profile",
+    "Вход в аккаунт": "Sign in",
+    "Введите свою почту, чтобы войти в свой аккаунт": "Enter your email to sign in to your account",
+    "Пароль": "Password",
+    "Не удалось войти в аккаунт": "Failed to sign in",
+    "Вы вошли в аккаунт": "You signed in"
 }

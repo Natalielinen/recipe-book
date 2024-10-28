@@ -1,13 +1,34 @@
 import { prisma } from "@/prisma/prisma-client";
 import { Ingredient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { compare,  } from "bcrypt";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/constants/auth-options";
 
 //TODO: переделать на токен когда сделаю авторизацию и регистрацию
 
 export async function GET(req: NextRequest) {
     try {
 
-        const userId = req.cookies.get('userId')?.value;
+        // const userId = req.cookies.get('next-auth.session-token')?.value;
+
+        // console.log(req, 'req');
+
+      // const id =  compare(credentials.password, findUser.password)
+
+    const session = await getServerSession(authOptions);
+
+    //   console.log('req', req);
+    //     console.log('session', session);
+
+    //     const userId = 1;
+
+    if (!session || !session.user || !session.user.id) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const userId = session.user.id;
+        
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -34,15 +55,22 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
-        // Получаем userId из cookies
-       const userId = req.cookies.get('userId')?.value;
+        // Получаем сессию пользователя
+       const session = await getServerSession(authOptions);
 
-        console.log('userId', userId);
+        console.log('req', req);
+        console.log('session', session);
+
+       // const userId = 1;
+        
         
 
-        if (!userId) {
+        // Проверяем, авторизован ли пользователь
+        if (!session || !session.user || !session.user.id) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
+
+        const userId = session.user.id;
 
         // Получаем данные рецепта из тела запроса
         const { recipeName, imageUrl, fullDescription, servings, categoryId, ingredients } = await req.json();
