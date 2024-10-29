@@ -92,7 +92,7 @@ export const authOptions: AuthOptions = {
           data: {
             email: user.email,
             fullName: user.name || 'User #' + user.id,
-            password: hashSync(user.id.toString(), 10),
+            password: hashSync(user.id.toString(), 10), // to change
             verified: new Date(),
             provider: account?.provider,
             providerId: account?.providerAccountId,
@@ -131,8 +131,7 @@ export const authOptions: AuthOptions = {
 
     session({session, token}) {
       if (session?.user) {
-        session.user.id = token.sub;
-        // session.user.id = token.id;
+        session.user.id = token.sub as string;
         
       };
 

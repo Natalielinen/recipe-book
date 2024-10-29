@@ -39,7 +39,7 @@ export const RecipeCard: React.FC<Props> = ({
         </div>
 
 
-        <Link href={`${lng}/recipe/${id}`}>
+        <Link href={`recipe/${id}`}>
             <Button variant="outline" className="w-full mt-4">{t('Подробнее...')}</Button>
         </Link>
     </div>;

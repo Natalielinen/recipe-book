@@ -53,20 +53,15 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
 
     }
 
-
     return (
         <FormProvider {...form}>
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex justify-between items-center">
-                    <div className="mr-2">
-                        <Title text={t("Вход в аккаунт")} size="md" className="font-bold" />
-                        <p className="text-gray-400">{t("Введите свою почту, чтобы войти в свой аккаунт")}</p>
-                    </div>
-                    <img src="/assets/images/phone-icon.png" alt="phone-icon" width={60} height={60} />
-                </div>
+
+                <Title text={t("Вход в аккаунт")} size="md" className="font-bold" />
+                <p className="text-gray-400">{t("Введите свою почту, чтобы войти в свой аккаунт")}</p>
 
                 <FormInput name="email" label="Email" required />
-                <FormInput name="password" label={t('Пароль')} required />
+                <FormInput name="password" label={t('Пароль')} type="password" required />
 
                 <Button
                     loading={form.formState.isSubmitting}
@@ -75,7 +70,7 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
                     {t("Войти")}
                 </Button>
             </form>
-        </FormProvider>
+        </FormProvider >
     )
 
 }

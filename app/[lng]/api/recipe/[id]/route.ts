@@ -1,6 +1,8 @@
 import { prisma } from "@/prisma/prisma-client";
 import { Ingredient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/constants/auth-options";
 
 export async function GET(req: NextRequest, {params}: {params: {id: number}}) {
     try {
@@ -29,8 +31,13 @@ export async function GET(req: NextRequest, {params}: {params: {id: number}}) {
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: number } }) {
     try {
-        // Получаем userId из cookies
-        const userId = req.cookies.get('userId')?.value;
+        const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.id) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+    const userId = session.user.id;
 
         const { id } = params;
 

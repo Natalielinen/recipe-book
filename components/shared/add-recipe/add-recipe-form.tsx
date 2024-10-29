@@ -13,6 +13,7 @@ import { Minus, Plus } from 'lucide-react';
 import { Title } from '../title';
 import { useRecipeStore } from '@/app/store/recipe';
 import { useCategoryStore } from '@/app/store/category';
+import toast from 'react-hot-toast';
 
 interface Props {
     isEditForm: boolean;
@@ -83,19 +84,31 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
             imageUrl: data.imageUrl || "",
         };
 
-        if (isEditForm) {
-            await Api.updateRecipe(lng, body, recipe.id);
+        try {
+            if (isEditForm) {
+                const res = await Api.updateRecipe(lng, body, recipe.id);
 
-            const data = await Api.getRecipeById(lng, recipe.id);
+                if (!res) {
+                    throw Error();
+                }
 
-            setRecipe(data);
-            setInitialServings(data.servings);
-        } else {
+                const data = await Api.getRecipeById(lng, recipe.id);
 
-            await Api.createRecipe(lng, body);
-            const response = await Api.recipes(lng);
-            setCategories(response);
+                setRecipe(data);
+                setInitialServings(data.servings);
+            } else {
+
+                await Api.createRecipe(lng, body);
+                const response = await Api.recipes(lng);
+                setCategories(response);
+            }
+
+        } catch (error) {
+            console.error('Error [ADD RECIPE]', error);
+            toast.error(t("Произошла ошибка при добавлении рецепта"));
         }
+
+
         setButtonLoading(false);
 
         setAddRecipeModalOpen(false);
@@ -110,6 +123,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
     useEffect(() => {
         fetchCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

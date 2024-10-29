@@ -28,6 +28,7 @@ export const updateRecipe = async (locale: string, body: FormRecipe, id: number)
 export const getRecipeById = async (locale: string, id: number) => {
     const axiosInstance = createAxiosInstance(locale);
 
+ 
     const { data } = await axiosInstance.get<FormRecipe>(ApiRoutes.RECIPE + `/${id}`);
 
     return data;

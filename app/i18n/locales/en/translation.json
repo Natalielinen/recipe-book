@@ -32,5 +32,6 @@
     "Введите свою почту, чтобы войти в свой аккаунт": "Enter your email to sign in to your account",
     "Пароль": "Password",
     "Не удалось войти в аккаунт": "Failed to sign in",
-    "Вы вошли в аккаунт": "You signed in"
+    "Вы вошли в аккаунт": "You signed in",
+    "Произошла ошибка при обновлении рецепта": "An error occurred while updating the recipe"
 }
