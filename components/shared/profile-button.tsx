@@ -24,7 +24,7 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className, lng })
                     <User size={16} className="mr-2" />
                     {t("Войти")}
                 </Button>
-                    : <Link href={`${lng}/profile`}>
+                    : <Link href={`/profile`}>
                         <Button variant="outline" className={cn(className)}>
                             <CircleUser size={16} className="mr-2" />
                             {t("Профиль")}

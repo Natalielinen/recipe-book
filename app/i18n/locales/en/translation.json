@@ -33,5 +33,6 @@
     "Пароль": "Password",
     "Не удалось войти в аккаунт": "Failed to sign in",
     "Вы вошли в аккаунт": "You signed in",
-    "Произошла ошибка при обновлении рецепта": "An error occurred while updating the recipe"
+    "Произошла ошибка при обновлении рецепта": "An error occurred while updating the recipe",
+    "Личные данные": "Personal data"
 }
