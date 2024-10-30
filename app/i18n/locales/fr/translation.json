@@ -34,5 +34,10 @@
     "Не удалось войти в аккаунт": "Impossible de vous connecter",
     "Вы вошли в аккаунт": "Vous avez connecté",
     "Произошла ошибка при обновлении рецепта": "Une erreur s'est produite lors de la mise à jour de la recette",
-    "Личные данные": "Vos donnés"
+    "Личные данные": "Vos donnés",
+    "Полное имя": "Nom complet",
+    "Подтвердите пароль": "Confirmez le mot de passe",
+    "Зарегистрироваться": "S'enregistrer",
+    "Неверный E-Mail или пароль": "E-Mail ou mot de passe incorrect",
+    "Регистрация успешна": "Inscription reussie"
 }

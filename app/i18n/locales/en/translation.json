@@ -34,5 +34,10 @@
     "Не удалось войти в аккаунт": "Failed to sign in",
     "Вы вошли в аккаунт": "You signed in",
     "Произошла ошибка при обновлении рецепта": "An error occurred while updating the recipe",
-    "Личные данные": "Personal data"
+    "Личные данные": "Personal data",
+    "Полное имя": "Full name",
+    "Подтвердите пароль": "Confirm password",
+    "Зарегистрироваться": "Sign up",
+    "Неверный E-Mail или пароль": "Invalid E-Mail or password",
+    "Регистрация успешна": "Registration successful"
 }

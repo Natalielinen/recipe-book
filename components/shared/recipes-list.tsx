@@ -5,7 +5,6 @@ import { Container } from "./container";
 import { Api } from "@/app/services/api-client";
 import { RecipesGroupList } from "./recipes-group-list";
 import { useTranslation } from "@/app/i18n/client";
-import { Title } from "./title";
 import { useCategoryStore } from "@/app/store/category";
 
 interface Props {
@@ -25,6 +24,7 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
 
     React.useEffect(() => {
         fetchRecipes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -32,7 +32,7 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
         <div className="flex-1">
             <div className="flex flex-col gap-16">
                 {
-                    Boolean(categories.length) ? categories.map((category) => (
+                    Boolean(categories.length) && categories.map((category) => (
                         Boolean(category.recipes.length) &&
                         <RecipesGroupList
                             key={category.id}
@@ -43,7 +43,7 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
 
                         />
                     ))
-                        : <Title text={t("Вы пока не добавили рецепты")} />
+
                 }
             </div>
         </div>

@@ -22,7 +22,7 @@ export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as
     const { addRecipeModalOpen, setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
     return <Dialog open={addRecipeModalOpen} onOpenChange={() => setAddRecipeModalOpen(false)}>
-        <DialogContent className={cn("p-4 w-[800px] max-w-[1060px]", className)} >
+        <DialogContent className={cn("p-4 w-[800px] max-w-[1060px] h-[720px] overscroll-y-contain overflow-auto", className)} >
             <DialogTitle>
                 {
                     isEditForm ? t('Изменить рецепт') : t('Добавить рецепт')

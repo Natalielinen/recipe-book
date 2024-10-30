@@ -152,9 +152,10 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                 label={t("Описание приготовления")}
             />
             <Title text={t("Ингредиенты")} size='sm' />
+
             {
                 fields.map((field, index) => {
-                    return <div key={field.id} className='flex justify-between'>
+                    return <div key={field.id} className='flex gap-2'>
                         <FormInput
                             name={`ingredients.${index}.name`}
                         />
@@ -169,16 +170,22 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                         <div className='flex gap-2 px-2'>
                             <Button
                                 onClick={() => remove(index)}
+                                disabled={index === 0}
                                 type='button'
                             >
                                 <Minus size={16} />
                             </Button>
+
                             <Button
                                 onClick={() => append({ name: '', amount: '1', unit: 'шт' })}
+                                style={{
+                                    visibility: index !== fields.length - 1 ? 'hidden' : 'visible',
+                                }}
                                 type='button'
                             >
                                 <Plus size={16} />
                             </Button>
+
 
                         </div>
 

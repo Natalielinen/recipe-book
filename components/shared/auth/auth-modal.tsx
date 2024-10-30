@@ -5,6 +5,7 @@ import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "./forms/login-form";
+import { RegisterForm } from "./forms/register-form";
 
 interface Props {
     open: boolean;
@@ -30,7 +31,7 @@ export const AuthModal: React.FC<Props> = ({ lng, open, onClose }) => {
             <DialogContent className="w-[450px] bg-background p-10">
 
                 {
-                    type === 'login' ? <LoginForm lng={lng} onClose={onClose} /> : <div>register</div>
+                    type === 'login' ? <LoginForm lng={lng} onClose={onClose} /> : <RegisterForm lng={lng} onClose={onClose} />
                 }
 
                 <hr />

@@ -69,8 +69,17 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
         return ((amount / recipe.servings) * initialServings).toFixed(2);
     }
 
+    const getColumnsCount = (length: number): number => {
+        if (length >= 5 && length < 15) {
+            return 2;
+        } else if (length >= 15) {
+            return 3;
+        }
+        return 1;
+    }
+
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
-        <Button onClick={() => router.back()} type="button" className="w-[60px]">
+        <Button onClick={() => router.push(`/${lng}/recipes`)} type="button" className="w-[60px]">
             <MoveLeft size={16} />
         </Button>
         <div className="flex flex-1 gap-10">
@@ -91,7 +100,9 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
 
                 <div>
                     <Title text={t("Ингредиенты")} size="md" className="mb-1 mt-2 font-bold" />
-                    <div>
+                    <ul style={{
+                        columns: getColumnsCount(recipe.ingredients?.length || 0)
+                    }}>
                         {
                             recipe.ingredients?.map((ingredient) => <IngredientListItem
                                 key={ingredient.name}
@@ -100,7 +111,7 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
                                 title={ingredient.name}
                             />)
                         }
-                    </div>
+                    </ul>
                 </div>
 
             </div>

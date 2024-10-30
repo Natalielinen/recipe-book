@@ -3,10 +3,8 @@
 import {
     Dialog,
     DialogContent,
-
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils";
-import { Title } from "./title";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useTranslation } from "@/app/i18n/client";
@@ -56,24 +54,32 @@ export const ShoppinListModal: React.FC<Props> = ({
     const cresteTextList = () => {
 
         const textList = ingredientsList?.map((ingredient) => {
-            return `${ingredient.name} - ${ingredient.amount - (inStockValues.find((value) => value.id === ingredient.id)?.value || 0)} ${ingredient.unit} \n`;
+            const amount = ingredient.amount - (inStockValues.find((value) => value.id === ingredient.id)?.value || 0);
+
+            if (amount > 0) {
+                return `${ingredient.name} - ${ingredient.amount - (inStockValues.find((value) => value.id === ingredient.id)?.value || 0)} ${ingredient.unit} \n`;
+            }
+
+            return "";
+
         })
 
         const blob = new Blob(textList, { type: "text/plain;charset=utf-8" });
         saveAs(blob, "shopping-list.txt");
 
         setShoppingListModal(false);
+        setInStockValues([]);
     }
 
 
     return (
         <Dialog open={showShoppingListModal} onOpenChange={() => setShoppingListModal(false)}>
-            <DialogContent className={cn("p-4 w-[800px] max-w-[1060px]", className)} >
+            <DialogContent className={cn("p-4 w-[800px] max-w-[1060px] h-[720px] overscroll-y-contain overflow-auto", className)} >
                 <div >
                     {
                         ingredientsList?.map((ingredient) => (
                             <div key={ingredient.name} className="flex justify-between my-4">
-                                <Title text={ingredient.name} size="sm" className="mb-1 mt-2 font-bold w-[150px]" />
+                                <p className="mb-1 mt-2 font-bold w-[150px]">{ingredient.name}</p>
                                 <div className="flex gap-10 items-center w-[300px]">
                                     <Label
                                         htmlFor="email"
