@@ -3,6 +3,9 @@
 import { Container } from "./container";
 import { Button } from "../ui/button";
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/app/i18n/client";
+import { MoveRight } from "lucide-react";
+
 
 interface Props {
     className?: string;
@@ -10,6 +13,8 @@ interface Props {
 }
 
 export const MyRecipesButton: React.FC<Props> = ({ className, lng }) => {
+
+    const { t } = useTranslation(lng);
 
     const router = useRouter();
 
@@ -19,7 +24,8 @@ export const MyRecipesButton: React.FC<Props> = ({ className, lng }) => {
 
     return <Container className="flex items-center justify-between py-8">
         <Button variant="outline" onClick={onClick}>
-            my recipes
+            {t('Перейти к моим рецептам')}
+            <MoveRight />
         </Button>
     </Container>
 };

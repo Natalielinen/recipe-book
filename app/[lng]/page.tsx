@@ -4,7 +4,5 @@ import React from "react";
 
 export default async function Home({ params: { lng } }: { params: { lng: string } }) {
 
-  return (
-    <HomePage lng={lng} />
-  );
+  return <HomePage lng={lng} />
 } 

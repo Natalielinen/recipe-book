@@ -18,6 +18,7 @@ export {ClearButton} from './clear-button';
 export {ProfileButton} from './profile-button';
 export {HomePage} from './home-page';
 export {ProfileForm} from './profile-form';
+export {Stories} from './stories';
 export * from './auth';
 export * from './add-recipe';
 export * from './form-components';
