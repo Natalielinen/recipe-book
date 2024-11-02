@@ -23,6 +23,8 @@ model User {
     provider   String?
     providerId String?
 
+    passwordResets PasswordReset[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -103,4 +105,15 @@ model StoryItem {
 
     sourceUrl String
 
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

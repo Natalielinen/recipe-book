@@ -10,6 +10,7 @@ import { FormInput } from "../../form-components";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Props {
     onClose?: () => void;
@@ -19,6 +20,7 @@ interface Props {
 export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
 
     const { t } = useTranslation(lng);
+    const router = useRouter();
 
     const form = useForm<TFormLoginValues>({
         resolver: zodResolver(formLoginSchema),
@@ -36,8 +38,6 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
                 redirect: false
             });
 
-            console.log('resp', resp);
-
 
             if (!resp?.ok) {
                 throw Error();
@@ -50,6 +50,12 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
             console.error('Error [LOGIN]', error);
             toast.error(t('Не удалось войти в аккаунт'));
         }
+
+    }
+
+    const forgotPasswordClick = () => {
+        onClose?.();
+        router.push(`/${lng}/forgot-password`);
 
     }
 
@@ -66,9 +72,16 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
                 <Button
                     loading={form.formState.isSubmitting}
                     type="submit"
+
                 >
                     {t("Войти")}
                 </Button>
+
+                <Button
+                    type="button"
+                    variant="link"
+                    onClick={forgotPasswordClick}
+                >{t("Забыли пароль?")}</Button>
             </form>
         </FormProvider >
     )

@@ -81,3 +81,4 @@ export async function registerUser(body: Prisma.UserCreateInput) {
     throw err;
   }
 }
+

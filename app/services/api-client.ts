@@ -1,5 +1,6 @@
 import {recipes, createRecipe, updateRecipe, getRecipeById} from './recipes';
 import {categories} from './categories';
+import {forgotPassword} from './forgot-password';
 import * as stories from './stories';
 
 export const Api = {
@@ -8,6 +9,7 @@ export const Api = {
     categories,
     updateRecipe,
     getRecipeById,
+    forgotPassword,
     stories
 
 }
