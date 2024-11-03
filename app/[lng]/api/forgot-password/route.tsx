@@ -1,9 +1,16 @@
 import { prisma } from "@/prisma/prisma-client";
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
     const { email } = await req.json();
+
+    console.log('req', req);
+
+    //req.headers.cookie: 'i18next=ru;
+    // формировать письмо в зависимости от языка
+
 
     const user = await prisma.user.findUnique({
         where: { email },
@@ -29,11 +36,35 @@ export async function POST(req: NextRequest) {
         },
     });
 
-    // const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password?token=${passwordResetToken}`;
-    const resetUrl = `localhost:3000/reset-password?token=${resetToken}`;
+    // const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password/${passwordResetToken}`;
+    const resetUrl = `localhost:3000/reset-password/${resetToken}`;
 
-    console.log('resetUrl', resetUrl);
+    const transporter = nodemailer.createTransport({
+        host: "smtp.yandex.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
 
+    const resetLink = resetUrl;
 
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Восстановление пароля',
+        text: `Перейдите по ссылке для восстановления пароля: ${resetLink}`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
 
 }
