@@ -41,7 +41,7 @@ export const Header: React.FC<Props> = ({ className, lng }) => {
             } */}
 
             {/* Правая часть */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-3">
                 <AuthModal
                     lng={lng}
                     open={showAuthModal}

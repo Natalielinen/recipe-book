@@ -155,7 +155,8 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
             {
                 fields.map((field, index) => {
-                    return <div key={field.id} className='flex gap-2'>
+                    return <div key={field.id} className='flex justify-between flex-wrap gap-2'>
+
                         <FormInput
                             name={`ingredients.${index}.name`}
                         />
@@ -167,6 +168,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                         <FormInput
                             name={`ingredients.${index}.unit`}
                         />
+
                         <div className='flex gap-2 px-2'>
                             <Button
                                 onClick={() => remove(index)}

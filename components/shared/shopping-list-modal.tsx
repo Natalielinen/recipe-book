@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import React from "react";
 import saveAs from "file-saver";
 import { FormRecipe } from "@/app/services/dto/recipe.dto";
+import { useMedia } from "react-use";
 
 interface Props {
     className?: string;
@@ -37,6 +38,7 @@ export const ShoppinListModal: React.FC<Props> = ({
     const { t } = useTranslation(lng)
 
     const [inStockValues, setInStockValues] = React.useState<InStock[]>([])
+    const isWide = useMedia('(min-width: 1024px)');
 
     const handleInStockChange = (id: number, value: number) => {
         setInStockValues((prevValues) => {
@@ -74,11 +76,14 @@ export const ShoppinListModal: React.FC<Props> = ({
 
     return (
         <Dialog open={showShoppingListModal} onOpenChange={() => setShoppingListModal(false)}>
-            <DialogContent className={cn("p-4 w-[800px] max-w-[1060px] h-[720px] overscroll-y-contain overflow-auto", className)} >
+            <DialogContent className={cn(
+                "p-4 h-[90%] overscroll-y-contain overflow-auto",
+                isWide ? 'max-w-[1060px]' : '',
+                className)} >
                 <div >
                     {
                         ingredientsList?.map((ingredient) => (
-                            <div key={ingredient.name} className="flex justify-between my-4">
+                            <div key={ingredient.name} className="flex justify-between my-4 flex-wrap">
                                 <p className="mb-1 mt-2 font-bold w-[150px]">{ingredient.name}</p>
                                 <div className="flex gap-10 items-center w-[300px]">
                                     <Label

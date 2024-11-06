@@ -82,7 +82,7 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
         <Button onClick={() => router.push(`/${lng}/recipes`)} type="button" className="w-[60px]">
             <MoveLeft size={16} />
         </Button>
-        <div className="flex flex-1 gap-10">
+        <div className="flex flex-1 gap-10 flex-wrap">
             <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} />
             <div>
                 <div className="flex gap-10 items-center">

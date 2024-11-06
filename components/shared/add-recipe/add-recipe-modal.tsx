@@ -7,6 +7,7 @@ import { AddRecipeForm } from "./add-recipe-form";
 import { useTranslation } from "@/app/i18n/client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import React from "react";
+import { useMedia } from "react-use";
 
 interface Props {
     className?: string;
@@ -21,8 +22,13 @@ export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as
 
     const { addRecipeModalOpen, setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
+    const isWide = useMedia('(min-width: 1024px)');
+
     return <Dialog open={addRecipeModalOpen} onOpenChange={() => setAddRecipeModalOpen(false)}>
-        <DialogContent className={cn("p-4 w-[800px] max-w-[1060px] h-[720px] overscroll-y-contain overflow-auto", className)} >
+        <DialogContent className={cn(
+            "p-4 h-[90%] overscroll-y-contain overflow-auto",
+            isWide ? 'max-w-[1060px]' : '',
+            className)} >
             <DialogTitle>
                 {
                     isEditForm ? t('Изменить рецепт') : t('Добавить рецепт')
