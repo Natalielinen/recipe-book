@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { AddRecipeModal, Container, RecipesList, Title, TopBar } from "@/components/shared";
 import { useTranslation } from "../../i18n";
 import React from "react";
@@ -16,7 +18,6 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
     }
 
     const categories = await prisma.category.findMany({});
-
 
     return (
         <>
