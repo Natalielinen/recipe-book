@@ -9,10 +9,9 @@ import { Api } from "@/app/services/api-client";
 
 interface Props {
     className?: string;
-    lng: string;
 }
 
-export const Stories: React.FC<Props> = ({ className, lng }) => {
+export const Stories: React.FC<Props> = ({ className }) => {
 
     const [stories, setStories] = React.useState<IStory[]>([]);
     const [open, setOpen] = React.useState(false);
@@ -20,7 +19,7 @@ export const Stories: React.FC<Props> = ({ className, lng }) => {
 
     React.useEffect(() => {
         async function fetchStories() {
-            const data = await Api.stories.getAll(lng);
+            const data = await Api.stories.getAll();
             setStories(data);
         }
 

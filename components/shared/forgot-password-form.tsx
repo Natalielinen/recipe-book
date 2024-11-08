@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from "@/app/i18n/client"
 import { Container } from "./container"
 import { Title } from "./title"
 import { Input } from "../ui/input"
@@ -11,13 +10,7 @@ import { useRouter } from "next/navigation";
 import { Api } from "@/app/services/api-client";
 import toast from "react-hot-toast";
 
-interface Props {
-    lng: string
-}
-
-export const ForgotPasswordForm: React.FC<Props> = ({ lng }) => {
-
-    const { t } = useTranslation(lng);
+export const ForgotPasswordForm = () => {
 
     const router = useRouter();
 
@@ -28,10 +21,10 @@ export const ForgotPasswordForm: React.FC<Props> = ({ lng }) => {
 
         try {
             setSending(true);
-            await Api.forgotPassword(lng, { email });
+            await Api.forgotPassword({ email });
 
-            router.push(`/${lng}`);
-            toast.success(t("Письмо отправлено"));
+            router.push(`/`);
+            toast.success("Письмо отправлено");
 
         } catch (error) {
             console.log('FORGOT_PASSWORD error', error);
@@ -45,12 +38,12 @@ export const ForgotPasswordForm: React.FC<Props> = ({ lng }) => {
     return <Container className="flex align-center justify-center">
 
         <div className="flex flex-col gap-5 w-[30%]">
-            <Title text={t("Восстановление пароля")} size="md" />
+            <Title text={"Восстановление пароля"} size="md" />
 
-            <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("Email")} />
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder={"Email"} />
 
-            <Button type="button" onClick={onForgotPassword} loading={sending}>{t("Отправить")}</Button>
-            <Button type="button" variant="outline" onClick={() => router.push(`/${lng}`)}><MoveLeft />{t("Вернуться")}</Button>
+            <Button type="button" onClick={onForgotPassword} loading={sending}>{"Отправить"}</Button>
+            <Button type="button" variant="outline" onClick={() => router.push(`/`)}><MoveLeft />{"Вернуться"}</Button>
 
         </div>
 

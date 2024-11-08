@@ -1,8 +1,6 @@
-import { createAxiosInstance } from "./instance";
+import { axiosInstance } from "./instance";
 
-export const resetPassword = async (locale: string, body: {email: string, password: string}) => {
-
-    const axiosInstance = createAxiosInstance(locale);
+export const resetPassword = async ( body: {email: string, password: string}) => {
 
     await axiosInstance.post(`/reset-password`, body);
 

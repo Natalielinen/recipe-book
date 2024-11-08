@@ -5,17 +5,15 @@ import { cn } from "../../lib/utils";
 import { Container } from "./container";
 import { Album } from "lucide-react";
 import { ThemeButton } from "./theme-button";
-import { LanguagesSwitcher } from "./languages-switcher";
 import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./auth";
 import React from "react";
 
 interface Props {
     className?: string;
-    lng: string;
 }
 
-export const Header: React.FC<Props> = ({ className, lng }) => {
+export const Header: React.FC<Props> = ({ className }) => {
 
     const [showAuthModal, setShowAuthModal] = React.useState(false);
 
@@ -43,13 +41,11 @@ export const Header: React.FC<Props> = ({ className, lng }) => {
             {/* Правая часть */}
             <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-3">
                 <AuthModal
-                    lng={lng}
                     open={showAuthModal}
                     onClose={() => setShowAuthModal(false)}
                 />
                 <ThemeButton />
-                <LanguagesSwitcher lng={lng} />
-                <ProfileButton lng={lng} onClickLogin={() => setShowAuthModal(true)} />
+                <ProfileButton onClickLogin={() => setShowAuthModal(true)} />
             </div>
         </Container>
     </header>

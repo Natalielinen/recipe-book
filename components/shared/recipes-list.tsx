@@ -4,20 +4,14 @@ import React from "react";
 import { Container } from "./container";
 import { Api } from "@/app/services/api-client";
 import { RecipesGroupList } from "./recipes-group-list";
-import { useTranslation } from "@/app/i18n/client";
 import { useCategoryStore } from "@/app/store/category";
 
-interface Props {
-    lng: string;
-}
 
-export const RecipesList: React.FC<Props> = ({ lng }) => {
-
-    const { t } = useTranslation(lng);
+export const RecipesList = () => {
 
     const { categories, setCategories } = useCategoryStore((state) => state);
     const fetchRecipes = async () => {
-        const response = await Api.recipes(lng);
+        const response = await Api.recipes();
 
         setCategories(response);
     };
@@ -37,9 +31,8 @@ export const RecipesList: React.FC<Props> = ({ lng }) => {
                         <RecipesGroupList
                             key={category.id}
                             categoryId={category.id}
-                            lng={lng}
                             recipes={category.recipes}
-                            title={t(category.nameKey)}
+                            title={category.nameKey}
 
                         />
                     ))

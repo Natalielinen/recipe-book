@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { prisma } from "@/prisma/prisma-client";
 import { ProfileForm } from "@/components/shared";
 
-export default async function ProfilePage({ params: { lng, id } }: { params: { lng: string, id: string } }) {
+export default async function ProfilePage() {
 
     const session = await getServerSession(authOptions);
 
@@ -18,6 +18,6 @@ export default async function ProfilePage({ params: { lng, id } }: { params: { l
         return redirect('/');
     }
 
-    return <ProfileForm data={user} lng={lng} />
+    return <ProfileForm data={user} />
 
 }

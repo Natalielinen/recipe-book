@@ -7,7 +7,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useTranslation } from "@/app/i18n/client";
 import { Button } from "../ui/button";
 import React from "react";
 import saveAs from "file-saver";
@@ -19,7 +18,6 @@ interface Props {
     showShoppingListModal: boolean;
     setShoppingListModal: (value: boolean) => void;
     ingredientsList: FormRecipe['ingredients'];
-    lng: string
 }
 
 type InStock = {
@@ -32,10 +30,7 @@ export const ShoppinListModal: React.FC<Props> = ({
     showShoppingListModal,
     setShoppingListModal,
     ingredientsList,
-    lng
 }) => {
-
-    const { t } = useTranslation(lng)
 
     const [inStockValues, setInStockValues] = React.useState<InStock[]>([])
     const isWide = useMedia('(min-width: 1024px)');
@@ -88,7 +83,7 @@ export const ShoppinListModal: React.FC<Props> = ({
                                 <div className="flex gap-10 items-center w-[300px]">
                                     <Label
                                         htmlFor="email"
-                                    >{t('У меня есть')}</Label>
+                                    >У меня есть</Label>
                                     <Input
                                         type="number"
                                         id="inStock"
@@ -101,7 +96,7 @@ export const ShoppinListModal: React.FC<Props> = ({
                                 </div>
 
                                 <div className="flex gap-10 items-center w-[210px]">
-                                    <p className="p-0 m-0">{t("Мне нужно")}</p>
+                                    <p className="p-0 m-0">Мне нужно</p>
                                     <p className="p-0 m-0 font-bold">{ingredient.amount} {ingredient.unit}</p>
                                 </div>
 
@@ -111,7 +106,7 @@ export const ShoppinListModal: React.FC<Props> = ({
                 </div>
 
                 <Button variant="outline" onClick={cresteTextList}>
-                    {t("Сформировать список покупок")}
+                    Сформировать список покупок
                 </Button>
 
             </DialogContent>

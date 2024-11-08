@@ -4,7 +4,6 @@ import Link from "next/link";
 import { cn } from "../../lib/utils";
 import { Title } from "./title";
 import { Button } from "../ui/button";
-import { useTranslation } from "../../app/i18n/client";
 import { RecipeImage } from "./recipe-image";
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
     imageUrl?: string;
     shortDescription?: string;
     className?: string;
-    lng: string;
 }
 
 export const RecipeCard: React.FC<Props> = ({
@@ -22,10 +20,7 @@ export const RecipeCard: React.FC<Props> = ({
     imageUrl,
     shortDescription,
     className,
-    lng
 }) => {
-
-    const { t } = useTranslation(lng)
 
     return <div className={cn('flex flex-col justify-between', className)}>
         <div>
@@ -40,7 +35,7 @@ export const RecipeCard: React.FC<Props> = ({
 
 
         <Link href={`recipe/${id}`}>
-            <Button variant="outline" className="w-full mt-4">{t('Подробнее...')}</Button>
+            <Button variant="outline" className="w-full mt-4">Подробнее...</Button>
         </Link>
     </div>;
 };

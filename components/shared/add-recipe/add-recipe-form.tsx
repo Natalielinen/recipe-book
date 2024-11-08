@@ -18,10 +18,9 @@ import toast from 'react-hot-toast';
 interface Props {
     isEditForm: boolean;
     recipe: RecipeDto;
-    lng?: string;
 }
 
-export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" }) => {
+export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
 
     const [categoriesOptions, setCategoriesOptions] = useState<{ label: string, value: string }[]>([]);
     const [categoriesSelectLoading, setCategoriesSelectLoading] = useState<boolean>(false);
@@ -29,8 +28,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
     const { setAddRecipeModalOpen, setRecipe, setInitialServings } = useRecipeStore((state) => state);
     const { setCategories } = useCategoryStore((state) => state);
-
-    const { t } = useTranslation(lng);
 
     const editFormValues = {
         ...recipe,
@@ -86,26 +83,26 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
         try {
             if (isEditForm) {
-                const res = await Api.updateRecipe(lng, body, recipe.id);
+                const res = await Api.updateRecipe(body, recipe.id);
 
                 if (!res) {
                     throw Error();
                 }
 
-                const data = await Api.getRecipeById(lng, recipe.id);
+                const data = await Api.getRecipeById(recipe.id);
 
                 setRecipe(data);
                 setInitialServings(data.servings);
             } else {
 
-                await Api.createRecipe(lng, body);
-                const response = await Api.recipes(lng);
+                await Api.createRecipe(body);
+                const response = await Api.recipes();
                 setCategories(response);
             }
 
         } catch (error) {
             console.error('Error [ADD RECIPE]', error);
-            toast.error(t("Произошла ошибка при добавлении рецепта"));
+            toast.error("Произошла ошибка при добавлении рецепта");
         }
 
 
@@ -116,7 +113,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
 
     const fetchCategories = async () => {
         setCategoriesSelectLoading(true);
-        const res = await Api.categories(lng);
+        const res = await Api.categories();
         setCategoriesOptions(res.map((category) => ({ label: category.nameKey, value: String(category.id) })));
         setCategoriesSelectLoading(false);
     };
@@ -132,26 +129,26 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
             <FormSelect
                 name='categoryId'
                 options={categoriesOptions}
-                label={t("Категория")}
+                label={"Категория"}
                 disabled={categoriesSelectLoading}
                 required
             />
             <FormInput
                 name='recipeName'
-                label={t("Название рецепта")}
+                label={"Название рецепта"}
                 required
             />
             <FormInput
                 name='servings'
-                label={t("Порции")}
+                label={"Порции"}
                 type='number'
                 required
             />
             <FormTextarea
                 name='fullDescription'
-                label={t("Описание приготовления")}
+                label={"Описание приготовления"}
             />
-            <Title text={t("Ингредиенты")} size='sm' />
+            <Title text={"Ингредиенты"} size='sm' />
 
             {
                 fields.map((field, index) => {
@@ -199,7 +196,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm, lng = "ru" 
                 type='submit'
                 loading={buttonLoading}
             >
-                {t("Сохранить")}
+                Сохранить
             </Button>
 
         </form>

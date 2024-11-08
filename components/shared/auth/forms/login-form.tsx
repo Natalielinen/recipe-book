@@ -5,7 +5,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { formLoginSchema, TFormLoginValues } from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "../../title";
-import { useTranslation } from "@/app/i18n/client";
 import { FormInput } from "../../form-components";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
@@ -14,12 +13,10 @@ import { useRouter } from "next/navigation";
 
 interface Props {
     onClose?: () => void;
-    lng: string;
 }
 
-export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
+export const LoginForm: React.FC<Props> = ({ onClose }) => {
 
-    const { t } = useTranslation(lng);
     const router = useRouter();
 
     const form = useForm<TFormLoginValues>({
@@ -44,18 +41,18 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
             }
 
             onClose?.();
-            toast.success(t('Вы вошли в аккаунт'));
+            toast.success('Вы вошли в аккаунт');
 
         } catch (error) {
             console.error('Error [LOGIN]', error);
-            toast.error(t('Не удалось войти в аккаунт'));
+            toast.error('Не удалось войти в аккаунт');
         }
 
     }
 
     const forgotPasswordClick = () => {
         onClose?.();
-        router.push(`/${lng}/forgot-password`);
+        router.push(`/forgot-password`);
 
     }
 
@@ -63,25 +60,25 @@ export const LoginForm: React.FC<Props> = ({ lng, onClose }) => {
         <FormProvider {...form}>
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
 
-                <Title text={t("Вход в аккаунт")} size="md" className="font-bold" />
-                <p className="text-gray-400">{t("Введите свою почту, чтобы войти в свой аккаунт")}</p>
+                <Title text="Вход в аккаунт" size="md" className="font-bold" />
+                <p className="text-gray-400">Введите свою почту, чтобы войти в свой аккаунт</p>
 
                 <FormInput name="email" label="Email" required />
-                <FormInput name="password" label={t('Пароль')} type="password" required />
+                <FormInput name="password" label='Пароль' type="password" required />
 
                 <Button
                     loading={form.formState.isSubmitting}
                     type="submit"
 
                 >
-                    {t("Войти")}
+                    Войти
                 </Button>
 
                 <Button
                     type="button"
                     variant="link"
                     onClick={forgotPasswordClick}
-                >{t("Забыли пароль?")}</Button>
+                >Забыли пароль?</Button>
             </form>
         </FormProvider >
     )

@@ -1,7 +1,6 @@
 'use client';
 
 import { useCategoryStore } from "@/app/store/category";
-import { useTranslation } from "../../app/i18n/client";
 import { cn } from "../../lib/utils";
 import { Category } from "@prisma/client";
 import { Button } from "../ui/button";
@@ -10,18 +9,15 @@ import React from "react";
 
 interface Props {
     className?: string;
-    lng: string;
     categories: Category[]
 }
 
 
-export const Categories: React.FC<Props> = ({ className, lng, categories }) => {
+export const Categories: React.FC<Props> = ({ className, categories }) => {
 
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     const activeCategoryId = useCategoryStore((state) => state.activeId);
-
-    const { t } = useTranslation(lng);
 
     return <div className="relative">
         <Button className={cn(
@@ -45,13 +41,13 @@ export const Categories: React.FC<Props> = ({ className, lng, categories }) => {
                 categories.map((category) => {
                     return <a
                         key={category.id}
-                        href={`#${t(category.nameKey)}`}
+                        href={`#${category.nameKey}`}
                         className={cn(
                             'flex items-center font-bold h-11 rounded-2xl px-5',
                             activeCategoryId === category.id && 'bg-background shadow-md shadow-shd text-primary'
                         )}
                     >
-                        <button>{t(category.nameKey)}</button>
+                        <button>{category.nameKey}</button>
                     </a>
                 })
             }

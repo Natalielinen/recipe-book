@@ -4,21 +4,17 @@ import { useRecipeStore } from "@/app/store/recipe";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { AddRecipeForm } from "./add-recipe-form";
-import { useTranslation } from "@/app/i18n/client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import React from "react";
 import { useMedia } from "react-use";
 
 interface Props {
     className?: string;
-    lng: string;
     isEditForm?: boolean;
     recipe?: RecipeDto;
 }
 
-export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as RecipeDto, isEditForm = false }) => {
-
-    const { t } = useTranslation(lng);
+export const AddRecipeModal: React.FC<Props> = ({ className, recipe = {} as RecipeDto, isEditForm = false }) => {
 
     const { addRecipeModalOpen, setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
@@ -31,11 +27,11 @@ export const AddRecipeModal: React.FC<Props> = ({ className, lng, recipe = {} as
             className)} >
             <DialogTitle>
                 {
-                    isEditForm ? t('Изменить рецепт') : t('Добавить рецепт')
+                    isEditForm ? 'Изменить рецепт' : 'Добавить рецепт'
                 }
             </DialogTitle>
 
-            <AddRecipeForm isEditForm={isEditForm} recipe={recipe} lng={lng} />
+            <AddRecipeForm isEditForm={isEditForm} recipe={recipe} />
         </DialogContent>
     </Dialog>;
 };

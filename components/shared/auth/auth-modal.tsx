@@ -1,6 +1,5 @@
 'use client';
 
-
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -10,10 +9,9 @@ import { RegisterForm } from "./forms/register-form";
 interface Props {
     open: boolean;
     onClose: () => void;
-    lng: string;
 }
 
-export const AuthModal: React.FC<Props> = ({ lng, open, onClose }) => {
+export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
 
     const [type, setType] = React.useState<'login' | 'register'>('login');
 
@@ -31,7 +29,7 @@ export const AuthModal: React.FC<Props> = ({ lng, open, onClose }) => {
             <DialogContent className="w-[450px] bg-background p-10">
 
                 {
-                    type === 'login' ? <LoginForm lng={lng} onClose={onClose} /> : <RegisterForm lng={lng} onClose={onClose} />
+                    type === 'login' ? <LoginForm onClose={onClose} /> : <RegisterForm onClose={onClose} />
                 }
 
                 <hr />

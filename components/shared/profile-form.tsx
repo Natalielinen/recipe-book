@@ -6,23 +6,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import { formRegisterSchema, TFormRegisterValues } from "./auth/forms/schemas";
 import { User } from "@prisma/client";
 import toast from "react-hot-toast";
-import { updateUserInfo } from "@/app/[lng]/actions";
+import { updateUserInfo } from "@/app/actions";
 import { signOut } from "next-auth/react";
 import { Container } from "./container";
 import { cn } from "@/lib/utils";
 import { Title } from "./title";
-import { useTranslation } from "@/app/i18n/client";
 import { FormInput } from "./form-components";
 import { Button } from "../ui/button";
 
 interface Props {
-    lng: string;
     data: User;
 }
 
-export const ProfileForm: React.FC<Props> = ({ lng, data }) => {
-    const { t } = useTranslation(lng);
-
+export const ProfileForm: React.FC<Props> = ({ data }) => {
 
     const form = useForm({
         resolver: zodResolver(formRegisterSchema),
@@ -60,7 +56,7 @@ export const ProfileForm: React.FC<Props> = ({ lng, data }) => {
     };
 
     return <Container className={cn('my-10')}>
-        <Title text={`${t("Личные данные")} | ${data.fullName ? data.fullName : `#${data.id}`}`} size="md" className="font-bold" />
+        <Title text={`${"Личные данные"} | ${data.fullName ? data.fullName : `#${data.id}`}`} size="md" className="font-bold" />
 
         <FormProvider {...form}>
             <form className="flex flex-col gap-5 w-[95%] mt-10" onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from "@/app/i18n/client"
 import { Container } from "./container"
 import { Title } from "./title"
 import { Button } from "../ui/button"
@@ -16,9 +15,7 @@ import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 
 interface Props {
-    lng: string;
     token: string;
-
 }
 
 const formResetPasswordSchema = z.object({
@@ -30,9 +27,7 @@ const formResetPasswordSchema = z.object({
 });
 
 type TResetPasswordFormValues = z.infer<typeof formResetPasswordSchema>;
-export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
-
-    const { t } = useTranslation(lng);
+export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
 
     const [verified, setVerified] = React.useState(false);
     const [user, setUser] = React.useState<User | null>(null);
@@ -42,7 +37,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
 
     const verifyToken = async () => {
         try {
-            const res = await Api.verifyToken(lng, { token });
+            const res = await Api.verifyToken({ token });
 
             console.log('res', res);
 
@@ -53,7 +48,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
             }
         } catch (error) {
             console.log('VERIFY_TOKEN error', error);
-            toast.error(t("Ссылка недействительна"));
+            toast.error("Ссылка недействительна");
         }
 
     };
@@ -64,10 +59,10 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
 
     useEffect(() => {
         if (sessionStatus === "authenticated") {
-            router.push(`/${lng}`);
+            router.push(`/`);
         }
 
-    }, [sessionStatus, router, lng])
+    }, [sessionStatus, router])
 
     const form = useForm<TResetPasswordFormValues>({
         resolver: zodResolver(formResetPasswordSchema),
@@ -82,10 +77,10 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
         try {
 
             console.log("Отправка запроса с email:", user?.email);
-            await Api.resetPassword(lng, { password: data.newPassword, email: user?.email as string, });
+            await Api.resetPassword({ password: data.newPassword, email: user?.email as string, });
 
-            router.push(`/${lng}`);
-            toast.success(t("Пароль успешно изменен"));
+            router.push(`/`);
+            toast.success("Пароль успешно изменен");
 
         } catch (error) {
             console.log('RESET_PASSWORD error', error);
@@ -99,7 +94,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
         <FormProvider {...form}>
 
             <form className="flex flex-col gap-5 w-[30%]" onSubmit={form.handleSubmit(onSubmit)}>
-                <Title text={t("Новый пароль")} size="md" />
+                <Title text={"Новый пароль"} size="md" />
 
                 <FormInput name="newPassword" placeholder="Новый пароль" />
                 <FormInput name="retypeNewPassword" placeholder="Повторите новый пароль" />
@@ -110,7 +105,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token, lng }) => {
                     loading={form.formState.isSubmitting}
                     disabled={!verified}
                 >
-                    {t("Сменить пароль")}
+                    {"Сменить пароль"}
                 </Button>
 
             </form>

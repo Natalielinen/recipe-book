@@ -1,15 +1,11 @@
-export const dynamic = "force-dynamic";
-
 import { AddRecipeModal, Container, RecipesList, Title, TopBar } from "@/components/shared";
-import { useTranslation } from "../../i18n";
 import React from "react";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/constants/auth-options";
 import { redirect } from "next/navigation";
 
-export default async function Home({ params: { lng } }: { params: { lng: string } }) {
-    const { t } = await useTranslation(lng);
+export default async function Home() {
 
     const session = await getServerSession(authOptions);
 
@@ -22,18 +18,18 @@ export default async function Home({ params: { lng } }: { params: { lng: string 
     return (
         <>
             <Container>
-                <Title text={t("Все рецепты")} className="font-extrabold mt-10" />
+                <Title text="Все рецепты" className="font-extrabold mt-10" />
             </Container>
 
-            <TopBar lng={lng} categories={categories} />
+            <TopBar categories={categories} />
 
             {/* Список рецептов */}
 
             <RecipesList
-                lng={lng}
+
             />
 
-            <AddRecipeModal lng={lng} />
+            <AddRecipeModal />
         </>
     );
 } 

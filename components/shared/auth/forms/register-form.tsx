@@ -5,20 +5,16 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { TFormRegisterValues, formRegisterSchema } from './schemas';
-import { registerUser } from '@/app/[lng]/actions';
+import { registerUser } from '@/app/actions';
 import { FormInput } from '../../form-components';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/app/i18n/client';
 
 interface Props {
     onClose?: VoidFunction;
     onClickLogin?: VoidFunction;
-    lng: string;
 }
 
-export const RegisterForm: React.FC<Props> = ({ lng, onClose, onClickLogin }) => {
-
-    const { t } = useTranslation(lng);
+export const RegisterForm: React.FC<Props> = ({ onClose }) => {
 
     const form = useForm<TFormRegisterValues>({
         resolver: zodResolver(formRegisterSchema),
@@ -39,11 +35,11 @@ export const RegisterForm: React.FC<Props> = ({ lng, onClose, onClickLogin }) =>
                 verified: new Date(),
             });
 
-            toast.success(t("Регистрация успешна"));
+            toast.success("Регистрация успешна");
 
             onClose?.();
         } catch (error) {
-            return toast.error(t("Неверный E-Mail или пароль"));
+            return toast.error("Неверный E-Mail или пароль");
         }
     };
 
@@ -51,12 +47,12 @@ export const RegisterForm: React.FC<Props> = ({ lng, onClose, onClickLogin }) =>
         <FormProvider {...form}>
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
                 <FormInput name="email" label="E-Mail" required />
-                <FormInput name="fullName" label={t("Полное имя")} required />
-                <FormInput name="password" label={t("Пароль")} type="password" required />
-                <FormInput name="confirmPassword" label={t("Подтвердите пароль")} type="password" required />
+                <FormInput name="fullName" label={"Полное имя"} required />
+                <FormInput name="password" label={"Пароль"} type="password" required />
+                <FormInput name="confirmPassword" label={"Подтвердите пароль"} type="password" required />
 
                 <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
-                    {t("Зарегистрироваться")}
+                    Зарегистрироваться
                 </Button>
             </form>
         </FormProvider>

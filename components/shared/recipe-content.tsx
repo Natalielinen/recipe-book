@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from "@/app/i18n/client";
 import { Container } from "./container";
 import { CountButton } from "./count-button";
 import { RecipeImage } from "./recipe-image";
@@ -18,11 +17,10 @@ import { Api } from "@/app/services/api-client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 
 interface Props {
-    lng: string;
     id: number;
 }
 
-export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
+export const RecipeContent: React.FC<Props> = ({ id }) => {
 
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
 
@@ -36,7 +34,7 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
     } = useRecipeStore((state) => state);
 
     const fetchRecipe = async () => {
-        const recipe = await Api.getRecipeById(lng, id);
+        const recipe = await Api.getRecipeById(id);
         setRecipe(recipe);
 
         setInitialServings(recipe.servings);
@@ -53,8 +51,6 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
     const onRecipeEdit = () => {
         setAddRecipeModalOpen(true);
     }
-
-    const { t } = useTranslation(lng);
 
     const onServingsChange = (type: 'plus' | 'minus') => {
 
@@ -79,7 +75,7 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
     }
 
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
-        <Button onClick={() => router.push(`/${lng}/recipes`)} type="button" className="w-[60px]">
+        <Button onClick={() => router.push(`/recipes`)} type="button" className="w-[60px]">
             <MoveLeft size={16} />
         </Button>
         <div className="flex flex-1 gap-10 flex-wrap">
@@ -94,12 +90,12 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
                 </div>
 
                 <div className="flex gap-10 items-center">
-                    <p className="font-bold">{t("Порции")}</p>
+                    <p className="font-bold">Порции</p>
                     <CountButton value={initialServings} onClick={onServingsChange} />
                 </div>
 
                 <div>
-                    <Title text={t("Ингредиенты")} size="md" className="mb-1 mt-2 font-bold" />
+                    <Title text="Ингредиенты" size="md" className="mb-1 mt-2 font-bold" />
                     <ul style={{
                         columns: getColumnsCount(recipe.ingredients?.length || 0)
                     }}>
@@ -119,20 +115,19 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
         </div>
 
         <div>
-            <Title text={t("Способ приготовления")} className="mb-1 font-bold" />
+            <Title text={"Способ приготовления"} className="mb-1 font-bold" />
             <p>{recipe.fullDescription}</p>
         </div>
 
         <div>
             <TooltipButton
-                tooltipContent={t("Список покупок")}
+                tooltipContent={"Список покупок"}
                 onButtonClick={() => setShowShoppingListModal(true)}
             >
                 <ListCheck />
             </TooltipButton>
 
             <ShoppinListModal
-                lng={lng}
                 showShoppingListModal={showShoppingListModal}
                 setShoppingListModal={setShowShoppingListModal}
                 ingredientsList={recipe.ingredients?.map((ingredient) => ({
@@ -141,7 +136,7 @@ export const RecipeContent: React.FC<Props> = ({ id, lng }) => {
                 }))}
             />
 
-            <AddRecipeModal lng={lng} recipe={recipe as RecipeDto} isEditForm />
+            <AddRecipeModal recipe={recipe as RecipeDto} isEditForm />
         </div>
     </Container>) : 'loading';
 

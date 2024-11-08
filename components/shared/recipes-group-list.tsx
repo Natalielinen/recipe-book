@@ -14,7 +14,6 @@ interface Props {
     listClassName?: string;
     categoryId: number;
     className?: string;
-    lng: string;
 }
 
 export const RecipesGroupList: React.FC<Props> = ({
@@ -23,7 +22,6 @@ export const RecipesGroupList: React.FC<Props> = ({
     title,
     recipes,
     categoryId,
-    lng
 }) => {
     const setActiveId = useCategoryStore((state) => state.setActiveId);
 
@@ -53,7 +51,6 @@ export const RecipesGroupList: React.FC<Props> = ({
                         recipeName={recipe.recipeName}
                         imageUrl={recipe.imageUrl}
                         shortDescription={recipe.shortDescription}
-                        lng={lng}
                     />
                 ))
             }

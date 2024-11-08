@@ -3,7 +3,7 @@ import { RecipeContent } from "@/components/shared/recipe-content";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default async function RecipePage({ params: { lng, id } }: { params: { lng: string, id: string } }) {
+export default async function RecipePage({ params: { id } }: { params: { id: string } }) {
 
     const session = await getServerSession(authOptions);
 
@@ -12,7 +12,6 @@ export default async function RecipePage({ params: { lng, id } }: { params: { ln
     }
 
     return <RecipeContent
-        lng={lng}
         id={Number(id)}
     />
 
