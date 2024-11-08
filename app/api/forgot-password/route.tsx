@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
         },
     });
 
-    // const resetUrl = `${process.env.NEXT_PUBLIC_URL}/reset-password/${passwordResetToken}`;
-    const resetUrl = `localhost:3000/reset-password/${resetToken}`;
+    const resetUrl = `https://recipe-book-teal-five.vercel.app/reset-password/${passwordResetToken}`;
+   // const resetUrl = `localhost:3000/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.yandex.com",
