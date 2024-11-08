@@ -1,3 +1,5 @@
+'use client';
+
 import { Label } from "@radix-ui/react-label";
 import { Asterisk } from "lucide-react";
 import { ErrorText } from "../error-text";

@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Asterisk } from "lucide-react";
