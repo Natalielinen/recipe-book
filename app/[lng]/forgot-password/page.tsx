@@ -1,9 +1,7 @@
+export const dynamic = "force-dynamic";
+
 import { ForgotPasswordForm } from "@/components/shared";
 
-export default async function ProfilePage({ params: { lng, } }: { params: { lng: string } }) {
-
-
-
-    return <ForgotPasswordForm lng={lng} />
-
+export default function ForgotPasswordPage({ params: { lng } }: { params: { lng: string } }) {
+    return <ForgotPasswordForm lng={lng} />;
 }

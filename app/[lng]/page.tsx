@@ -1,8 +1,8 @@
+export const dynamic = "force-dynamic";
+
 import { HomePage } from "@/components/shared";
-import React from "react";
 
-
-export default async function Home({ params: { lng } }: { params: { lng: string } }) {
+export default function Home({ params: { lng } }: { params: { lng: string } }) {
 
   return <HomePage lng={lng} />
 } 
