@@ -1,6 +1,8 @@
 import { prisma } from "@/prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
     try {
 
@@ -14,7 +16,7 @@ export async function GET(req: NextRequest) {
             where: {
                 code
             }
-            
+
         });
 
         if (!verificationCode) {
@@ -42,4 +44,4 @@ export async function GET(req: NextRequest) {
     } catch (e) {
         console.error('[VERIFY_GET]', e);
     }
-} 
+}
