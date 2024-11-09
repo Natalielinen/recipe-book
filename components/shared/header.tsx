@@ -8,6 +8,8 @@ import { ThemeButton } from "./theme-button";
 import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./auth";
 import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Props {
     className?: string;
@@ -15,7 +17,28 @@ interface Props {
 
 export const Header: React.FC<Props> = ({ className }) => {
 
+    const router = useRouter();
+
     const [showAuthModal, setShowAuthModal] = React.useState(false);
+    const searchParams = useSearchParams();
+
+    React.useEffect(() => {
+
+        let toastMessage = '';
+
+        if (searchParams.has('verified')) {
+            toastMessage = 'Ваш аккаунт успешно подтвержден';
+        }
+
+        if (toastMessage) {
+            setTimeout(() => {
+                router.replace('/');
+                toast.success(toastMessage, {
+                    duration: 3000,
+                });
+            }, 1000);
+        }
+    }, []);
 
     return <header className={cn('border border-b', className as string)}>
         <Container className="flex items-center justify-between py-8">

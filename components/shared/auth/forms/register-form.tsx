@@ -35,7 +35,7 @@ export const RegisterForm: React.FC<Props> = ({ onClose }) => {
                 verified: new Date(),
             });
 
-            toast.success("Регистрация успешна");
+            toast.success("Регистрация успешна. На почту пришло письмо для подтверждения регистрации");
 
             onClose?.();
         } catch (error) {

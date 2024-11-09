@@ -4,6 +4,7 @@ import { getUserSession } from "@/lib/get-userSession";
 import { prisma } from "@/prisma/prisma-client";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
+import nodemailer from 'nodemailer';
 
 export async function updateUserInfo(body: Prisma.UserUpdateInput) {
   try {
@@ -44,9 +45,9 @@ export async function registerUser(body: Prisma.UserCreateInput) {
     });
 
     if (user) {
-      // if (!user.verified) {
-      //   throw new Error('Почта не подтверждена');
-      // }
+      if (!user.verified) {
+        throw new Error('Почта не подтверждена');
+      }
 
       throw new Error('Пользователь уже существует');
     }
@@ -56,7 +57,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
         fullName: body.fullName,
         email: body.email,
         password: hashSync(body.password, 10),
-        verified: new Date(),
+        verified: null,
       },
     });
 
@@ -69,13 +70,28 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       },
     });
 
-    // await sendEmail(
-    //   createdUser.email,
-    //   'Next Pizza / 📝 Подтверждение регистрации',
-    //   VerificationUserTemplate({
-    //     code,
-    //   }),
-    // );
+    const transporter = nodemailer.createTransport({
+        host: "smtp.yandex.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+
+   const verificationLink = `https://recipe-book-teal-five.vercel.app/api/auth/verify?code=${code}`;
+   // const verificationLink = `http://localhost:3000/api/auth/verify?code=${code}`;
+
+     const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: createdUser.email,
+        subject: 'Подтверждение регистрации',
+        html: `Код для подтверждения регистрации: <b>${code}</b>, перейдите по ссылке: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
   } catch (err) {
     console.log('Error [CREATE_USER]', err);
     throw err;
