@@ -8,10 +8,6 @@ export async function POST(req: NextRequest) {
 
     console.log('req', req);
 
-    //req.headers.cookie: 'i18next=ru;
-    // формировать письмо в зависимости от языка
-
-
     const user = await prisma.user.findUnique({
         where: { email },
     });
@@ -37,7 +33,7 @@ export async function POST(req: NextRequest) {
     });
 
     const resetUrl = `https://recipe-book-teal-five.vercel.app/reset-password/${passwordResetToken}`;
-   // const resetUrl = `localhost:3000/reset-password/${resetToken}`;
+    // const resetUrl = `localhost:3000/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.yandex.com",
