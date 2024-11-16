@@ -14,6 +14,7 @@ import { Title } from '../title';
 import { useRecipeStore } from '@/app/store/recipe';
 import { useCategoryStore } from '@/app/store/category';
 import toast from 'react-hot-toast';
+import { ErrorText } from '../error-text';
 
 interface Props {
     isEditForm: boolean;
@@ -62,6 +63,17 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         control: form.control,
         name: "ingredients",
     });
+
+    const ingredientsErrors = form.formState.errors.ingredients as
+        | { name?: { message: string } }[]
+        | undefined;
+
+    const ingredientsErrorText = ingredientsErrors
+        ?.map((ingredientError) => ingredientError.name?.message)
+        .find((message) => message) ?? "";
+
+    console.log('formState', form.formState);
+
 
 
     const onSubmit = async (data: AddRecipeFormValues) => {
@@ -152,43 +164,57 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
 
             {
                 fields.map((field, index) => {
-                    return <div key={field.id} className='flex justify-between flex-wrap gap-2'>
+                    return <div key={field.id}>
+                        <div className='flex justify-between flex-wrap gap-2'>
 
-                        <FormInput
-                            name={`ingredients.${index}.name`}
-                        />
-                        <FormInput
-                            name={`ingredients.${index}.amount`}
-                            type='number'
-                        />
+                            <FormInput
+                                name={`ingredients.${index}.name`}
+                            />
+                            <FormInput
+                                name={`ingredients.${index}.amount`}
+                                type='number'
+                                step='0.1'
+                            />
 
-                        <FormInput
-                            name={`ingredients.${index}.unit`}
-                        />
+                            <FormInput
+                                name={`ingredients.${index}.unit`}
+                            />
 
-                        <div className='flex gap-2 px-2'>
-                            <Button
-                                onClick={() => remove(index)}
-                                disabled={index === 0}
-                                type='button'
-                            >
-                                <Minus size={16} />
-                            </Button>
 
-                            <Button
-                                onClick={() => append({ name: '', amount: '1', unit: 'шт' })}
-                                style={{
-                                    visibility: index !== fields.length - 1 ? 'hidden' : 'visible',
-                                }}
-                                type='button'
-                            >
-                                <Plus size={16} />
-                            </Button>
+                            <div className='flex gap-2 px-2'>
+                                <Button
+                                    onClick={() => remove(index)}
+                                    disabled={index === 0}
+                                    type='button'
+                                >
+                                    <Minus size={16} />
+                                </Button>
 
+                                <Button
+                                    onClick={() => append({ name: '', amount: '1', unit: 'шт' })}
+                                    style={{
+                                        visibility: index !== fields.length - 1 ? 'hidden' : 'visible',
+                                    }}
+                                    type='button'
+                                >
+                                    <Plus size={16} />
+                                </Button>
+
+
+                            </div>
 
                         </div>
 
+                        {form.formState.errors.ingredients?.[index]?.name?.message && (
+                            <ErrorText
+                                text={form.formState.errors.ingredients[index].name.message}
+                                className="mt-2"
+                            />
+                        )}
+
                     </div>
+
+
                 })
             }
 

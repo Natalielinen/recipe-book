@@ -64,7 +64,7 @@ model Ingredient {
 
     name   String
     unit   String
-    amount Int
+    amount Float
     price  Int @default(0)
 
     recipe   Recipe @relation(fields: [recipeId], references: [id])

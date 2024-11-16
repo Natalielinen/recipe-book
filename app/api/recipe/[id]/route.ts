@@ -9,6 +9,8 @@ export async function GET(req: NextRequest, {params}: {params: {id: number}}) {
 
         const {id} = params;
 
+        console.log('params', params);
+        
         const recipe = await prisma.recipe.findFirst({
           where: { id: Number(id) },
           include: {
