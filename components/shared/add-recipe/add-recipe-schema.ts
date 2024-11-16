@@ -10,7 +10,7 @@ export const addRecipeSchema = z.object({
         unit: z.string().optional(),
         price: z.number().optional()
     })).optional(),
-    servings: z.string().min(1),
+    servings: z.string().min(1, "Количество порций не может быть пустым"),
     imageUrl: z.string().optional(),
 });
 

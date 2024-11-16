@@ -5,7 +5,6 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddRecipeFormValues, addRecipeSchema } from './add-recipe-schema';
 import { FormInput, FormSelect, FormTextarea } from '../form-components';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { Api } from '@/app/services/api-client';
@@ -64,18 +63,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         name: "ingredients",
     });
 
-    const ingredientsErrors = form.formState.errors.ingredients as
-        | { name?: { message: string } }[]
-        | undefined;
-
-    const ingredientsErrorText = ingredientsErrors
-        ?.map((ingredientError) => ingredientError.name?.message)
-        .find((message) => message) ?? "";
-
-    console.log('formState', form.formState);
-
-
-
     const onSubmit = async (data: AddRecipeFormValues) => {
         setButtonLoading(true);
 
@@ -117,7 +104,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
             toast.error("Произошла ошибка при добавлении рецепта");
         }
 
-
         setButtonLoading(false);
 
         setAddRecipeModalOpen(false);
@@ -154,6 +140,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
                 name='servings'
                 label={"Порции"}
                 type='number'
+                min="1"
                 required
             />
             <FormTextarea
