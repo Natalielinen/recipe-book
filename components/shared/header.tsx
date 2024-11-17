@@ -47,8 +47,8 @@ export const Header: React.FC<Props> = ({ className }) => {
                 <div className="flex items-center gap-4">
 
                     <div>
-                        <h1 className="text-2xl uppercase font-black">Recipes</h1>
-                        <h1 className="text-2xl uppercase font-black flex gap-1 items-center">Book <Album /></h1>
+                        <h1 className="text-2xl uppercase font-black flex gap-1 items-center">Книга <Album /></h1>
+                        <h1 className="text-2xl uppercase font-black flex gap-1 items-center">Рецептов</h1>
                     </div>
                 </div>
             </Link>
