@@ -70,6 +70,8 @@ model Ingredient {
     recipe   Recipe @relation(fields: [recipeId], references: [id])
     recipeId Int
 
+    toTaste Boolean @default(false)
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

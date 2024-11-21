@@ -8,7 +8,8 @@ export const addRecipeSchema = z.object({
         name: z.string().min(1, "Название ингредиента не может быть пустым"),
         amount: z.string().optional(),
         unit: z.string().optional(),
-        price: z.number().optional()
+        price: z.number().optional(),
+        toTaste: z.boolean().optional(),
     })).optional(),
     servings: z.string().min(1, "Количество порций не может быть пустым"),
     imageUrl: z.string().optional(),

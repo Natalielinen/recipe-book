@@ -90,6 +90,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
                         unit: ingredient.unit,
                         amount: ingredient.amount,
                         price: ingredient.price || 0, // Если цена не указана, по умолчанию 0
+                        toTaste: Boolean(ingredient.toTaste),
                     })),
                 },
             },

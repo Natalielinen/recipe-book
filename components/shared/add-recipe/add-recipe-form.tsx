@@ -4,7 +4,7 @@ import { FormRecipe, RecipeDto } from '@/app/services/dto/recipe.dto';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddRecipeFormValues, addRecipeSchema } from './add-recipe-schema';
-import { FormInput, FormSelect, FormTextarea } from '../form-components';
+import { FormCheckbox, FormInput, FormSelect, FormTextarea } from '../form-components';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { Api } from '@/app/services/api-client';
@@ -35,6 +35,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         ingredients: recipe.ingredients?.map((ingredient) => ({
             ...ingredient,
             amount: String(ingredient.amount),
+            toTaste: ingredient.toTaste
         })),
         servings: String(recipe.servings),
     };
@@ -47,9 +48,11 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
             name: '',
             amount: '1',
             unit: 'шт',
+            toTaste: false
         }],
         servings: '1',
         imageUrl: '',
+
 
     };
 
@@ -63,6 +66,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         name: "ingredients",
     });
 
+
     const onSubmit = async (data: AddRecipeFormValues) => {
         setButtonLoading(true);
 
@@ -73,7 +77,8 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
                 name: ingredient.name || "",
                 unit: ingredient.unit || "",
                 amount: Number(ingredient.amount),
-                price: Number(ingredient.price) || 0
+                price: Number(ingredient.price) || 0,
+                toTaste: Boolean(ingredient.toTaste),
             })),
             categoryId: Number(data.categoryId),
             servings: Number(data.servings),
@@ -151,20 +156,31 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
 
             {
                 fields.map((field, index) => {
+
+                    const toTasteField = form.watch(`ingredients.${index}.toTaste`);
+
                     return <div key={field.id}>
                         <div className='flex justify-between flex-wrap gap-2'>
 
                             <FormInput
                                 name={`ingredients.${index}.name`}
                             />
+
                             <FormInput
                                 name={`ingredients.${index}.amount`}
                                 type='number'
                                 step='0.1'
+                                disabled={toTasteField}
                             />
 
                             <FormInput
                                 name={`ingredients.${index}.unit`}
+                                disabled={toTasteField}
+                            />
+
+                            <FormCheckbox
+                                name={`ingredients.${index}.toTaste`}
+                                label='По вкусу'
                             />
 
 

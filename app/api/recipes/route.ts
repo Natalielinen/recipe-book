@@ -79,7 +79,8 @@ export async function POST(req: NextRequest) {
                         name: ingredient.name,
                         unit: ingredient.unit,
                         amount: ingredient.amount,
-                        price: ingredient.price || 0 // Если цена не указана, по умолчанию 0
+                        price: ingredient.price || 0, // Если цена не указана, по умолчанию 0
+                        toTaste: Boolean(ingredient.toTaste),
                     }))
                 }
             },

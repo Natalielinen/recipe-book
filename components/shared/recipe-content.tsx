@@ -43,7 +43,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
 
     useEffect(() => {
         fetchRecipe();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const router = useRouter();
@@ -73,6 +73,9 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         }
         return 1;
     }
+
+    console.log('recipe', recipe);
+
 
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
         <Button onClick={() => router.push(`/recipes`)} type="button" className="w-[60px]">
@@ -105,6 +108,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                                 amount={Number(calculateAmount(ingredient.amount))}
                                 unit={ingredient.unit}
                                 title={ingredient.name}
+                                toTaste={ingredient.toTaste}
                             />)
                         }
                     </ul>
