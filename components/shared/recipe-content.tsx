@@ -108,6 +108,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                                 amount={Number(calculateAmount(ingredient.amount))}
                                 unit={ingredient.unit}
                                 title={ingredient.name}
+                                //@ts-ignore
                                 toTaste={ingredient.toTaste}
                             />)
                         }
