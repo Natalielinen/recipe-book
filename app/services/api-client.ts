@@ -1,4 +1,4 @@
-import {recipes, createRecipe, updateRecipe, getRecipeById} from './recipes';
+import {recipes, createRecipe, updateRecipe, deleteRecipe, getRecipeById} from './recipes';
 import {categories} from './categories';
 import {forgotPassword} from './forgot-password';
 import {verifyToken} from './verify-token';
@@ -14,6 +14,7 @@ export const Api = {
     forgotPassword,
     verifyToken,
     resetPassword,
+    deleteRecipe,
     stories
 
 }

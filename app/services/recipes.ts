@@ -22,6 +22,13 @@ export const updateRecipe = async ( body: FormRecipe, id: number) => {
     return data;
 };
 
+export const deleteRecipe = async ( id: number) => {
+
+    const data = await axiosInstance.delete(ApiRoutes.RECIPE + `/${id}`);
+
+    return data;
+};
+
 export const getRecipeById = async (id: number) => {
 
     const { data } = await axiosInstance.get<FormRecipe>(ApiRoutes.RECIPE + `/${id}`);

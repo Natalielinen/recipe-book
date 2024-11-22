@@ -103,3 +103,46 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
         return NextResponse.json({ error: 'Не удалось обновить рецепт' }, { status: 500 });
     }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
+    try {
+        const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.id) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+    const userId = session.user.id;
+
+    const { id } = params;
+
+    if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const recipe = await prisma.recipe.findFirst({
+        where: {
+            id: Number(id),
+        }
+    });
+
+    if (!recipe) {
+        return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
+    }
+
+    await prisma.$transaction([
+       prisma.ingredient.deleteMany({
+        where: { recipeId: Number(id) },
+       }),
+       prisma.recipe.delete({
+         where: { id: Number(id) },
+       }),
+    ]);
+
+    return NextResponse.json({ message: 'Рецепт успешно удален' }, { status: 200 });
+
+    } catch (e) {
+        console.error(e);
+        return NextResponse.json({ error: 'Не удалось удалить рецепт' }, { status: 500 });
+    }
+}

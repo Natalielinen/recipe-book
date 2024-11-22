@@ -7,7 +7,7 @@ import { Title } from "./title";
 import { useEffect, useState } from "react";
 import { IngredientListItem } from "./ingredient-list-item";
 import { Button } from "../ui/button";
-import { ListCheck, MoveLeft, Pencil } from "lucide-react";
+import { ListCheck, MoveLeft, Pencil, Trash2 } from "lucide-react";
 import { TooltipButton } from "./tooltip-button";
 import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
@@ -15,6 +15,8 @@ import { AddRecipeModal } from "./add-recipe";
 import { useRouter } from 'next/navigation';
 import { Api } from "@/app/services/api-client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
+import { ConfirmDeleteModal } from "./confirm-delete-modal";
+import toast from "react-hot-toast";
 
 interface Props {
     id: number;
@@ -23,6 +25,8 @@ interface Props {
 export const RecipeContent: React.FC<Props> = ({ id }) => {
 
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
+    const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+    const [deliting, setDeliting] = useState(false);
 
     const {
         setAddRecipeModalOpen,
@@ -63,7 +67,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
 
     const calculateAmount = (amount: number) => {
         return ((amount / recipe.servings) * initialServings).toFixed(2);
-    }
+    };
 
     const getColumnsCount = (length: number): number => {
         if (length >= 5 && length < 15) {
@@ -72,9 +76,27 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             return 3;
         }
         return 1;
-    }
+    };
 
-    console.log('recipe', recipe);
+    const handleDeleteRecipe = async () => {
+        try {
+            const res = await Api.deleteRecipe(id);
+
+            if (!res) {
+                throw Error();
+            }
+
+            toast.success('Рецепт успешно удален');
+            router.push(`/recipes`);
+
+        } catch (error) {
+            toast.error('Произошла ошибка при удалении рецепта');
+            console.log('DELETE_RECIPE error', error);
+        } finally {
+            setShowConfirmDeleteModal(false);
+        }
+
+    }
 
 
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
@@ -124,25 +146,48 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             <p>{recipe.fullDescription}</p>
         </div>
 
-        <div>
-            <TooltipButton
-                tooltipContent={"Список покупок"}
-                onButtonClick={() => setShowShoppingListModal(true)}
-            >
-                <ListCheck />
-            </TooltipButton>
+        <div className="flex justify-between">
+            <div>
+                <TooltipButton
+                    tooltipContent={"Список покупок"}
+                    onButtonClick={() => setShowShoppingListModal(true)}
+                >
+                    <ListCheck />
+                </TooltipButton>
 
-            <ShoppinListModal
-                showShoppingListModal={showShoppingListModal}
-                setShoppingListModal={setShowShoppingListModal}
-                ingredientsList={recipe.ingredients?.map((ingredient) => ({
-                    ...ingredient,
-                    amount: Number(calculateAmount(ingredient.amount))
-                }))}
-            />
+            </div>
 
-            <AddRecipeModal recipe={recipe as RecipeDto} isEditForm />
+
+            <div>
+                <TooltipButton
+                    tooltipContent={"Удалить рецепт"}
+                    onButtonClick={() => setShowConfirmDeleteModal(true)}
+                    buttonVariant="destructive"
+                >
+                    <Trash2
+                        color="white"
+                    />
+                </TooltipButton>
+            </div>
+
+
         </div>
+        <ConfirmDeleteModal
+            onDelete={handleDeleteRecipe}
+            setShow={setShowConfirmDeleteModal}
+            show={showConfirmDeleteModal}
+            deliting={deliting}
+        />
+        <ShoppinListModal
+            showShoppingListModal={showShoppingListModal}
+            setShoppingListModal={setShowShoppingListModal}
+            ingredientsList={recipe.ingredients?.map((ingredient) => ({
+                ...ingredient,
+                amount: Number(calculateAmount(ingredient.amount))
+            }))}
+        />
+
+        <AddRecipeModal recipe={recipe as RecipeDto} isEditForm />
     </Container>) : 'loading';
 
 };
