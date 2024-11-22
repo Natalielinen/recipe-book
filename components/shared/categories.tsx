@@ -15,7 +15,8 @@ interface Props {
 
 export const Categories: React.FC<Props> = ({ className, categories }) => {
 
-    const [menuOpen, setMenuOpen] = React.useState(false);
+    const menuOpen = useCategoryStore((state) => state.menuOpen);
+    const setMenuOpen = useCategoryStore((state) => state.setMenuOpen);
 
     const activeCategoryId = useCategoryStore((state) => state.activeId);
 
@@ -27,6 +28,7 @@ export const Categories: React.FC<Props> = ({ className, categories }) => {
             onClick={() => setMenuOpen(!menuOpen)}
         >
             <AlignJustify />
+
         </Button>
         <div className={cn(
             'lg:inline-flex lg:gap-1',

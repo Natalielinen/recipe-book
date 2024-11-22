@@ -25,6 +25,8 @@ export const RecipesGroupList: React.FC<Props> = ({
 }) => {
     const setActiveId = useCategoryStore((state) => state.setActiveId);
 
+    const setMenuOpen = useCategoryStore((state) => state.setMenuOpen);
+
     const intersectionRef = React.useRef(null);
     const intersection = useIntersection(intersectionRef, {
         threshold: 0.4,
@@ -33,6 +35,7 @@ export const RecipesGroupList: React.FC<Props> = ({
     React.useEffect(() => {
         if (intersection?.isIntersecting) {
             setActiveId(categoryId);
+            setMenuOpen(false);
         }
 
     }, [categoryId, intersection?.isIntersecting]);
