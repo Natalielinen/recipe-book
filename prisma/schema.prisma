@@ -42,7 +42,7 @@ model Recipe {
     id Int @id @default(autoincrement())
 
     recipeName       String
-    imageUrl         String
+    imageUrl         String?
     shortDescription String
     fullDescription  String
     servings         Int

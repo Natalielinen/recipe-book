@@ -38,6 +38,7 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
             toTaste: ingredient.toTaste
         })),
         servings: String(recipe.servings),
+        imageUrl: String(recipe.imageUrl)
     };
 
     const addFormValues = {

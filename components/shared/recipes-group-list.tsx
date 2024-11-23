@@ -52,7 +52,7 @@ export const RecipesGroupList: React.FC<Props> = ({
                         id={recipe.id}
                         key={recipe.id}
                         recipeName={recipe.recipeName}
-                        imageUrl={recipe.imageUrl}
+                        imageUrl={recipe.imageUrl as string}
                         shortDescription={recipe.shortDescription}
                     />
                 ))
