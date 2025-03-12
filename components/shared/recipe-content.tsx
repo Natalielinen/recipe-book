@@ -17,6 +17,7 @@ import { Api } from "@/app/services/api-client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
 import toast from "react-hot-toast";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
     id: number;
@@ -27,6 +28,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
     const [deliting, setDeliting] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const {
         setAddRecipeModalOpen,
@@ -38,10 +40,12 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
     } = useRecipeStore((state) => state);
 
     const fetchRecipe = async () => {
+        setLoading(true);
         const recipe = await Api.getRecipeById(id);
         setRecipe(recipe);
 
         setInitialServings(recipe.servings);
+        setLoading(false);
 
     }
 
@@ -104,23 +108,45 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             <MoveLeft size={16} />
         </Button>
         <div className="flex flex-1 gap-10 flex-wrap">
-            <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} />
+            {
+                loading
+                    ? <Skeleton className="w-[215px] h-[215px] rounded-2xl" />
+                    : <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} />
+
+            }
+
             <div>
-                <div className="flex gap-10 items-center">
-                    <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
-                    <Button variant="outline" onClick={onRecipeEdit}>
-                        <Pencil />
-                    </Button>
+                {
+                    loading
+                        ? <Skeleton className="w-[400px] h-[48px] rounded-2xl mb-1" />
+                        : <div className="flex gap-10 items-center">
+                            <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
+                            <Button variant="outline" onClick={onRecipeEdit}>
+                                <Pencil />
+                            </Button>
 
-                </div>
+                        </div>
+                }
+                {
+                    loading
+                        ? <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
+                        : <div className="flex gap-10 items-center">
+                            <p className="font-bold">Порции</p>
+                            <CountButton value={initialServings} onClick={onServingsChange} />
+                        </div>
 
-                <div className="flex gap-10 items-center">
-                    <p className="font-bold">Порции</p>
-                    <CountButton value={initialServings} onClick={onServingsChange} />
-                </div>
+                }
+
+
+
 
                 <div>
-                    <Title text="Ингредиенты" size="md" className="mb-1 mt-2 font-bold" />
+                    {
+                        loading
+                            ? <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
+                            : <Title text="Ингредиенты" size="md" className="mb-1 mt-2 font-bold" />
+                    }
+
                     <ul style={{
                         columns: getColumnsCount(recipe.ingredients?.length || 0)
                     }}>
@@ -132,6 +158,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                                 title={ingredient.name}
                                 //@ts-ignore
                                 toTaste={ingredient.toTaste}
+                                loading={loading}
                             />)
                         }
                     </ul>
