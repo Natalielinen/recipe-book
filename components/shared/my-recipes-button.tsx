@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { useRouter } from 'next/navigation';
 import { MoveRight } from "lucide-react";
 
-
 export const MyRecipesButton = () => {
     const router = useRouter();
 

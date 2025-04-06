@@ -5,7 +5,6 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 import { CountIconButton } from './count-icon-button';
 
-
 export interface CountButtonProps {
   value?: number;
   size?: 'sm' | 'lg';

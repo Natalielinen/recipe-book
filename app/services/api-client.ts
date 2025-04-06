@@ -4,6 +4,7 @@ import {forgotPassword} from './forgot-password';
 import {verifyToken} from './verify-token';
 import {resetPassword} from './reset-password';
 import * as stories from './stories';
+import { updateImage } from './update-image';
 
 export const Api = {
     recipes,
@@ -15,6 +16,7 @@ export const Api = {
     verifyToken,
     resetPassword,
     deleteRecipe,
+    updateImage,
     stories
 
 }

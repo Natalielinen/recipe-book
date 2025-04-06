@@ -12,11 +12,10 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const FormCheckbox: React.FC<Props> = ({
-    name, label, className, ...props
+    name, label, className
 }) => {
 
     const { control } = useFormContext();
-
 
     return <div className={cn(className, 'flex items-center gap-2')}>
         {
@@ -33,7 +32,6 @@ export const FormCheckbox: React.FC<Props> = ({
                     id={name}
                     checked={field.value}
                     onCheckedChange={field.onChange}
-
                 />
             }}
 

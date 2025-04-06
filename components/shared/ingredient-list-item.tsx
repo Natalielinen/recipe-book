@@ -22,6 +22,5 @@ export const IngredientListItem: React.FC<Props> = ({ className, title, amount, 
                 toTaste ? "по вкусу" : <span className="font-bold text-lg">{amount} {unit}</span>
             }
 
-
         </li>;
 };

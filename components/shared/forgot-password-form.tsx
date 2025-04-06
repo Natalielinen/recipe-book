@@ -47,6 +47,5 @@ export const ForgotPasswordForm = () => {
 
         </div>
 
-
     </Container>
 }

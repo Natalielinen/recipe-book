@@ -47,9 +47,9 @@ export const RegisterForm: React.FC<Props> = ({ onClose }) => {
         <FormProvider {...form}>
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
                 <FormInput name="email" label="E-Mail" required />
-                <FormInput name="fullName" label={"Полное имя"} required />
-                <FormInput name="password" label={"Пароль"} type="password" required />
-                <FormInput name="confirmPassword" label={"Подтвердите пароль"} type="password" required />
+                <FormInput name="fullName" label="Полное имя" required />
+                <FormInput name="password" label="Пароль" type="password" required />
+                <FormInput name="confirmPassword" label="Подтвердите пароль" type="password" required />
 
                 <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
                     Зарегистрироваться

@@ -12,7 +12,6 @@ interface Props {
     categories: Category[]
 }
 
-
 export const Categories: React.FC<Props> = ({ className, categories }) => {
 
     const menuOpen = useCategoryStore((state) => state.menuOpen);

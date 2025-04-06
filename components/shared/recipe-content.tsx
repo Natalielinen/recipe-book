@@ -111,7 +111,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             {
                 loading
                     ? <Skeleton className="w-[215px] h-[215px] rounded-2xl" />
-                    : <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} />
+                    : <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} recipeId={id} canUpdateImage />
 
             }
 

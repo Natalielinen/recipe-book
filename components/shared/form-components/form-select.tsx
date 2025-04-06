@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const FormSelect: React.FC<Props> = ({
-    name, label, options, selected, placeholder, required, className, disabled = false
+    name, label, options, placeholder, required, className, disabled = false
 }) => {
 
     const { control } = useFormContext();

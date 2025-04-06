@@ -104,6 +104,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
     }
 }
 
+
 export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
     try {
         const session = await getServerSession(authOptions);

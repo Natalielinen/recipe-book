@@ -69,7 +69,6 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
                 <Button
                     loading={form.formState.isSubmitting}
                     type="submit"
-
                 >
                     Войти
                 </Button>
