@@ -13,11 +13,14 @@ interface Props {
 }
 
 export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+
+    const isLoading = status === "loading";
+
     return (
         <div>
             {
-                !session ? <Button onClick={onClickLogin} variant="outline" className={cn(className)}>
+                !session ? <Button onClick={onClickLogin} loading={isLoading} variant="outline" className={cn(className)}>
                     <User size={16} className="mr-2" />
                     Войти
                 </Button>
