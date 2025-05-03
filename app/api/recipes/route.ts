@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/constants/auth-options";
 
-//TODO: переделать на токен когда сделаю авторизацию и регистрацию
-
 export async function GET(req: NextRequest) {
     try {
 

@@ -1,4 +1,5 @@
 
+import { Recipe } from "@prisma/client";
 import { ApiRoutes } from "./constants";
 import { CategoryDto, FormRecipe } from "./dto/recipe.dto";
 import { axiosInstance } from "./instance";
@@ -32,6 +33,13 @@ export const deleteRecipe = async ( id: number) => {
 export const getRecipeById = async (id: number) => {
 
     const { data } = await axiosInstance.get<FormRecipe>(ApiRoutes.RECIPE + `/${id}`);
+
+    return data;
+}
+
+export const search = async (query: string) => {
+
+    const { data } = await axiosInstance.get<Recipe[]>(ApiRoutes.SEARCH_RECIPE, { params: {query}});
 
     return data;
 }
