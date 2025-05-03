@@ -25,7 +25,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
     useDebounce(
         async () => {
             try {
-                const response = await Api.search(searchQuery);
+                const response = await Api.search(searchQuery.toLowerCase());
                 setRecipes(response);
 
             } catch (e) {
