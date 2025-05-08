@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Title } from "./title";
 import { FormInput } from "./form-components";
 import { Button } from "../ui/button";
+import { Sparkles } from "lucide-react";
 
 interface Props {
     data: User;
@@ -56,7 +57,14 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
     };
 
     return <Container className={cn('my-10')}>
-        <Title text={`${"Личные данные"} | ${data.fullName ? data.fullName : `#${data.id}`}`} size="md" className="font-bold" />
+        <div className="flex gap-2">
+            <Title text={`${"Личные данные"} | ${data.fullName ? data.fullName : `#${data.id}`}`} size="md" className="font-bold" />
+            {
+                data.vip && <span className="flex font-bold text-2xl text-orange-300">vip <Sparkles size={16} /></span>
+            }
+
+        </div>
+
 
         <FormProvider {...form}>
             <form className="flex flex-col gap-5 w-[95%] mt-10" onSubmit={form.handleSubmit(onSubmit)}>
