@@ -56,37 +56,27 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
         });
     };
 
-    return <Container className={cn('my-10')}>
-        <div className="flex gap-2">
-            <Title text={`${"Личные данные"} | ${data.fullName ? data.fullName : `#${data.id}`}`} size="md" className="font-bold" />
-            {
-                data.vip && <span className="flex font-bold text-2xl text-orange-300">vip <Sparkles size={16} /></span>
-            }
+    return <FormProvider {...form}>
+        <form className="flex flex-col gap-5 w-full md:w-[75%] mt-10" onSubmit={form.handleSubmit(onSubmit)}>
+            <FormInput name="email" label="E-Mail" required />
+            <FormInput name="fullName" label="Полное имя" required />
 
-        </div>
+            <FormInput type="password" name="password" label="Новый пароль" required />
+            <FormInput type="password" name="confirmPassword" label="Повторите пароль" required />
 
+            <Button disabled={form.formState.isSubmitting} className="text-base mt-10" type="submit">
+                Сохранить
+            </Button>
 
-        <FormProvider {...form}>
-            <form className="flex flex-col gap-5 w-[95%] mt-10" onSubmit={form.handleSubmit(onSubmit)}>
-                <FormInput name="email" label="E-Mail" required />
-                <FormInput name="fullName" label="Полное имя" required />
+            <Button
+                onClick={onClickSignOut}
+                variant="secondary"
+                disabled={form.formState.isSubmitting}
+                className="text-base"
+                type="button">
+                Выйти
+            </Button>
+        </form>
+    </FormProvider>
 
-                <FormInput type="password" name="password" label="Новый пароль" required />
-                <FormInput type="password" name="confirmPassword" label="Повторите пароль" required />
-
-                <Button disabled={form.formState.isSubmitting} className="text-base mt-10" type="submit">
-                    Сохранить
-                </Button>
-
-                <Button
-                    onClick={onClickSignOut}
-                    variant="secondary"
-                    disabled={form.formState.isSubmitting}
-                    className="text-base"
-                    type="button">
-                    Выйти
-                </Button>
-            </form>
-        </FormProvider>
-    </Container>;
 }

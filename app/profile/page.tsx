@@ -2,7 +2,10 @@ import { authOptions } from "@/app/constants/auth-options";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/prisma/prisma-client";
-import { ProfileForm } from "@/components/shared";
+import { Container, ProfileForm } from "@/components/shared";
+import { Statistics } from "@/components/shared/statistics";
+import { cn } from "@/lib/utils";
+import { ProfileHeader } from "@/components/shared/profile-header";
 
 export default async function ProfilePage() {
 
@@ -18,6 +21,14 @@ export default async function ProfilePage() {
         return redirect('/');
     }
 
-    return <ProfileForm data={user} />
+    return (
+        <Container className={cn('my-10')}>
+            <ProfileHeader user={user} />
+            <div className="flex gap-4 flex-wrap">
+                <ProfileForm data={user} />
+                <Statistics data={user} />
+            </div>
+        </Container>
+    )
 
 }
