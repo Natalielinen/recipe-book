@@ -4,6 +4,11 @@ import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/constants/auth-options";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const generateMetadata = (): Metadata => ({
+    title: "Мои рецепты",
+});
 
 export default async function Home() {
 
