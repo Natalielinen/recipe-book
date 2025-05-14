@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export const getRecipeNameById = async (id: number) => {
+const getRecipeNameById = async (id: number) => {
     return await prisma.recipe.findUnique({
         where: { id },
         select: { recipeName: true },
