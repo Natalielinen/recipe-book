@@ -6,6 +6,11 @@ import { Container, ProfileForm } from "@/components/shared";
 import { Statistics } from "@/components/shared/statistics";
 import { cn } from "@/lib/utils";
 import { ProfileHeader } from "@/components/shared/profile-header";
+import { Metadata } from "next";
+
+export const generateMetadata = (): Metadata => ({
+    title: "Профиль",
+});
 
 export default async function ProfilePage() {
 

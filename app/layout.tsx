@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/shared";
@@ -6,11 +5,6 @@ import { Providers } from "@/components/shared/providers";
 import React from "react";
 
 const nunito = Nunito({ subsets: ["latin", "cyrillic", "latin-ext"] });
-
-export const metadata: Metadata = {
-  title: "Главная",
-  description: "",
-};
 
 export default function RootLayout({
   children,
