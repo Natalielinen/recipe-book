@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://myrecipebook.ru
+
+# Sitemaps
+Sitemap: https://myrecipebook.ru/sitemap.xml

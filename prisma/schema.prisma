@@ -93,6 +93,7 @@ model VerificationCode {
 model Story {
     id              Int    @id @default(autoincrement())
     previewImageUrl String
+    title           String @default("Story title")
 
     items StoryItem[]
 

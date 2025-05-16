@@ -7,6 +7,7 @@ import ReactStories from 'react-insta-stories';
 import { IStory } from "@/app/services/stories";
 import { Api } from "@/app/services/api-client";
 import { Container } from "./container";
+import Image from 'next/image'
 
 interface Props {
     className?: string;
@@ -43,13 +44,16 @@ export const Stories: React.FC<Props> = ({ className }) => {
             ))}
 
         {stories.map((story) => (
-            <img
+            <Image
                 key={story.id}
                 onClick={() => onClickStory(story)}
                 className="rounded-md cursor-pointer"
                 height={250}
                 width={200}
                 src={story.previewImageUrl}
+                alt={story.title}
+                loading="eager"
+                priority={story === stories[0]}
             />
         ))}
 
