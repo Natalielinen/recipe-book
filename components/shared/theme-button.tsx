@@ -12,7 +12,7 @@ export const ThemeButton = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark')
     }
 
-    return <Button variant="outline" onClick={onThemeChange}>
+    return <Button variant="outline" onClick={onThemeChange} aria-label="Toggle dark mode">
         {theme === 'dark' ? <Sun /> : <Moon />}
     </Button>
 }
