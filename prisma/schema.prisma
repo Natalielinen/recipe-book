@@ -35,6 +35,7 @@ model Category {
     nameKey String @unique
 
     recipes Recipe[] 
+    recipesOfADay RecipeOfADay[]
 
 }
 
@@ -69,6 +70,8 @@ model Ingredient {
 
     recipe   Recipe @relation(fields: [recipeId], references: [id])
     recipeId Int
+    recipeOfADay RecipeOfADay? @relation(fields: [recipeOfADayId], references: [id])
+    recipeOfADayId Int? 
 
     toTaste Boolean @default(false)
 
@@ -119,4 +122,27 @@ model PasswordReset {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model RecipeOfADay {
+    id Int @id @default(autoincrement())
+
+    recipeName       String
+    imageUrl         String
+    shortDescription String
+    fullDescription  String
+    servings         Int
+
+    category         Category @relation(fields: [categoryId], references: [id])
+    categoryId       Int
+
+    ingredients      Ingredient[]
+
+    usersIdsAddedRecipe Int[]
+    votedUsersIds       Int[]
+    isTodayRecipe       Boolean @default(false)
+    recipeDate          DateTime @default(now())
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

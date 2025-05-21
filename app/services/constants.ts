@@ -2,5 +2,6 @@ export enum ApiRoutes {
     RECIPES = 'recipes',
     RECIPE = 'recipe',
     CATEGORIES = 'categories',
-    SEARCH_RECIPE = 'recipes/search'
+    SEARCH_RECIPE = 'recipes/search',
+    RECIPE_OF_A_DAY = 'rescipeOfADay',
 }
