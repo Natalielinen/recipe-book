@@ -5,6 +5,7 @@ import { MyRecipesButton } from "./my-recipes-button";
 import { Stories } from "./stories";
 import { Container } from "./container";
 import { useSession } from "next-auth/react";
+import { RecipeOfADayCard } from "./recipe-of-a-day";
 
 export const HomePage = () => {
 
@@ -18,7 +19,7 @@ export const HomePage = () => {
 
             }
 
-            {/* добавить компонент Рецепт дня, виден для всех пользователей как и сторисы */}
+            <RecipeOfADayCard />
         </Container>
     )
 

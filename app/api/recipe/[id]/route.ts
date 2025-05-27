@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
 
     const userId = session.user.id;
 
-        const { id } = params;
+    const { id } = params;
 
         if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

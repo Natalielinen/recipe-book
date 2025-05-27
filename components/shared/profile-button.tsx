@@ -17,8 +17,6 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
 
     const isLoading = status === "loading";
 
-    console.log('session', session, status)
-
     return (
         <div>
             {

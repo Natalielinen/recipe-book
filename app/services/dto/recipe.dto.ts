@@ -24,3 +24,5 @@ export type FormRecipe = {
         price: number
     }[]
 }
+
+
