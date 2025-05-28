@@ -1,11 +1,13 @@
 'use client';
 
 import { Button } from "../ui/button"
-import { CircleUser, User } from "lucide-react";
+import { Album, CircleUser, LogOut, Settings, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 interface Props {
     onClickLogin?: () => void;
@@ -17,6 +19,8 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
 
     const isLoading = status === "loading";
 
+    const router = useRouter();
+
     return (
         <div>
             {
@@ -24,12 +28,35 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
                     <User size={16} className="mr-2" />
                     Войти
                 </Button>
-                    : <Link href={`/profile`}>
-                        <Button variant="outline" className={cn(className)}>
-                            <CircleUser size={16} className="mr-2" />
-                            Профиль
-                        </Button>
-                    </Link>
+                    : <DropdownMenu modal={false}>
+                        <DropdownMenuTrigger asChild className="flex items-center">
+                            <Button variant="outline" className={cn(className)}>
+                                <CircleUser size={16} className="mr-2" />
+                                {session.user.name}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                onClick={() => router.push('/recipes')}
+                            >
+                                <Album />
+                                Мои рецепты
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                onClick={() => router.push('/profile')}
+                            >
+                                <Settings />
+                                Профиль
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
+                                <LogOut />
+                                Выйти
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
             }
         </div>
     )
