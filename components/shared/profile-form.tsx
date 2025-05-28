@@ -8,12 +8,8 @@ import { User } from "@prisma/client";
 import toast from "react-hot-toast";
 import { updateUserInfo } from "@/app/actions";
 import { signOut } from "next-auth/react";
-import { Container } from "./container";
-import { cn } from "@/lib/utils";
-import { Title } from "./title";
 import { FormInput } from "./form-components";
 import { Button } from "../ui/button";
-import { Sparkles } from "lucide-react";
 
 interface Props {
     data: User;

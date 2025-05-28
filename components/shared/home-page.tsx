@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import { MyRecipesButton } from "./my-recipes-button";
 import { Stories } from "./stories";
 import { Container } from "./container";
 import { useSession } from "next-auth/react";
@@ -14,11 +13,6 @@ export const HomePage = () => {
     return (
         <Container>
             <Stories />
-            {
-                session && <MyRecipesButton />
-
-            }
-
             <RecipeOfADayCard />
         </Container>
     )
