@@ -44,7 +44,7 @@ export const RecipesGroupList: React.FC<Props> = ({
 
         <Title text={title} size="lg" className="font-extrabold mb-5" />
 
-        <div className={cn('grid gap-[5%] grid-cols-[repeat(auto-fill,minmax(250px,1fr))]', listClassName)}>
+        <div className={cn('grid gap-[5%] grid-cols-[repeat(auto-fill,minmax(250px,1fr))] mb-14', listClassName)}>
 
             {
                 recipes.map((recipe, i) => (
