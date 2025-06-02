@@ -28,8 +28,8 @@ export const RecipeCard: React.FC<Props> = ({
 
             <Title text={recipeName} size="sm" className="mb-1 mt-3 font-bold" />
 
-            <p className="text-sm text-gray-400">
-                {shortDescription || ''}
+            <p className="text-sm text-gray-400 h-15">
+                {`${shortDescription?.slice(0, 180)}...` || ''}
             </p>
         </div>
 
