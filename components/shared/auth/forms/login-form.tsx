@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { PasswordInput } from "../../form-components/password-input";
 
 interface Props {
     onClose?: () => void;
@@ -64,7 +65,7 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
                 <p className="text-gray-400">Введите свою почту, чтобы войти в свой аккаунт</p>
 
                 <FormInput name="email" label="Email" required />
-                <FormInput name="password" label='Пароль' type="password" required />
+                <PasswordInput />
 
                 <Button
                     loading={form.formState.isSubmitting}
