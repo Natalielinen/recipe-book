@@ -6,16 +6,18 @@ import { Asterisk } from "lucide-react";
 import { ErrorText } from "../error-text";
 import { ClearButton } from "../clear-button";
 import { useFormContext } from "react-hook-form";
+import React from "react";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     name: string;
     label?: string;
     required?: boolean;
     className?: string;
+    passwordIcon?: React.ReactNode;
 }
 
 export const FormInput: React.FC<Props> = ({
-    name, label, required, className, ...props
+    name, label, required, className, passwordIcon = null, ...props
 }) => {
 
     const { register, formState: { errors }, watch, setValue } = useFormContext();
@@ -38,6 +40,7 @@ export const FormInput: React.FC<Props> = ({
                 {...register(name)}
                 {...props} />
 
+            {passwordIcon && passwordIcon}
             {value && <ClearButton onClick={onClear} />}
         </div>
 

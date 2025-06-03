@@ -8,6 +8,7 @@ import { TFormRegisterValues, formRegisterSchema } from './schemas';
 import { registerUser } from '@/app/actions';
 import { FormInput } from '../../form-components';
 import { Button } from '@/components/ui/button';
+import { PasswordInput } from '../../form-components/password-input';
 
 interface Props {
     onClose?: VoidFunction;
@@ -48,8 +49,8 @@ export const RegisterForm: React.FC<Props> = ({ onClose }) => {
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
                 <FormInput name="email" label="E-Mail" required />
                 <FormInput name="fullName" label="Полное имя" required />
-                <FormInput name="password" label="Пароль" type="password" required />
-                <FormInput name="confirmPassword" label="Подтвердите пароль" type="password" required />
+                <PasswordInput />
+                <PasswordInput name="confirmPassword" label="Подтвердите пароль" />
 
                 <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
                     Зарегистрироваться
