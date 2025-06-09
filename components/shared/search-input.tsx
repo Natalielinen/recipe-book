@@ -41,7 +41,6 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
         setFocused(false);
         setSearchQuery('');
         setRecipes([]);
-        ;
     }
 
     return (

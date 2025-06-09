@@ -5,6 +5,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "./forms/login-form";
 import { RegisterForm } from "./forms/register-form";
+import { SocialButtons } from "./social-buttons";
+
 
 interface Props {
     open: boolean;
@@ -35,6 +37,7 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
                 <Button variant="outline" onClick={onSwitchType} type="button" className="h-12">
                     {type !== 'login' ? 'Войти' : 'Регистрация'}
                 </Button>
+                <SocialButtons />
 
             </DialogContent>
         </Dialog>
