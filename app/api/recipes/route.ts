@@ -14,7 +14,9 @@ export async function GET(req: NextRequest) {
         }
 
     const userId = session.user.id;
-        
+
+    console.log('userId', userId);
+    
 
     if (!userId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

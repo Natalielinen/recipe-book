@@ -2,6 +2,8 @@ import { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare, hashSync } from "bcrypt";
 import { prisma } from "../../prisma/prisma-client";
+import YandexProvider from "next-auth/providers/yandex";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -45,9 +47,21 @@ export const authOptions: AuthOptions = {
           name: findUser.fullName,
         }
       },
+    }),
+    YandexProvider({
+      clientId: process.env.YANDEX_CLIENT_ID!,
+      clientSecret: process.env.YANDEX_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "login:email login:info"
+        }
+      }
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     })
   ],
-
   secret: process.env.NEXTAUTH_SECRET,
   session: {
      strategy: 'jwt'
@@ -125,6 +139,7 @@ export const authOptions: AuthOptions = {
         token.id = String(findUser.id);
         token.email = findUser.email;
         token.fullName = findUser.fullName;
+        token.sub = String(findUser.id); 
       };
 
       return token;

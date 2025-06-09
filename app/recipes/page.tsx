@@ -30,9 +30,7 @@ export default async function Home() {
 
             {/* Список рецептов */}
 
-            <RecipesList
-
-            />
+            <RecipesList />
 
             <AddRecipeModal />
         </>
