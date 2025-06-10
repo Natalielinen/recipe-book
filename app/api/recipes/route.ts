@@ -37,7 +37,6 @@ export async function GET(req: NextRequest) {
     }
 }
 
-
 export async function POST(req: NextRequest) {
     try {
        const session = await getServerSession(authOptions);
@@ -54,7 +53,7 @@ export async function POST(req: NextRequest) {
     }
 
         // Получаем данные рецепта из тела запроса
-        const { recipeName, imageUrl, fullDescription, servings, categoryId, ingredients } = await req.json();
+        const { recipeName, imageUrl, fullDescription, servings, categoryId, ingredients, recipeOfADayId } = await req.json();
 
         // Проверяем наличие обязательных полей
         if (!recipeName || !categoryId || !servings) {
@@ -79,7 +78,8 @@ export async function POST(req: NextRequest) {
                         price: ingredient.price || 0, // Если цена не указана, по умолчанию 0
                         toTaste: Boolean(ingredient.toTaste),
                     }))
-                }
+                },
+                recipeOfADayId: recipeOfADayId || null
             },
         });
 
