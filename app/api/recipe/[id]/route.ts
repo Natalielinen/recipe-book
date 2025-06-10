@@ -131,6 +131,34 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: numbe
         return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
     }
 
+    if (recipe.recipeOfADayId) {
+        const recipeOfADay = await prisma.recipeOfADay.findUnique({
+          where: {
+            id: Number(recipe.recipeOfADayId),
+          },
+          select: {
+            usersIdsAddedRecipe: true,
+          },
+        });
+      
+        if (recipeOfADay) {
+          const updatedUsersIds = recipeOfADay.usersIdsAddedRecipe.filter(
+            (id) => id !== Number(userId)
+          );
+      
+          await prisma.recipeOfADay.update({
+            where: {
+              id: Number(recipe.recipeOfADayId),
+            },
+            data: {
+              usersIdsAddedRecipe: {
+                set: updatedUsersIds,
+              },
+            },
+          });
+        }
+      }
+
     await prisma.$transaction([
        prisma.ingredient.deleteMany({
         where: { recipeId: Number(id) },

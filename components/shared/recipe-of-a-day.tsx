@@ -83,6 +83,8 @@ export const RecipeOfADayCard = () => {
             servings: recipeOfADay?.servings as number,
             imageUrl: recipeOfADay?.imageUrl,
             ingredients: recipeOfADay?.ingredients,
+            // @ts-ignore
+            recipeOfADayId: recipeOfADay?.id
         });
 
         const res = await Api.updateRecipeOfADay(
