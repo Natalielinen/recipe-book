@@ -37,7 +37,7 @@ export const Stories: React.FC<Props> = ({ className }) => {
     };
 
 
-    return <Container className={cn('flex items-center justify-between gap-2 my-10', className)}>
+    return <Container className={cn('flex items-center justify-start gap-2 my-10', className)}>
         {stories.length === 0 &&
             [...Array(6)].map((_, index) => (
                 <div key={index} className="w-[200px] h-[250px] bg-gray-200 rounded-md animate-pulse" />
@@ -55,7 +55,7 @@ export const Stories: React.FC<Props> = ({ className }) => {
                 loading="eager"
                 priority={story === stories[0]}
             />
-        ))}
+        )).reverse()}
 
         {open && (
             <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-30">
