@@ -22,7 +22,7 @@ export const RecipeCard: React.FC<Props> = ({
     className,
 }) => {
 
-    return <div className={cn('flex flex-col justify-between', className)}>
+    return <div className={cn('flex flex-col justify-between w-full md:w-[280px] md:min-w-[280px]', className)}>
         <div>
             <RecipeImage imageUrl={imageUrl as string} recipeName={recipeName} />
 
@@ -32,7 +32,6 @@ export const RecipeCard: React.FC<Props> = ({
                 {`${shortDescription?.slice(0, 180)}...` || ''}
             </p>
         </div>
-
 
         <Link href={`recipe/${id}`}>
             <Button variant="outline" className="w-full mt-4">Подробнее...</Button>

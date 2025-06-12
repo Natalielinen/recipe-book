@@ -37,22 +37,20 @@ export const RecipesList = () => {
                         ['', '', '', ''].map((el, idx) => <Skeleton key={idx} className="w-[272px] h-[257px] rounded-2xl mb-1" />)
                     }
                 </div>
-                : <div className="flex-1">
-                    <div className="flex flex-col gap-16">
-                        {
-                            Boolean(categories.length) && categories.map((category) => (
-                                Boolean(category.recipes.length) &&
-                                <RecipesGroupList
-                                    key={category.id}
-                                    categoryId={category.id}
-                                    recipes={category.recipes}
-                                    title={category.nameKey}
+                : <div>
+                    {
+                        Boolean(categories.length) && categories.map((category) => (
+                            Boolean(category.recipes.length) &&
+                            <RecipesGroupList
+                                key={category.id}
+                                categoryId={category.id}
+                                recipes={category.recipes}
+                                title={category.nameKey}
 
-                                />
-                            ))
+                            />
+                        ))
 
-                        }
-                    </div>
+                    }
                 </div>
 
         }
