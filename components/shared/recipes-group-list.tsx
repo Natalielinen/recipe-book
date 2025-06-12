@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import { cn } from "../../lib/utils";
 import { RecipeCard } from "./recipe-card";
 import { Title } from "./title";
 import { useIntersection } from 'react-use';
@@ -11,14 +10,10 @@ import { Recipe } from "@prisma/client";
 interface Props {
     title: string;
     recipes: Recipe[];
-    listClassName?: string;
     categoryId: number;
-    className?: string;
 }
 
 export const RecipesGroupList: React.FC<Props> = ({
-    className,
-    listClassName,
     title,
     recipes,
     categoryId,
@@ -40,12 +35,11 @@ export const RecipesGroupList: React.FC<Props> = ({
 
     }, [categoryId, intersection?.isIntersecting]);
 
-    return <div className={cn('', className)} id={title} ref={intersectionRef}>
+    return <div id={title} ref={intersectionRef}>
 
         <Title text={title} size="lg" className="font-extrabold mb-5" />
 
-        <div className={cn('grid gap-[5%] grid-cols-[repeat(auto-fill,minmax(250px,1fr))] mb-14', listClassName)}>
-
+        <div className="flex flex-col md:flex-row md:flex-wrap justify-start gap-10 mb-8">
             {
                 recipes.map((recipe, i) => (
                     <RecipeCard
