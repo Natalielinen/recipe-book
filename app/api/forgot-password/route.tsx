@@ -6,8 +6,6 @@ import nodemailer from 'nodemailer';
 export async function POST(req: NextRequest) {
     const { email } = await req.json();
 
-    console.log('req', req);
-
     const user = await prisma.user.findUnique({
         where: { email },
     });
@@ -17,12 +15,13 @@ export async function POST(req: NextRequest) {
     }
 
     const resetToken = crypto.randomBytes(20).toString("hex");
+
     const passwordResetToken = crypto
         .createHash("sha256")
         .update(resetToken)
         .digest("hex");
 
-    const passwordResetExpires = Date.now() + 360000;
+    const passwordResetExpires = new Date(Date.now() + (1000 * 60 * 60) * 5); // 1 час
 
     await prisma.passwordReset.create({
         data: {
@@ -32,8 +31,9 @@ export async function POST(req: NextRequest) {
         },
     });
 
-    const resetUrl = `https://recipe-book-teal-five.vercel.app/reset-password/${passwordResetToken}`;
-    // const resetUrl = `localhost:3000/reset-password/${resetToken}`;
+    const host = req.headers.get("host");
+    const protocol = host?.startsWith("localhost") ? "http" : "https";
+    const resetUrl = `${protocol}://${host}/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
         host: "smtp.yandex.com",
@@ -44,8 +44,6 @@ export async function POST(req: NextRequest) {
             pass: process.env.EMAIL_PASS,
         },
     });
-
-
 
     const resetLink = resetUrl;
 
