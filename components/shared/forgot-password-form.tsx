@@ -28,6 +28,7 @@ export const ForgotPasswordForm = () => {
 
         } catch (error) {
             console.log('FORGOT_PASSWORD error', error);
+            toast.error('Произошла ошибка при отправке письма');
         } finally {
             setSending(false);
         }

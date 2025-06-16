@@ -39,9 +39,6 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
         try {
             const res = await Api.verifyToken({ token });
 
-            console.log('res', res);
-
-
             if (res) {
                 setVerified(true);
                 setUser(res);
@@ -93,7 +90,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
     return <Container className="flex align-center justify-center">
         <FormProvider {...form}>
 
-            <form className="flex flex-col gap-5 w-[30%]" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="flex flex-col gap-5 w-full md:w-[30%]" onSubmit={form.handleSubmit(onSubmit)}>
                 <Title text={"Новый пароль"} size="md" />
 
                 <FormInput name="newPassword" placeholder="Новый пароль" />
