@@ -7,6 +7,7 @@ import axios from "axios";
 import { Camera, Soup } from "lucide-react";
 import React from "react";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 interface Props {
     imageUrl: string;
@@ -26,7 +27,6 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
 
         const file = event.target.files?.[0];
 
@@ -57,16 +57,21 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
         }
     }
 
-    const noImageWrapperClass = "p-6 bg-secondary rounded-lg h-[260px]"
+    const noImageWrapperClass = "p-6 bg-secondary"
 
-    return <div className={cn(!imageUrl && noImageWrapperClass, "flex justify-center  relative")}>
+    return <div className={cn(!imageUrl && noImageWrapperClass, "flex justify-center h-[260px] rounded-lg relative")}>
         {canUpdateImage && <input type="file" className="hidden" onChange={handleFileChange} ref={inputRef} />}
-        {canUpdateImage && <Camera className="cursor-pointer absolute top-1 left-1 -translate-x-1/2 -translate-y-1/2" onClick={() => inputRef.current?.click()} />}
+        {canUpdateImage && <Button
+            className="cursor-pointerrounded-full absolute top-4 left-3"
+            variant="outline"
+            onClick={() => inputRef.current?.click()}
+        >
+            <Camera size={20} />
+        </Button>}
         {
             imageUrl ?
-                <img className="w-[215px] h-[215px]" src={imageUrl} alt={recipeName} />
+                <img className="w-full h-full object-cover rounded-lg" src={imageUrl} alt={recipeName} />
                 : <Soup size={215} className="text-gray-400" />
         }
-
     </div>;
 };
