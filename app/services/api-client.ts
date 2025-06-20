@@ -5,6 +5,7 @@ import {verifyToken} from './verify-token';
 import {resetPassword} from './reset-password';
 import * as stories from './stories';
 import { updateImage } from './update-image';
+import { deleteImage } from './delete-image';
 import {recipeOfADay, updateRecipeOfADay} from './recipe-of-a-day';
 
 export const Api = {
@@ -21,5 +22,6 @@ export const Api = {
     updateImage,
     stories,
     recipeOfADay,
-    updateRecipeOfADay
+    updateRecipeOfADay,
+    deleteImage
 }

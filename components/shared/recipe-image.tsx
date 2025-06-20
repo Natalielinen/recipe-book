@@ -4,10 +4,11 @@ import { Api } from "@/app/services/api-client";
 import { useRecipeStore } from "@/app/store/recipe";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { Camera, Soup } from "lucide-react";
+import { Camera, Soup, X } from "lucide-react";
 import React from "react";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { ConfirmDeleteModal } from "./confirm-delete-modal";
 
 interface Props {
     imageUrl: string;
@@ -20,6 +21,8 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
 
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const API_KEY = "13b2d0d834fc27d79d6830d6bdb88bbf";
 
     const { setRecipe } = useRecipeStore((state) => state);
@@ -55,23 +58,59 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
             setIsUploading(false);
 
         }
+    };
+
+    const handleClickDeleteButton = () => {
+        setShowConfirmModal(true);
+    }
+
+    const handleDeleteImage = async () => {
+        setIsDeleting(true);
+        await Api.deleteImage(recipeId!);
+        setIsDeleting(false);
+
+        const recipe = await Api.getRecipeById(recipeId!);
+        setRecipe(recipe);
+
+        setShowConfirmModal(false);
     }
 
     const noImageWrapperClass = "p-6 bg-secondary"
 
-    return <div className={cn(!imageUrl && noImageWrapperClass, "flex justify-center h-[260px] rounded-lg relative")}>
+    return <div className={cn(!imageUrl && noImageWrapperClass, "group flex justify-center h-[260px] rounded-lg relative")}>
         {canUpdateImage && <input type="file" className="hidden" onChange={handleFileChange} ref={inputRef} />}
-        {canUpdateImage && <Button
-            className="cursor-pointerrounded-full absolute top-4 left-3"
-            variant="outline"
-            onClick={() => inputRef.current?.click()}
-        >
-            <Camera size={20} />
-        </Button>}
+        {canUpdateImage && <div className="flex justify-between w-full p-2 absolute opacity-0 group-hover:opacity-100 transition duration-200 z-10">
+            <Button
+                className="cursor-pointer rounded-full"
+                variant="outline"
+                onClick={() => inputRef.current?.click()}
+            >
+                <Camera size={20} />
+            </Button>
+
+            {
+                imageUrl && <Button
+                    className="cursor-pointer rounded-full text-destructive"
+                    variant="ghost"
+                    onClick={handleClickDeleteButton}
+                >
+                    <X size={20} />
+                </Button>
+            }
+
+
+        </div>}
         {
             imageUrl ?
                 <img className="w-full h-full object-cover rounded-lg" src={imageUrl} alt={recipeName} />
                 : <Soup size={215} className="text-gray-400" />
         }
+        <ConfirmDeleteModal
+            show={showConfirmModal}
+            setShow={setShowConfirmModal}
+            deletingItem="изображение"
+            deliting={isDeleting}
+            onDelete={handleDeleteImage}
+        />
     </div>;
 };
