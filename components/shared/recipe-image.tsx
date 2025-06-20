@@ -8,6 +8,7 @@ import { Camera, Soup, X } from "lucide-react";
 import React from "react";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { ConfirmDeleteModal } from "./confirm-delete-modal";
 
 interface Props {
     imageUrl: string;
@@ -20,6 +21,8 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
 
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const API_KEY = "13b2d0d834fc27d79d6830d6bdb88bbf";
 
     const { setRecipe } = useRecipeStore((state) => state);
@@ -57,8 +60,19 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
         }
     };
 
+    const handleClickDeleteButton = () => {
+        setShowConfirmModal(true);
+    }
+
     const handleDeleteImage = async () => {
-        console.log('recipeId', recipeId);
+        setIsDeleting(true);
+        await Api.deleteImage(recipeId!);
+        setIsDeleting(false);
+
+        const recipe = await Api.getRecipeById(recipeId!);
+        setRecipe(recipe);
+
+        setShowConfirmModal(false);
     }
 
     const noImageWrapperClass = "p-6 bg-secondary"
@@ -74,13 +88,16 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
                 <Camera size={20} />
             </Button>
 
-            <Button
-                className="cursor-pointer rounded-full text-destructive"
-                variant="ghost"
-                onClick={handleDeleteImage}
-            >
-                <X size={20} />
-            </Button>
+            {
+                imageUrl && <Button
+                    className="cursor-pointer rounded-full text-destructive"
+                    variant="ghost"
+                    onClick={handleClickDeleteButton}
+                >
+                    <X size={20} />
+                </Button>
+            }
+
 
         </div>}
         {
@@ -88,5 +105,12 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
                 <img className="w-full h-full object-cover rounded-lg" src={imageUrl} alt={recipeName} />
                 : <Soup size={215} className="text-gray-400" />
         }
+        <ConfirmDeleteModal
+            show={showConfirmModal}
+            setShow={setShowConfirmModal}
+            deletingItem="изображение"
+            deliting={isDeleting}
+            onDelete={handleDeleteImage}
+        />
     </div>;
 };

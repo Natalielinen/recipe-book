@@ -16,6 +16,7 @@ interface Props {
     setShow: (value: boolean) => void;
     onDelete: () => void;
     deliting: boolean;
+    deletingItem?: string;
 }
 
 export const ConfirmDeleteModal: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
     show,
     setShow,
     onDelete,
+    deletingItem = 'рецепт',
     deliting
 }) => {
 
@@ -31,7 +33,7 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
             <DialogContent className={cn(
                 "sm:max-w-[425px]",
                 className)} >
-                <Title text="Вы уверены, что хотите удалить рецепт?" size="md" />
+                <Title text={`Вы уверены, что хотите удалить ${deletingItem}?`} size="md" />
                 <p>Это действие нельзя будет отменить</p>
 
                 <DialogFooter>
