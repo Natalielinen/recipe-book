@@ -10,6 +10,7 @@ import { Skeleton } from "../ui/skeleton";
 import { RecipeOfADayDTO } from "@/app/services/dto/recipeOfADay.dto";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { getColumnsCount } from "@/lib/get-columns-count";
 
 export const RecipeOfADayCard = () => {
 
@@ -26,7 +27,7 @@ export const RecipeOfADayCard = () => {
         const response = await Api.recipeOfADay();
         setLoading(false);
         setRecipeOfADay(response);
-    }
+    };
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -34,11 +35,11 @@ export const RecipeOfADayCard = () => {
             setUserHasRecipe(recipeOfADay?.usersIdsAddedRecipe.includes(Number(session?.user.id)) as boolean);
         }
         setVoted(recipeOfADay?.votedUsersIds.length as number);
-    }, [status, recipeOfADay, session?.user.id])
+    }, [status, recipeOfADay, session?.user.id]);
 
     useEffect(() => {
         fetchRecipeOfADay();
-    }, [])
+    }, []);
 
     const onVoteClick = async () => {
         if (status !== 'authenticated') {
@@ -145,12 +146,17 @@ export const RecipeOfADayCard = () => {
         <div className="mt-6">
             <h3 className="text-xl font-semibold text-secondary-foreground mb-2">Ингредиенты:</h3>
             <div className="flex justify-between">
-                <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                <ul
+                    className="list-disc list-inside text-muted-foreground space-y-1"
+                    style={{
+                        columns: getColumnsCount(recipeOfADay?.ingredients?.length || 0)
+                    }}
+                >
                     {
                         loading
                             ? <Skeleton className="w-[240px] h-[30px] rounded-2xl mb-1" />
                             : recipeOfADay?.ingredients.map((ingredient, index) => (
-                                <li key={index}>{ingredient.name}: {ingredient.amount} {ingredient.unit}</li>
+                                <li key={index}>{ingredient.name}: {ingredient.toTaste ? 'по вкусу' : `${ingredient.amount} ${ingredient.unit}`} </li>
                             ))
                     }
                 </ul>

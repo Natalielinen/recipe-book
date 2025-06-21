@@ -18,6 +18,7 @@ import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
 import toast from "react-hot-toast";
 import { Skeleton } from "../ui/skeleton";
+import { getColumnsCount } from "@/lib/get-columns-count";
 
 interface Props {
     id: number;
@@ -47,18 +48,18 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         setInitialServings(recipe.servings);
         setLoading(false);
 
-    }
+    };
 
     useEffect(() => {
         fetchRecipe();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     const router = useRouter();
 
     const onRecipeEdit = () => {
         setAddRecipeModalOpen(true);
-    }
+    };
 
     const onServingsChange = (type: 'plus' | 'minus') => {
 
@@ -67,20 +68,12 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         } else {
             setInitialServings(initialServings - 1);
         }
-    }
+    };
 
     const calculateAmount = (amount: number) => {
         return ((amount / recipe.servings) * initialServings).toFixed(2);
     };
 
-    const getColumnsCount = (length: number): number => {
-        if (length >= 5 && length < 15) {
-            return 2;
-        } else if (length >= 15) {
-            return 3;
-        }
-        return 1;
-    };
 
     const handleDeleteRecipe = async () => {
         try {
@@ -100,8 +93,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             setShowConfirmDeleteModal(false);
         }
 
-    }
-
+    };
 
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
         <Button onClick={() => router.push(`/recipes`)} type="button" className="w-[60px]">
@@ -112,7 +104,6 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                 loading
                     ? <Skeleton className="w-[215px] h-[215px] rounded-2xl" />
                     : <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} recipeId={id} canUpdateImage />
-
             }
 
             <div>
@@ -136,9 +127,6 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                         </div>
 
                 }
-
-
-
 
                 <div>
                     {

@@ -15,7 +15,6 @@ export {ShoppinListModal} from './shopping-list-modal';
 export {ErrorText} from './error-text';
 export {ClearButton} from './clear-button';
 export {ProfileButton} from './profile-button';
-export {HomePage} from './home-page';
 export {ProfileForm} from './profile-form';
 export {Stories} from './stories';
 export {ForgotPasswordForm} from './forgot-password-form';
