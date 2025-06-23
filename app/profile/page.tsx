@@ -2,7 +2,7 @@ import { authOptions } from "@/app/constants/auth-options";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/prisma/prisma-client";
-import { Container, ProfileForm } from "@/components/shared";
+import { AdminPanel, Container, ProfileForm } from "@/components/shared";
 import { Statistics } from "@/components/shared/statistics";
 import { cn } from "@/lib/utils";
 import { ProfileHeader } from "@/components/shared/profile-header";
@@ -20,6 +20,8 @@ export default async function ProfilePage() {
         return redirect('/');
     }
 
+    console.log('session', session);
+
     const user = await prisma.user.findUnique({ where: { id: Number(session?.user?.id) } });
 
     if (!user) {
@@ -28,6 +30,7 @@ export default async function ProfilePage() {
 
     return (
         <Container className={cn('my-10')}>
+            {user.role === "ADMIN" && <AdminPanel />}
             <ProfileHeader user={user} />
             <div className="flex gap-4 flex-wrap">
                 <ProfileForm data={user} />

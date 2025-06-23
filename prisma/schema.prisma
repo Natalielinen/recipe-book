@@ -8,6 +8,11 @@ datasource db {
     directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+enum UserRole {
+    USER
+    ADMIN
+}
+
 model User {
     id Int @id @default(autoincrement())
 
@@ -16,6 +21,8 @@ model User {
     password String
     vip      Boolean  @default(false)
     recipes  Recipe[]
+
+    role     UserRole @default(USER)
 
     verificationCode VerificationCode?
     verified DateTime?
