@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from "@/lib/utils";
-import { BookText, Soup } from "lucide-react";
+import { BookText, Settings, Soup } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,6 +10,11 @@ export const AdminPanel = () => {
     const pathName = usePathname();
 
     const links = [
+        {
+            label: 'Профиль',
+            path: '/profile',
+            icon: <Settings size={16} />
+        },
         {
             label: 'Сторис',
             path: '/profile/add-story',
@@ -22,7 +27,7 @@ export const AdminPanel = () => {
         },
     ]
 
-    return <nav className="py-2 overflow-auto">
+    return <nav className="p-2 overflow-auto shadow-md rounded-md mb-4">
         <ul className="flex gap-6 text-sm font-bold">
             {links.map((link) => (
                 <li key={link.path}>

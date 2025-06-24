@@ -22,6 +22,7 @@ export {ResetPasswordForm} from './reset-password-form';
 export {ConfirmDeleteModal} from './confirm-delete-modal';
 export {SearchInput} from './search-input';
 export {AdminPanel} from './admin-panel';
+import { AddStoryForm } from "./add-story-form";
 export * from './auth';
 export * from './add-recipe';
 export * from './form-components';
