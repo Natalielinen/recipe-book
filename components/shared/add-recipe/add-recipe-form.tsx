@@ -3,7 +3,6 @@
 import { FormRecipe, RecipeDto } from '@/app/services/dto/recipe.dto';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddRecipeFormValues, addRecipeSchema } from './add-recipe-schema';
 import { FormCheckbox, FormInput, FormSelect, FormTextarea } from '../form-components';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import { useRecipeStore } from '@/app/store/recipe';
 import { useCategoryStore } from '@/app/store/category';
 import toast from 'react-hot-toast';
 import { ErrorText } from '../error-text';
+import { AddRecipeFormValues, addRecipeSchema } from '@/schemas/add-recipe-schema';
 
 interface Props {
     isEditForm: boolean;

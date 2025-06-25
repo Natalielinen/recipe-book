@@ -2,7 +2,6 @@
 
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { formLoginSchema, TFormLoginValues } from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "../../title";
 import { FormInput } from "../../form-components";
@@ -11,6 +10,7 @@ import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { PasswordInput } from "../../form-components/password-input";
+import { formLoginSchema, TFormLoginValues } from "@/schemas/auth-schemas";
 
 interface Props {
     onClose?: () => void;
