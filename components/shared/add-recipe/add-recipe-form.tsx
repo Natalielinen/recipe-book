@@ -53,8 +53,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         }],
         servings: '1',
         imageUrl: '',
-
-
     };
 
     const form = useForm<AddRecipeFormValues>({
@@ -66,7 +64,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
         control: form.control,
         name: "ingredients",
     });
-
 
     const onSubmit = async (data: AddRecipeFormValues) => {
         setButtonLoading(true);
@@ -217,7 +214,6 @@ export const AddRecipeForm: React.FC<Props> = ({ recipe, isEditForm }) => {
                         )}
 
                     </div>
-
 
                 })
             }

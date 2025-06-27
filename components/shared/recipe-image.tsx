@@ -9,6 +9,7 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
+import { uploadImage } from "@/lib/upload-image";
 
 interface Props {
     imageUrl: string;
@@ -23,7 +24,6 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
     const [isUploading, setIsUploading] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const API_KEY = "13b2d0d834fc27d79d6830d6bdb88bbf";
 
     const { setRecipe } = useRecipeStore((state) => state);
 
@@ -42,9 +42,11 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
         setIsUploading(true);
 
         try {
-            const res = await axios.post(`https://api.imgbb.com/1/upload?key=${API_KEY}`, formData);
+            const res = await uploadImage(formData);
 
             const data = await res.data;
+
+            console.log("data", data);
 
             setUploadedImageUrl(data.data.url);
 
