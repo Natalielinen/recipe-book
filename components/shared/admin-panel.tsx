@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from "@/lib/utils";
-import { BookText, Settings, Soup } from "lucide-react";
+import { BookText, Eye, Plus, Settings, Soup } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,9 +16,14 @@ export const AdminPanel = () => {
             icon: <Settings size={16} />
         },
         {
-            label: 'Сторис',
+            label: 'Добавить сторис',
             path: '/profile/add-story',
-            icon: <BookText size={16} />
+            icon: <div className="flex gap-1"><BookText size={16} /> <Plus size={16} /></div>
+        },
+        {
+            label: 'Все сторисы',
+            path: '/profile/all-stories',
+            icon: <div className="flex gap-1"><BookText size={16} /> <Eye size={16} /></div>
         },
         {
             label: 'Рецепт дня',

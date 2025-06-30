@@ -1,6 +1,6 @@
 'use client';
 
-import { Control, Controller, FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { Title } from "./title";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddStoryFormValues, addStorySchema } from "@/schemas/add-story-schema";
@@ -11,6 +11,10 @@ import { uploadImage } from "@/lib/upload-image";
 import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Asterisk } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { addStory } from "@/server/actions/add-story";
+import toast from "react-hot-toast";
+import { useAction } from "next-safe-action/hooks";
+import { useRouter } from "next/navigation";
 
 export const AddStoryForm = () => {
     const form = useForm<AddStoryFormValues>({
@@ -32,27 +36,28 @@ export const AddStoryForm = () => {
         mode: 'onChange'
     });
 
-    const { control, register } = form;
+    const { control } = form;
 
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'itemImages'
     });
 
-    // const [error, setError] = useState<string>("");
-    // const [success, setSuccess] = useState<string>("");
+    const router = useRouter();
 
-    // const { execute, status } = useAction(createProduct, {
-    //     onSuccess: (data) => {
-    //         if (data?.data?.error) setError(data?.data?.error);
-    //         if (data?.data?.success) setSuccess(data?.data?.success);
-    //     }
-    // });
+    const { execute, status } = useAction(addStory, {
+        onSuccess: (data) => {
+            if (data?.data?.error) {
+                toast.error(data?.data?.error);
+            }
+            if (data?.data?.success) {
+                toast.success(data?.data?.success);
+                router.push(`/profile/all-stories`);
+            }
+        }
+    });
 
-    //TODO: ДУБЛИРОВАНИЕ КОДА!!! ОБЪЕДЕНИТЬ В ОДНУ ФУНКЦИЮ!!!
-
-    const handlePreviewFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
+    const onLoadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
         const formData = new FormData();
@@ -62,41 +67,29 @@ export const AddStoryForm = () => {
         if (!file) return;
 
         try {
-            const res = await uploadImage(formData);
-
-            form.setValue('previewImage', res.data.data.url);
-
-            console.log("form", form.getValues());
+            return await uploadImage(formData)
 
         } catch (error) {
             console.error("Ошибка загрузки:", error);
         }
+    }
+
+
+    const handlePreviewFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const res = await onLoadFile(event);
+        if (!res) return;
+        form.setValue('previewImage', res.data.data.url);
+
     };
 
     const handleItemFileChange = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-
-        const file = event.target.files?.[0];
-
-        const formData = new FormData();
-        //@ts-ignore
-        formData.append("image", file);
-
-        if (!file) return;
-
-        try {
-            const res = await uploadImage(formData);
-
-            form.setValue(`itemImages.${index}`, { image: res.data.data.url, id: index });
-
-            console.log("form", form.getValues());
-
-        } catch (error) {
-            console.error("Ошибка загрузки:", error);
-        }
+        const res = await onLoadFile(event);
+        if (!res) return;
+        form.setValue(`itemImages.${index}`, { image: res.data.data.url, id: index });
     };
 
     const onSubmit = (data: AddStoryFormValues) => {
-        console.log(data);
+        execute(data);
     };
 
     return (
@@ -149,7 +142,7 @@ export const AddStoryForm = () => {
                 }
 
                 <Button
-                    loading={form.formState.isSubmitting}
+                    loading={status === 'executing'}
                     type="submit"
                 >
                     Создать
