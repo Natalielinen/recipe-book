@@ -1,4 +1,5 @@
 import { authOptions } from "@/app/constants/auth-options";
+import { AddRecipeOfTheDayForm } from "@/components/shared/admin";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -13,5 +14,5 @@ export default async function AddStoryPage() {
         redirect('/profile');
     };
 
-    return <div>AddStoryPage</div>
+    return <AddRecipeOfTheDayForm />
 }

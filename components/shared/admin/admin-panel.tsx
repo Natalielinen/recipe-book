@@ -26,9 +26,14 @@ export const AdminPanel = () => {
             icon: <div className="flex gap-1"><BookText size={16} /> <Eye size={16} /></div>
         },
         {
-            label: 'Рецепт дня',
+            label: 'Добавить рецепт дня',
             path: '/profile/add-recipe-of-the-day',
-            icon: <Soup size={16} />
+            icon: <div className="flex gap-1"><Soup size={16} /><Plus size={16} /></div>
+        },
+        {
+            label: 'Все рецепты дня',
+            path: '/profile/all-recipes',
+            icon: <div className="flex gap-1"><Soup size={16} /><Eye size={16} /></div>
         },
     ]
 

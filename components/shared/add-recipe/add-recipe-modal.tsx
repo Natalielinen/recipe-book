@@ -3,7 +3,7 @@
 import { useRecipeStore } from "@/app/store/recipe";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { AddRecipeForm } from "./add-recipe-form";
+import { AddUserRecipe } from "./add-user-recipe";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import React from "react";
 import { useMedia } from "react-use";
@@ -31,7 +31,7 @@ export const AddRecipeModal: React.FC<Props> = ({ className, recipe = {} as Reci
                 }
             </DialogTitle>
 
-            <AddRecipeForm isEditForm={isEditForm} recipe={recipe} />
+            <AddUserRecipe isEditForm={isEditForm} recipe={recipe} />
         </DialogContent>
     </Dialog>;
 };

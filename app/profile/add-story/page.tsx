@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/constants/auth-options";
-import { AddStoryForm } from "@/components/shared/add-story-form";
+import { AddStoryForm } from "@/components/shared/admin";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

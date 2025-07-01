@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../constants/auth-options";
 import { prisma } from "@/prisma/prisma-client";
-import { AdminPanel, Container } from "@/components/shared";
+import { Container } from "@/components/shared";
+import { AdminPanel } from "@/components/shared/admin";
 
 
 export default async function ProfileLayout({

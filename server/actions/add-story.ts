@@ -3,6 +3,7 @@
 import { prisma } from "@/prisma/prisma-client";
 import { addStorySchema } from "@/schemas/add-story-schema";
 import { createSafeActionClient } from "next-safe-action";
+import { revalidatePath } from "next/cache";
 
 const actionClient = createSafeActionClient();
 
@@ -21,6 +22,8 @@ export const addStory = actionClient
           },
         },
       });
+
+      revalidatePath('/profile/all-stories');
 
       return { success: `История "${title}" успешно добавлена` };
     } catch (error) {

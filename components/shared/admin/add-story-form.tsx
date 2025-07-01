@@ -1,14 +1,14 @@
 'use client';
 
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { Title } from "./title";
+import { Title } from "../title";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddStoryFormValues, addStorySchema } from "@/schemas/add-story-schema";
-import { Button } from "../ui/button";
-import { FormInput } from "./form-components";
-import { Input } from "../ui/input";
+import { Button } from "../../ui/button";
+import { FormInput } from "../form-components";
+import { Input } from "../../ui/input";
 import { uploadImage } from "@/lib/upload-image";
-import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { FormControl, FormField, FormItem, FormLabel } from "../../ui/form";
 import { Asterisk } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addStory } from "@/server/actions/add-story";

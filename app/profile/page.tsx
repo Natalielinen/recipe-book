@@ -2,9 +2,8 @@ import { authOptions } from "@/app/constants/auth-options";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/prisma/prisma-client";
-import { Container, ProfileForm } from "@/components/shared";
+import { ProfileForm } from "@/components/shared";
 import { Statistics } from "@/components/shared/statistics";
-import { cn } from "@/lib/utils";
 import { ProfileHeader } from "@/components/shared/profile-header";
 import { Metadata } from "next";
 
