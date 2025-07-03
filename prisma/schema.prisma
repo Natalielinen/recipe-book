@@ -8,6 +8,11 @@ datasource db {
     directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+enum UserRole {
+    USER
+    ADMIN
+}
+
 model User {
     id Int @id @default(autoincrement())
 
@@ -16,6 +21,8 @@ model User {
     password String
     vip      Boolean  @default(false)
     recipes  Recipe[]
+
+    role     UserRole @default(USER)
 
     verificationCode VerificationCode?
     verified DateTime?
@@ -107,7 +114,7 @@ model StoryItem {
     id Int @id @default(autoincrement())
 
     storyId Int
-    story   Story @relation(fields: [storyId], references: [id])
+    story   Story @relation(fields: [storyId], references: [id],  onDelete: Cascade)
 
     sourceUrl String
 
@@ -143,6 +150,9 @@ model RecipeOfADay {
     isTodayRecipe       Boolean @default(false)
     recipeDate          DateTime @default(now())
 
+    authorName        String @default("")
+    authorId          Int @default(3)
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -155,7 +165,7 @@ model RecipeOfADayIngredient {
     amount Float
     price  Int @default(0)
 
-    recipeOfADay RecipeOfADay? @relation(fields: [recipeOfADayId], references: [id])
+    recipeOfADay RecipeOfADay? @relation(fields: [recipeOfADayId], references: [id], onDelete: Cascade)
     recipeOfADayId Int? 
 
     toTaste Boolean @default(false)

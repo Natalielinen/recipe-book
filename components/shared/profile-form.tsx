@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { formRegisterSchema, TFormRegisterValues } from "./auth/forms/schemas";
+import { formRegisterSchema, TFormRegisterValues } from "../../schemas/auth-schemas";
 import { User } from "@prisma/client";
 import toast from "react-hot-toast";
 import { updateUserInfo } from "@/app/actions";

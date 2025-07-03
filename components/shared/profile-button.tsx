@@ -50,6 +50,9 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
                                 <Settings />
                                 Профиль
                             </DropdownMenuItem>
+                            {
+
+                            }
                             <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
                                 <LogOut />
                                 Выйти
