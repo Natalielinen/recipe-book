@@ -18,4 +18,4 @@ export const onLoadFile = async (event: React.ChangeEvent<HTMLInputElement>) => 
     } catch (error) {
         console.error("Ошибка загрузки:", error);
     }
-}
+};
