@@ -3,13 +3,12 @@
 import { Api } from "@/app/services/api-client";
 import { useRecipeStore } from "@/app/store/recipe";
 import { cn } from "@/lib/utils";
-import axios from "axios";
 import { Camera, Soup, X } from "lucide-react";
 import React from "react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
-import { uploadImage } from "@/lib/upload-image";
+import { onLoadFile } from "@/lib/upload-image";
 
 interface Props {
     imageUrl: string;
@@ -20,7 +19,6 @@ interface Props {
 
 export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, canUpdateImage = false }) => {
 
-    const [uploadedImageUrl, setUploadedImageUrl] = useState("");
     const [isUploading, setIsUploading] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -31,24 +29,11 @@ export const RecipeImage: React.FC<Props> = ({ imageUrl, recipeName, recipeId, c
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 
-        const file = event.target.files?.[0];
-
-        const formData = new FormData();
-        //@ts-ignore
-        formData.append("image", file);
-
-        if (!file) return;
-
         setIsUploading(true);
 
         try {
-            const res = await uploadImage(formData);
 
-            const data = await res.data;
-
-            console.log("data", data);
-
-            setUploadedImageUrl(data.data.url);
+            const { data } = await onLoadFile(event);
 
             await Api.updateImage(recipeId!, { imageUrl: data.data.url });
 
