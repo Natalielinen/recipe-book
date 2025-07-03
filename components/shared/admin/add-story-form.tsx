@@ -7,7 +7,7 @@ import { AddStoryFormValues, addStorySchema } from "@/schemas/add-story-schema";
 import { Button } from "../../ui/button";
 import { FormInput } from "../form-components";
 import { Input } from "../../ui/input";
-import { uploadImage } from "@/lib/upload-image";
+import { onLoadFile } from "@/lib/upload-image";
 import { FormControl, FormField, FormItem, FormLabel } from "../../ui/form";
 import { Asterisk } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -56,23 +56,6 @@ export const AddStoryForm = () => {
             }
         }
     });
-
-    const onLoadFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-
-        const formData = new FormData();
-        //@ts-ignore
-        formData.append("image", file);
-
-        if (!file) return;
-
-        try {
-            return await uploadImage(formData)
-
-        } catch (error) {
-            console.error("Ошибка загрузки:", error);
-        }
-    }
 
 
     const handlePreviewFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,28 +5,28 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/prisma/prisma-client";
 
-
 const actionClient = createSafeActionClient();
 
-export const deleteStory = actionClient
+export const updateRecipePhoto = actionClient
     .schema(z.object({
-        id: z.number()
+        id: z.number(),
+        imageUrl: z.string()
     }))
-    .action(async ({ parsedInput: { id } }) => {
+    .action(async ({ parsedInput: { id, imageUrl } }) => {
 
         try {
-            const data = await prisma.story.delete({
+          await prisma.recipeOfADay.update({
                 where: {
                     id
                 },
-                include: {
-                    items: true
+                data: {
+                    imageUrl
                 }
             })
 
-            revalidatePath('/profile/all-stories');
+            revalidatePath('/profile/all-recipes');
 
-            return {success: `История ${data.title} успешно удалена`};
+            return {success: `Фото рецепта успешно обновлено`};
             
         } catch (error) {
             return {error: JSON.stringify(error)}

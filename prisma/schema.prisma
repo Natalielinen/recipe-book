@@ -165,7 +165,7 @@ model RecipeOfADayIngredient {
     amount Float
     price  Int @default(0)
 
-    recipeOfADay RecipeOfADay? @relation(fields: [recipeOfADayId], references: [id])
+    recipeOfADay RecipeOfADay? @relation(fields: [recipeOfADayId], references: [id], onDelete: Cascade)
     recipeOfADayId Int? 
 
     toTaste Boolean @default(false)

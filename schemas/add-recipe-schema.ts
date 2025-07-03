@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const addRecipeSchema = z.object({
+    id: z.number().optional(),
     categoryId: z.string(),
     recipeName: z.string().min(2, "Минимальная длина названия рецепта 2 символа"),
     fullDescription: z.string().optional(),
@@ -14,5 +15,6 @@ export const addRecipeSchema = z.object({
     servings: z.string().min(1, "Количество порций не может быть пустым"),
     imageUrl: z.string().optional(),
 });
+
 
 export type AddRecipeFormValues = z.infer<typeof addRecipeSchema>;
