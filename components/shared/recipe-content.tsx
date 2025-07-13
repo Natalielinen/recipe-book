@@ -7,8 +7,7 @@ import { Title } from "./title";
 import { useEffect, useState } from "react";
 import { IngredientListItem } from "./ingredient-list-item";
 import { Button } from "../ui/button";
-import { ListCheck, MoveLeft, Pencil, Trash2 } from "lucide-react";
-import { TooltipButton } from "./tooltip-button";
+import { MoveLeft, Pencil } from "lucide-react";
 import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
 import { AddRecipeModal } from "./add-recipe";
@@ -19,10 +18,14 @@ import { ConfirmDeleteModal } from "./confirm-delete-modal";
 import toast from "react-hot-toast";
 import { Skeleton } from "../ui/skeleton";
 import { getColumnsCount } from "@/lib/get-columns-count";
+import { RecipeButtons } from "./recipe-buttons";
+
 
 interface Props {
     id: number;
 }
+
+
 
 export const RecipeContent: React.FC<Props> = ({ id }) => {
 
@@ -95,6 +98,8 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
 
     };
 
+    const pdfIngredients = recipe.ingredients?.map((ingredient) => `${ingredient.name}: ${ingredient.toTaste ? "По вкусу" : `${ingredient.amount} ${ingredient.unit}`}  `);
+
     return recipe ? (<Container className="flex flex-col my-10 gap-5">
         <Button onClick={() => router.push(`/recipes`)} type="button" className="w-[60px]">
             <MoveLeft size={16} />
@@ -144,7 +149,6 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                                 amount={Number(calculateAmount(ingredient.amount))}
                                 unit={ingredient.unit}
                                 title={ingredient.name}
-                                //@ts-ignore
                                 toTaste={ingredient.toTaste}
                                 loading={loading}
                             />)
@@ -160,33 +164,14 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             <Title text={"Способ приготовления"} className="mb-1 font-bold" />
             <p>{recipe.fullDescription}</p>
         </div>
-
-        <div className="flex justify-between">
-            <div>
-                <TooltipButton
-                    tooltipContent={"Список покупок"}
-                    onButtonClick={() => setShowShoppingListModal(true)}
-                >
-                    <ListCheck />
-                </TooltipButton>
-
-            </div>
-
-
-            <div>
-                <TooltipButton
-                    tooltipContent={"Удалить рецепт"}
-                    onButtonClick={() => setShowConfirmDeleteModal(true)}
-                    buttonVariant="destructive"
-                >
-                    <Trash2
-                        color="white"
-                    />
-                </TooltipButton>
-            </div>
-
-
-        </div>
+        <RecipeButtons
+            setShowConfirmDeleteModal={setShowConfirmDeleteModal}
+            setShowShoppingListModal={setShowShoppingListModal}
+            recipeTitle={recipe.recipeName}
+            recipeImage={recipe.imageUrl as string}
+            ingredients={pdfIngredients || []}
+            description={recipe.fullDescription as string}
+        />
         <ConfirmDeleteModal
             onDelete={handleDeleteRecipe}
             setShow={setShowConfirmDeleteModal}
