@@ -8,7 +8,7 @@ interface Props {
     children: string | React.ReactNode;
     tooltipContent: string | React.ReactNode;
     buttonVariant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
-    onButtonClick: () => void;
+    onButtonClick?: () => void;
 }
 
 export const TooltipButton: React.FC<Props> = ({

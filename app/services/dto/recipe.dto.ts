@@ -22,6 +22,7 @@ export type FormRecipe = {
         amount: number
         unit: string
         price: number
+        toTaste: boolean
     }[]
 }
 
