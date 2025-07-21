@@ -4,24 +4,28 @@ import { Check, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { Title } from "./title";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Api } from "@/app/services/api-client";
 import { Skeleton } from "../ui/skeleton";
 import { RecipeOfADayDTO } from "@/app/services/dto/recipeOfADay.dto";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { getColumnsCount } from "@/lib/get-columns-count";
+import { TooltipButton } from "./tooltip-button";
+import { RecipeOfferModal } from "./recipe-offer-modal";
 
 export const RecipeOfADayCard = () => {
 
     const { data: session, status } = useSession();
+    const { user } = session || {};
 
     const [voted, setVoted] = useState(0);
-    const [currentUserVoted, setCurrentUserVoted] = useState(false);
+    const [currentUserVoted, setCurrentUserVoted] = useState<boolean>(false);
     const [userHasRecipe, setUserHasRecipe] = useState(false);
     const [recipeOfADay, setRecipeOfADay] = useState<RecipeOfADayDTO | null>(null);
     const [loading, setLoading] = useState(true);
     const [addingRecipe, setAddingRecipe] = useState(false);
+    const [openRecipeOfferModal, setOpenRecipeOfferModal] = useState<boolean>(false);
 
     const fetchRecipeOfADay = async () => {
         const response = await Api.recipeOfADay();
@@ -105,20 +109,45 @@ export const RecipeOfADayCard = () => {
 
     };
 
+    const onOfferRecipe = () => {
+        if (!user) {
+            toast.error('Пожалуйста, войдите в аккаунт');
+            return;
+        }
+
+        if (!user.vip) {
+            toast.error('Только VIP пользователи могут предложить свой рецепт');
+            return;
+        }
+        setOpenRecipeOfferModal(true);
+    }
+
     return <article className="mb-8 p-6 bg-background rounded-2xl shadow-md mx-auto">
         <h2 className="text-3xl font-bold mb-2 text-orange-600">Рецепт дня</h2>
 
         <div className="flex justify-between">
             {
                 loading ? <Skeleton className="w-[240px] h-[48px] rounded-2xl mb-1" />
-                    : <Title text={recipeOfADay?.recipeName as string} size="lg" className="font-semibold text-secondary-foreground mb-4" />
+                    : <div className="flex gap-2 items-center">
+                        <Title text={recipeOfADay?.recipeName as string} size="lg" className="font-semibold text-secondary-foreground mb-4" />
+                        {
+                            recipeOfADay?.authorId !== 3 && <p className="p-0 m-0 text-sm text-primary font-bold">Рецепт от пользователя: {recipeOfADay?.authorName}</p>
+                        }
+                    </div>
             }
 
-            {
-                userHasRecipe && status === 'authenticated'
-                    ? <p className="text-primary flex gap-2"><Check /> <span>Вы добавили этот рецепт</span></p>
-                    : <Button onClick={onAddRecipeClick} loading={loading || addingRecipe}>Добавить себе</Button>
-            }
+            <div className="flex gap-2 items-center">
+                <TooltipButton tooltipContent="Предложить свой рецепт" onButtonClick={onOfferRecipe}>
+                    Предложить
+                </TooltipButton>
+                {
+                    userHasRecipe && status === 'authenticated'
+                        ? <p className="text-primary flex gap-2"><Check /> <span>Вы добавили этот рецепт</span></p>
+                        : <Button onClick={onAddRecipeClick} loading={loading || addingRecipe}>Добавить себе</Button>
+                }
+
+            </div>
+
         </div>
 
         <div className="flex flex-col md:flex-row gap-6">
@@ -169,5 +198,7 @@ export const RecipeOfADayCard = () => {
                 </div>
             </div>
         </div>
+
+        <RecipeOfferModal open={openRecipeOfferModal} handleClose={() => setOpenRecipeOfferModal(false)} />
     </article>
 };
