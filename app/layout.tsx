@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ru" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
         {/* Яндекс Метрика */}
         <Script
           id="yandex-metrika"

@@ -11,6 +11,7 @@ import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { SearchInput } from "./search-input";
+import Image from "next/image";
 
 interface Props {
     className?: string;
@@ -49,6 +50,7 @@ export const Header: React.FC<Props> = ({ className }) => {
             {/* Левая часть */}
             <Link href="/">
                 <div className="flex items-center gap-4">
+                    <Image src="/assets/images/no-bg.png" width={80} height={80} alt="logo" className="rounded-md" />
 
                     <div>
                         <h1 className="text-2xl uppercase font-black flex gap-1 items-center">Книга <Album /></h1>
