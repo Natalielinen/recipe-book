@@ -11,6 +11,7 @@ import { AddRecipeForm, AddUserRecipe } from "./add-recipe";
 import { FormProvider, useForm } from "react-hook-form";
 import { AddRecipeFormValues, addRecipeSchema } from "@/schemas/add-recipe-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addRecipeOfADay } from "@/server/actions/add-recipe-of-a-day";
 
 
 interface RecipeOfferModalProps {
@@ -58,6 +59,19 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
 
     });
 
+    const { execute: createRecipeOfTheDay, status: createRecipeOfTheDayStatus } = useAction(addRecipeOfADay, {
+        onSuccess: (data) => {
+            if (data?.data?.error) {
+                toast.error(data?.data?.error);
+            }
+            if (data?.data?.success) {
+                toast.success(data?.data?.success);
+                handleClose();
+            }
+        },
+
+    });
+
     const closeModal = () => {
         setChosenOption(null);
         setSelectedRecipeId(null);
@@ -65,7 +79,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
     };
 
     const onSubmit = async (data: AddRecipeFormValues) => {
-        console.log('data', data)
+        createRecipeOfTheDay(data);
     }
 
     return (
@@ -97,7 +111,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
                             </div>
                             <Button
                                 type='submit'
-                            //loading={buttonLoading}
+                                loading={createRecipeOfTheDayStatus === 'executing'}
                             >
                                 Сохранить
                             </Button>
