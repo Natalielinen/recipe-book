@@ -16,6 +16,9 @@ export const getUserRecipes = actionClient
             const data = await prisma.recipe.findMany({
                 where: {
                     userId
+                },
+                include: {
+                    ingredients: true
                 }
             })
 

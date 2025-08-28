@@ -12,6 +12,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { AddRecipeFormValues, addRecipeSchema } from "@/schemas/add-recipe-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addRecipeOfADay } from "@/server/actions/add-recipe-of-a-day";
+import { RecipeDto } from "@/app/services/dto/recipe.dto";
 
 
 interface RecipeOfferModalProps {
@@ -24,7 +25,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
     const { data: session } = useSession()
 
     const [chosenOption, setChosenOption] = React.useState<("add" | "select") | null>(null);
-    const [recipesList, setRecipesList] = React.useState<Recipe[]>([]);
+    const [recipesList, setRecipesList] = React.useState<RecipeDto[]>([]);
     const [selectedRecipeId, setSelectedRecipeId] = React.useState<number | null>(null);
 
     const defaultFormValues = {
@@ -46,6 +47,12 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
         defaultValues: defaultFormValues,
     });
 
+    const closeModal = () => {
+        setChosenOption(null);
+        setSelectedRecipeId(null);
+        handleClose();
+    };
+
     const { execute: fetchUserRecipes, status: fetchRecipesStatus } = useAction(getUserRecipes, {
         onSuccess: (data) => {
             if (data?.data?.error) {
@@ -66,20 +73,35 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
             }
             if (data?.data?.success) {
                 toast.success(data?.data?.success);
-                handleClose();
+                closeModal();
             }
         },
 
     });
 
-    const closeModal = () => {
-        setChosenOption(null);
-        setSelectedRecipeId(null);
-        handleClose();
-    };
 
     const onSubmit = async (data: AddRecipeFormValues) => {
         createRecipeOfTheDay(data);
+    };
+
+    const onSelectRecipe = async () => {
+        const selectedRecipe = recipesList.find((recipe) => recipe.id === selectedRecipeId);
+        if (selectedRecipe) {
+            createRecipeOfTheDay({
+                categoryId: selectedRecipe.categoryId.toString(),
+                recipeName: selectedRecipe.recipeName,
+                servings: selectedRecipe.servings.toString(),
+                fullDescription: selectedRecipe.fullDescription,
+                imageUrl: selectedRecipe.imageUrl || "",
+                ingredients: selectedRecipe.ingredients.map((ingredient) => ({
+                    name: ingredient.name,
+                    amount: ingredient.amount.toString(),
+                    unit: ingredient.unit,
+                    toTaste: Boolean(ingredient.toTaste),
+                    price: Number(ingredient.price)
+                }))
+            });
+        }
     }
 
     return (
@@ -134,7 +156,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
                 }
                 {
                     chosenOption === "select" && <DialogFooter>
-                        <Button className="w-full" disabled={!selectedRecipeId}>
+                        <Button className="w-full" disabled={!selectedRecipeId} onClick={onSelectRecipe}>
                             Подтвердить
                         </Button>
                     </DialogFooter>

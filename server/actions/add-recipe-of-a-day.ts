@@ -34,6 +34,7 @@ export const addRecipeOfADay = actionClient
 
         const userId = session.user.id;
 
+        // Обновление существующего рецепта дня
         if (id) {
           const currentRecipe = await prisma.recipeOfADay.findFirst({
             where: {
