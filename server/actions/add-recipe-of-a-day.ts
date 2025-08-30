@@ -6,6 +6,7 @@ import { addRecipeSchema } from "@/schemas/add-recipe-schema";
 import { getServerSession } from "next-auth";
 import { createSafeActionClient } from "next-safe-action";
 import { revalidatePath } from "next/cache";
+import nodemailer from "nodemailer";
 
 const actionClient = createSafeActionClient();
 
@@ -25,8 +26,6 @@ export const addRecipeOfADay = actionClient
     }) => {
       try {
         const session = await getServerSession(authOptions);
-
-        //TODO: добавить отправку письма автору и админу
 
         if (!session || !session.user || !session.user.id) {
           return { error: JSON.stringify("Unauthorized") };
@@ -109,6 +108,41 @@ export const addRecipeOfADay = actionClient
           });
 
           revalidatePath("/profile/all-recipes");
+
+          // TODO: вынести в отдельную функцию
+
+          // Отправка письма автору рецепта
+          const transporter = nodemailer.createTransport({
+            host: "smtp.yandex.com",
+            port: 465,
+            secure: true,
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
+
+          const email = session.user.email;
+
+          const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Предложение рецепта",
+            text: `Здравствуйте, ${session.user.name}! Вы предложили рецепт "${recipeName}". После проверки модератором он будет опубликован на сайте. Приятного аппетита!`,
+          };
+
+          await transporter.sendMail(mailOptions as any);
+
+          // Отправка письма администратору
+
+          const adminMailOptions = {
+            from: process.env.EMAIL_USER,
+            to: "nataliech0409@gmail.com",
+            subject: "Предложение рецепта",
+            text: `Здравствуйте, пользователь ${session.user.name} предложил рецепт "${recipeName}". Проверьте его в личном кабинете.`,
+          };
+
+          await transporter.sendMail(adminMailOptions as any);
 
           return { success: `Рецепт "${recipeName}" успешно добавлен` };
         }
