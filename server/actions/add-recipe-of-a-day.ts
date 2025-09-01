@@ -15,6 +15,7 @@ export const addRecipeOfADay = actionClient
   .action(
     async ({
       parsedInput: {
+        selectedRecipe = false,
         categoryId,
         recipeName,
         fullDescription,
@@ -96,6 +97,7 @@ export const addRecipeOfADay = actionClient
               fullDescription: fullDescription || "",
               servings: Number(servings),
               categoryId: Number(categoryId),
+              usersIdsAddedRecipe: selectedRecipe ?  [Number(userId)] : [],
               ingredients: {
                 create: ingredients?.map((ingredient) => ({
                   name: ingredient.name,

@@ -4,7 +4,6 @@ import React from "react";
 import { useAction } from "next-safe-action/hooks";
 import { getUserRecipes } from "@/server/actions/get-user-recipes";
 import toast from "react-hot-toast";
-import { Recipe } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { CheckCheck } from "lucide-react";
 import { AddRecipeForm, AddUserRecipe } from "./add-recipe";
@@ -88,6 +87,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
         const selectedRecipe = recipesList.find((recipe) => recipe.id === selectedRecipeId);
         if (selectedRecipe) {
             createRecipeOfTheDay({
+                selectedRecipe: Boolean(selectedRecipeId),
                 categoryId: selectedRecipe.categoryId.toString(),
                 recipeName: selectedRecipe.recipeName,
                 servings: selectedRecipe.servings.toString(),
@@ -156,7 +156,7 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
                 }
                 {
                     chosenOption === "select" && <DialogFooter>
-                        <Button className="w-full" disabled={!selectedRecipeId} onClick={onSelectRecipe}>
+                        <Button className="w-full" disabled={!selectedRecipeId} onClick={onSelectRecipe} loading={createRecipeOfTheDayStatus === 'executing'}>
                             Подтвердить
                         </Button>
                     </DialogFooter>
