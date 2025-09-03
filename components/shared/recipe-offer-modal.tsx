@@ -6,13 +6,12 @@ import { getUserRecipes } from "@/server/actions/get-user-recipes";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { CheckCheck } from "lucide-react";
-import { AddRecipeForm, AddUserRecipe } from "./add-recipe";
+import { AddRecipeForm } from "./add-recipe";
 import { FormProvider, useForm } from "react-hook-form";
 import { AddRecipeFormValues, addRecipeSchema } from "@/schemas/add-recipe-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addRecipeOfADay } from "@/server/actions/add-recipe-of-a-day";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
-
 
 interface RecipeOfferModalProps {
     open: boolean;
@@ -77,7 +76,6 @@ export const RecipeOfferModal = ({ open, handleClose }: RecipeOfferModalProps) =
         },
 
     });
-
 
     const onSubmit = async (data: AddRecipeFormValues) => {
         createRecipeOfTheDay(data);

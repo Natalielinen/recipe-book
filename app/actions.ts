@@ -1,17 +1,18 @@
-'use server';
+"use server";
 
+import getBaseUrl from "@/lib/base-url";
 import { getUserSession } from "@/lib/get-userSession";
 import { prisma } from "@/prisma/prisma-client";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 export async function updateUserInfo(body: Prisma.UserUpdateInput) {
   try {
     const currentUser = await getUserSession();
 
     if (!currentUser) {
-      throw new Error('Пользователь не найден');
+      throw new Error("Пользователь не найден");
     }
 
     const findUser = await prisma.user.findFirst({
@@ -27,14 +28,16 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
       data: {
         fullName: body.fullName,
         email: body.email,
-        password: body.password ? hashSync(body.password as string, 10) : findUser?.password,
+        password: body.password
+          ? hashSync(body.password as string, 10)
+          : findUser?.password,
       },
     });
   } catch (err) {
-    console.log('Error [UPDATE_USER]', err);
+    console.log("Error [UPDATE_USER]", err);
     throw err;
   }
-};
+}
 
 export async function registerUser(body: Prisma.UserCreateInput) {
   try {
@@ -46,10 +49,10 @@ export async function registerUser(body: Prisma.UserCreateInput) {
 
     if (user) {
       if (!user.verified) {
-        throw new Error('Почта не подтверждена');
+        throw new Error("Почта не подтверждена");
       }
 
-      throw new Error('Пользователь уже существует');
+      throw new Error("Пользователь уже существует");
     }
 
     const createdUser = await prisma.user.create({
@@ -71,30 +74,27 @@ export async function registerUser(body: Prisma.UserCreateInput) {
     });
 
     const transporter = nodemailer.createTransport({
-        host: "smtp.yandex.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
+      host: "smtp.yandex.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-   const verificationLink = `https://recipe-book-teal-five.vercel.app/api/auth/verify?code=${code}`;
-   // const verificationLink = `http://localhost:3000/api/auth/verify?code=${code}`;
+    const verificationLink = `${getBaseUrl()}/api/auth/verify?code=${code}`;
 
-     const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: createdUser.email,
-        subject: 'Подтверждение регистрации',
-        html: `Код для подтверждения регистрации: <b>${code}</b>, перейдите по ссылке: <a href="${verificationLink}">${verificationLink}</a>`,
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: createdUser.email,
+      subject: "Подтверждение регистрации",
+      html: `Код для подтверждения регистрации: <b>${code}</b>, перейдите по ссылке: <a href="${verificationLink}">${verificationLink}</a>`,
     };
 
     await transporter.sendMail(mailOptions);
-
   } catch (err) {
-    console.log('Error [CREATE_USER]', err);
+    console.log("Error [CREATE_USER]", err);
     throw err;
   }
 }
-
