@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const addRecipeSchema = z.object({
     id: z.number().optional(),
+    selectedRecipe: z.boolean().optional(),
     categoryId: z.string(),
     recipeName: z.string().min(2, "Минимальная длина названия рецепта 2 символа"),
     fullDescription: z.string().optional(),

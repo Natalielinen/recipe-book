@@ -4,6 +4,7 @@ import { compare, hashSync } from "bcrypt";
 import { prisma } from "../../prisma/prisma-client";
 import YandexProvider from "next-auth/providers/yandex";
 import GoogleProvider from "next-auth/providers/google";
+import { boolean } from "zod";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -140,6 +141,7 @@ export const authOptions: AuthOptions = {
         token.email = findUser.email;
         token.fullName = findUser.fullName;
         token.sub = String(findUser.id); 
+        token.vip = findUser.vip; 
       };
 
       return token;
@@ -148,6 +150,7 @@ export const authOptions: AuthOptions = {
     session({session, token}) {
       if (session?.user) {
         session.user.id = token.sub as string;
+        session.user.vip = token.vip as boolean;
         
       };
 
