@@ -3,7 +3,7 @@ import { authOptions } from "../constants/auth-options";
 import { prisma } from "@/prisma/prisma-client";
 import { Container } from "@/components/shared";
 import { AdminPanel } from "@/components/shared/admin";
-
+import { redirect } from "next/navigation";
 
 export default async function ProfileLayout({
     children,
@@ -12,6 +12,11 @@ export default async function ProfileLayout({
 }) {
 
     const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return redirect('/');
+    }
+
     const user = await prisma.user.findUnique({ where: { id: Number(session?.user?.id) } });
 
     return (
