@@ -6,9 +6,11 @@ const schema = z.object({
   imageUrl: z.string().url(),
 });
 
-
-export async function POST(req: NextRequest, { params }: { params: { id: number } }) {
-    try {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  try {
     const body = await req.json();
     const { imageUrl } = schema.parse(body);
 
@@ -20,6 +22,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: number 
     return NextResponse.json(updatedRecipe, { status: 200 });
   } catch (error) {
     console.error("Ошибка при обновлении изображения рецепта:", error);
-    return NextResponse.json({ error: "Ошибка при обновлении" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Ошибка при обновлении" },
+      { status: 500 }
+    );
   }
 }
