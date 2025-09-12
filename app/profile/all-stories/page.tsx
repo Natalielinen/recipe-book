@@ -6,18 +6,19 @@ import { columns } from "./columns";
 import { DataTable } from "@/components/shared/admin";
 
 export default async function AllStoriesPage() {
-
     const session = await getServerSession(authOptions);
 
-    const user = await prisma.user.findUnique({ where: { id: Number(session?.user?.id) } });
+    const user = await prisma.user.findUnique({
+        where: { id: Number(session?.user?.id) },
+    });
 
     const stories = await prisma.story.findMany({
         include: {
-            items: true
-        }
+            items: true,
+        },
     });
 
-    if (!stories) throw new Error('Истории не найдены');
+    if (!stories) throw new Error("Истории не найдены");
 
     const dataTable = stories.map((story) => ({
         id: story.id,
@@ -26,11 +27,11 @@ export default async function AllStoriesPage() {
         items: story.items.map((item) => item.sourceUrl),
     }));
 
-    if (!dataTable) throw new Error('Нет данных');
+    if (!dataTable) throw new Error("Нет данных");
 
-    if (user?.role !== 'ADMIN') {
-        redirect('/profile');
-    };
+    if (user?.role !== "ADMIN") {
+        redirect("/profile");
+    }
 
-    return <DataTable columns={columns} data={dataTable} />
+    return <DataTable columns={columns} data={dataTable} />;
 }

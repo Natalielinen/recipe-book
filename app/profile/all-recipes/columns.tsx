@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,31 +14,30 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { updateRecipePhoto } from "@/server/actions/update-recipe-photo";
 import { onLoadFile } from "@/lib/upload-image";
 import { deleteRecipeOfADay } from "@/server/actions/delete-recipe-of-a-day";
 
 type RecipeColumn = {
-    id: number,
-    recipeName: string,
-    imageUrl: string,
-    isTodayRecipe: boolean,
-    authorName: string,
-    authorId: number,
-}
+    id: number;
+    recipeName: string;
+    imageUrl: string;
+    isTodayRecipe: boolean;
+    authorName: string;
+    authorId: number;
+};
 
 const CheckboxCell = ({ row }: { row: Row<RecipeColumn> }) => {
-
     const recipe = row.original;
 
-    const isTodayRecipe = row.getValue('isTodayRecipe') as boolean;
+    const isTodayRecipe = row.getValue("isTodayRecipe") as boolean;
     const [checked, setChecked] = useState<boolean>(false);
 
     useEffect(() => {
         setChecked(isTodayRecipe);
-    }, [isTodayRecipe])
+    }, [isTodayRecipe]);
 
     const { execute, status } = useAction(setTodayRecipe, {
         onSuccess: (data) => {
@@ -50,7 +49,6 @@ const CheckboxCell = ({ row }: { row: Row<RecipeColumn> }) => {
                 toast.success(data?.data?.success);
             }
         },
-
     });
 
     const handleRecipeChecked = (value: boolean) => {
@@ -59,17 +57,18 @@ const CheckboxCell = ({ row }: { row: Row<RecipeColumn> }) => {
         if (isTodayRecipe) {
             return;
         }
-    }
+    };
 
-    return <Checkbox
-        checked={checked}
-        onCheckedChange={handleRecipeChecked}
-        disabled={status === 'executing' || isTodayRecipe}
-    />
-}
+    return (
+        <Checkbox
+            checked={checked}
+            onCheckedChange={handleRecipeChecked}
+            disabled={status === "executing" || isTodayRecipe}
+        />
+    );
+};
 
 const ActionCell = ({ row }: { row: Row<RecipeColumn> }) => {
-
     const recipe = row.original;
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -82,7 +81,6 @@ const ActionCell = ({ row }: { row: Row<RecipeColumn> }) => {
                 toast.success(data?.data?.success);
             }
         },
-
     });
 
     const { execute: deleteRecipe } = useAction(deleteRecipeOfADay, {
@@ -94,23 +92,19 @@ const ActionCell = ({ row }: { row: Row<RecipeColumn> }) => {
                 toast.success(data?.data?.success);
             }
         },
-
     });
 
-    const handleUpdateImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUpdateImage = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const imageUrl = await onLoadFile(event);
         if (!imageUrl) return;
         updateImage({ id: recipe.id, imageUrl: imageUrl.data.data.url });
-    }
+    };
 
     return (
         <>
-            <input
-                type="file"
-                onChange={handleUpdateImage}
-                ref={inputRef}
-                hidden
-            />
+            <input type="file" onChange={handleUpdateImage} ref={inputRef} hidden />
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost">
@@ -118,77 +112,78 @@ const ActionCell = ({ row }: { row: Row<RecipeColumn> }) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem
-                        className="cursor-pointer"
-                    >
-                        <Link href={`/profile/add-recipe-of-the-day?id=${recipe.id}`}>Редактировать</Link>
+                    <DropdownMenuItem className="cursor-pointer">
+                        <Link href={`/profile/add-recipe-of-the-day?id=${recipe.id}`}>
+                            Редактировать
+                        </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => inputRef.current?.click()}
-                        className="cursor-pointer">
+                        className="cursor-pointer"
+                    >
                         Изменить фото
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => deleteRecipe({ id: recipe.id })}
-                        className="cursor-pointer">
+                        className="cursor-pointer"
+                    >
                         Удалить рецепт
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
-
-
-    )
-}
+    );
+};
 
 export const columns: ColumnDef<RecipeColumn>[] = [
     {
-        accessorKey: 'id',
-        header: 'ID',
+        accessorKey: "id",
+        header: "ID",
     },
     {
-        accessorKey: 'recipeName',
-        header: 'Название',
+        accessorKey: "recipeName",
+        header: "Название",
     },
     {
-        accessorKey: 'imageUrl',
-        header: 'Изображение',
+        accessorKey: "imageUrl",
+        header: "Изображение",
         cell: ({ row }) => {
-            const image = row.getValue('imageUrl') as string;
-            const title = row.getValue('recipeName') as string;
+            const image = row.getValue("imageUrl") as string;
+            const title = row.getValue("recipeName") as string;
 
             return (
                 <div className="w-[50px] h-[50px]">
-                    {
-                        !image ? <LucideImage size={50} /> : <Image
+                    {!image ? (
+                        <LucideImage size={50} />
+                    ) : (
+                        <Image
                             src={image}
                             alt={title}
                             className="object-cover w-full h-full rounded-md"
                             width={50}
                             height={50}
                         />
-                    }
-
+                    )}
                 </div>
             );
-        }
+        },
     },
     {
-        accessorKey: 'isTodayRecipe',
-        header: 'Сегодняшний рецепт',
+        accessorKey: "isTodayRecipe",
+        header: "Сегодняшний рецепт",
         cell: CheckboxCell,
     },
     {
-        accessorKey: 'authorName',
-        header: 'Автор',
+        accessorKey: "authorName",
+        header: "Автор",
     },
     {
-        accessorKey: 'authorId',
-        header: 'ID автора',
+        accessorKey: "authorId",
+        header: "ID автора",
     },
     {
-        id: 'actions',
-        header: 'Actions',
+        id: "actions",
+        header: "Actions",
         cell: ActionCell,
-    }
-]
+    },
+];

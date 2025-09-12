@@ -10,19 +10,20 @@ export default async function ProfileLayout({
 }: {
     children: React.ReactNode;
 }) {
-
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        return redirect('/');
+        return redirect("/");
     }
 
-    const user = await prisma.user.findUnique({ where: { id: Number(session?.user?.id) } });
+    const user = await prisma.user.findUnique({
+        where: { id: Number(session?.user?.id) },
+    });
 
     return (
         <Container className="mt-4">
             {user?.role === "ADMIN" && <AdminPanel />}
             {children}
         </Container>
-    )
+    );
 }

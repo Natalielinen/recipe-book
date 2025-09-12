@@ -1,28 +1,27 @@
-import { AuthOptions } from "next-auth"
+import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare, hashSync } from "bcrypt";
 import { prisma } from "../../prisma/prisma-client";
 import YandexProvider from "next-auth/providers/yandex";
 import GoogleProvider from "next-auth/providers/google";
-import { boolean } from "zod";
 
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' }
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       // @ts-ignore
       async authorize(credentials) {
         if (!credentials) {
           return null;
         }
- 
+
         const values = {
           email: credentials.email,
-        }
+        };
 
         const findUser = await prisma.user.findFirst({
           where: values,
@@ -30,23 +29,26 @@ export const authOptions: AuthOptions = {
 
         if (!findUser) {
           return null;
-        };
+        }
 
-        const isPasswordValid = await compare(credentials.password, findUser.password);
+        const isPasswordValid = await compare(
+          credentials.password,
+          findUser.password
+        );
 
         if (!isPasswordValid) {
           return null;
-        };
+        }
 
         if (!findUser.verified) {
           return null;
-        };
+        }
 
         return {
           id: findUser.id,
           email: findUser.email,
           name: findUser.fullName,
-        }
+        };
       },
     }),
     YandexProvider({
@@ -54,25 +56,25 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.YANDEX_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: "login:email login:info"
-        }
-      }
+          scope: "login:email login:info",
+        },
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
-    })
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-     strategy: 'jwt'
-   },
+    strategy: "jwt",
+  },
   callbacks: {
-    async signIn({user, account}) {
+    async signIn({ user, account }) {
       try {
-        if (account?.provider === 'credentials') {
+        if (account?.provider === "credentials") {
           return true;
-        };
+        }
 
         if (!user.email) {
           return false;
@@ -85,20 +87,20 @@ export const authOptions: AuthOptions = {
                 provider: account?.provider,
                 providerId: account?.providerAccountId,
               },
-              {email: user.email}
-            ]
-          }
+              { email: user.email },
+            ],
+          },
         });
 
         if (findUser) {
           await prisma.user.update({
             where: {
-              id: findUser.id
+              id: findUser.id,
             },
             data: {
               provider: account?.provider,
               providerId: account?.providerAccountId,
-            }
+            },
           });
 
           return true;
@@ -107,56 +109,50 @@ export const authOptions: AuthOptions = {
         await prisma.user.create({
           data: {
             email: user.email,
-            fullName: user.name || 'User #' + user.id,
+            fullName: user.name || "User #" + user.id,
             password: hashSync(user.id.toString(), 10), // to change
             verified: new Date(),
             provider: account?.provider,
             providerId: account?.providerAccountId,
-
-          }
+          },
         });
 
         return true;
-
       } catch (e) {
         console.log(e);
         return false;
       }
-      
     },
-    async jwt({token, user}) {
+    async jwt({ token, user }) {
       if (!token.email) {
-        token.sub = user.id; 
+        token.sub = user.id;
         return token;
       }
-      
+
       const findUser = await prisma.user.findFirst({
         where: {
           email: token.email,
-        }
+        },
       });
 
       if (findUser) {
         token.id = String(findUser.id);
         token.email = findUser.email;
         token.fullName = findUser.fullName;
-        token.sub = String(findUser.id); 
-        token.vip = findUser.vip; 
-      };
+        token.sub = String(findUser.id);
+        token.vip = findUser.vip;
+      }
 
       return token;
     },
 
-    session({session, token}) {
+    session({ session, token }) {
       if (session?.user) {
         session.user.id = token.sub as string;
         session.user.vip = token.vip as boolean;
-        
-      };
+      }
 
       return session;
-    
-    }
-
-  }
+    },
+  },
 };
