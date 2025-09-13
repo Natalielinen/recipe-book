@@ -1,4 +1,10 @@
-import { AddRecipeModal, Container, RecipesList, Title, TopBar } from "@/components/shared";
+import {
+    AddRecipeModal,
+    Container,
+    RecipesList,
+    Title,
+    TopBar,
+} from "@/components/shared";
 import React from "react";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
@@ -11,11 +17,10 @@ export const generateMetadata = (): Metadata => ({
 });
 
 export default async function Home() {
-
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        return redirect('/');
+        return redirect("/");
     }
 
     const categories = await prisma.category.findMany({});
@@ -35,4 +40,4 @@ export default async function Home() {
             <AddRecipeModal />
         </>
     );
-} 
+}

@@ -4,8 +4,7 @@ import { CategoryDto } from "./dto/recipe.dto";
 import { axiosInstance } from "./instance";
 
 export const categories = async (): Promise<Category[]> => {
-  
-    const { data } = await axiosInstance.get<CategoryDto[]>(ApiRoutes.CATEGORIES);
+  const { data } = await axiosInstance.get<CategoryDto[]>(ApiRoutes.CATEGORIES);
 
-    return data;
+  return data;
 };

@@ -3,10 +3,10 @@ import { RecipeDto } from "./dto/recipe.dto";
 
 const axiosInstance = axios.create({ baseURL: process.env.NEXT_IMAGE_URL });
 
-export const deleteImage = async ( recipeId: number): Promise<RecipeDto> => {
+export const deleteImage = async (recipeId: number): Promise<RecipeDto> => {
+  const { data } = await axiosInstance.delete<RecipeDto>(
+    `/api/recipe/${recipeId}/delete-image`
+  );
 
-   const { data } = await axiosInstance.delete<RecipeDto>(`/api/recipe/${recipeId}/delete-image`);
-
-   return data;
-
+  return data;
 };

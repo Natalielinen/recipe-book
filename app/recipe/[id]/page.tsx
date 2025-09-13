@@ -12,10 +12,11 @@ const getRecipeNameById = async (id: number) => {
     });
 };
 
-export async function generateMetadata(
-    { params }: { params: { id: string } }
-): Promise<Metadata> {
-
+export async function generateMetadata({
+    params,
+}: {
+    params: { id: string };
+}): Promise<Metadata> {
     const recipe = await getRecipeNameById(Number(params.id));
 
     return {
@@ -23,16 +24,16 @@ export async function generateMetadata(
     };
 }
 
-export default async function RecipePage({ params: { id } }: { params: { id: string } }) {
-
+export default async function RecipePage({
+    params: { id },
+}: {
+    params: { id: string };
+}) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-        return redirect('/');
+        return redirect("/");
     }
 
-    return <RecipeContent
-        id={Number(id)}
-    />
-
+    return <RecipeContent id={Number(id)} />;
 }
