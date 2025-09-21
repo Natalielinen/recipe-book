@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
@@ -17,33 +17,41 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const FormInput: React.FC<Props> = ({
-    name, label, required, className, passwordIcon = null, ...props
+    name,
+    label,
+    required,
+    className,
+    passwordIcon = null,
+    ...props
 }) => {
-
-    const { register, formState: { errors }, watch, setValue } = useFormContext();
+    const {
+        register,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useFormContext();
 
     const value = watch(name);
     const errorText = errors[name]?.message as string;
 
-    const onClear = () => setValue(name, '');
+    const onClear = () => setValue(name, "");
 
-    return <div className={className}>
-        {
-            label && <Label htmlFor={name} className="flex">
-                {label} {required && <Asterisk className="text-red-500" size={16} />}
-            </Label>
-        }
+    return (
+        <div className={className}>
+            {label && (
+                <Label htmlFor={name} className="flex">
+                    {label} {required && <Asterisk className="text-red-500" size={16} />}
+                </Label>
+            )}
 
-        <div className="relative">
-            <Input
-                className="h-12 text-md"
-                {...register(name)}
-                {...props} />
+            <div className="relative">
+                <Input className="h-12 text-md" {...register(name)} {...props} />
 
-            {passwordIcon && passwordIcon}
-            {value && <ClearButton onClick={onClear} />}
+                {passwordIcon && passwordIcon}
+                {value && <ClearButton onClick={onClear} />}
+            </div>
+
+            {errorText && <ErrorText text={errorText} className="mt-2" />}
         </div>
-
-        {errorText && <ErrorText text={errorText} className="mt-2" />}
-    </div>;
+    );
 };

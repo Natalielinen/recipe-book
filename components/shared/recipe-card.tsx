@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { cn } from "../../lib/utils";
@@ -21,20 +21,28 @@ export const RecipeCard: React.FC<Props> = ({
     shortDescription,
     className,
 }) => {
+    return (
+        <div
+            className={cn(
+                "flex flex-col justify-between w-full md:w-[280px] md:min-w-[280px]",
+                className
+            )}
+        >
+            <div>
+                <RecipeImage imageUrl={imageUrl as string} recipeName={recipeName} />
 
-    return <div className={cn('flex flex-col justify-between w-full md:w-[280px] md:min-w-[280px]', className)}>
-        <div>
-            <RecipeImage imageUrl={imageUrl as string} recipeName={recipeName} />
+                <Title text={recipeName} size="sm" className="mb-1 mt-3 font-bold" />
 
-            <Title text={recipeName} size="sm" className="mb-1 mt-3 font-bold" />
+                <p className="text-sm text-gray-400 h-15">
+                    {`${shortDescription?.slice(0, 180)}...` || ""}
+                </p>
+            </div>
 
-            <p className="text-sm text-gray-400 h-15">
-                {`${shortDescription?.slice(0, 180)}...` || ''}
-            </p>
+            <Link href={`recipe/${id}`}>
+                <Button variant="outline" className="w-full mt-4">
+                    Подробнее...
+                </Button>
+            </Link>
         </div>
-
-        <Link href={`recipe/${id}`}>
-            <Button variant="outline" className="w-full mt-4">Подробнее...</Button>
-        </Link>
-    </div>;
+    );
 };

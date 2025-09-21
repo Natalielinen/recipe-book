@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Label } from "@radix-ui/react-label";
 import { Controller, useFormContext } from "react-hook-form";
@@ -11,31 +11,26 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;
 }
 
-export const FormCheckbox: React.FC<Props> = ({
-    name, label, className
-}) => {
-
+export const FormCheckbox: React.FC<Props> = ({ name, label, className }) => {
     const { control } = useFormContext();
 
-    return <div className={cn(className, 'flex items-center gap-2')}>
-        {
-            label && <Label htmlFor={name}>
-                {label}
-            </Label>
-        }
+    return (
+        <div className={cn(className, "flex items-center gap-2")}>
+            {label && <Label htmlFor={name}>{label}</Label>}
 
-        <Controller
-            control={control}
-            name={name}
-            render={({ field }) => {
-                return <Checkbox
-                    id={name}
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                />
-            }}
-
-        />
-
-    </div>;
+            <Controller
+                control={control}
+                name={name}
+                render={({ field }) => {
+                    return (
+                        <Checkbox
+                            id={name}
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                        />
+                    );
+                }}
+            />
+        </div>
+    );
 };

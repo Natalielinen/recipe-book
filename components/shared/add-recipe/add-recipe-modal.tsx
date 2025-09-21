@@ -5,16 +5,16 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { AddUserRecipe } from "./add-user-recipe";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
-import React from "react";
+import React, { FC } from "react";
 import { useMedia } from "react-use";
 
-interface Props {
+interface AddRecipeModalProps {
     className?: string;
     isEditForm?: boolean;
     recipe?: RecipeDto;
 }
 
-export const AddRecipeModal: React.FC<Props> = ({ className, recipe = {} as RecipeDto, isEditForm = false }) => {
+export const AddRecipeModal: FC<AddRecipeModalProps> = ({ className, recipe = {} as RecipeDto, isEditForm = false }) => {
 
     const { addRecipeModalOpen, setAddRecipeModalOpen } = useRecipeStore((state) => state);
 
@@ -30,7 +30,6 @@ export const AddRecipeModal: React.FC<Props> = ({ className, recipe = {} as Reci
                     isEditForm ? 'Изменить рецепт' : 'Добавить рецепт'
                 }
             </DialogTitle>
-
             <AddUserRecipe isEditForm={isEditForm} recipe={recipe} />
         </DialogContent>
     </Dialog>;

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import React from "react";
 import { RecipeCard } from "./recipe-card";
 import { Title } from "./title";
-import { useIntersection } from 'react-use';
+import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/app/store/category";
 import { Recipe } from "@prisma/client";
 
@@ -32,16 +32,15 @@ export const RecipesGroupList: React.FC<Props> = ({
             setActiveId(categoryId);
             setMenuOpen(false);
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryId, intersection?.isIntersecting]);
 
-    return <div id={title} ref={intersectionRef}>
+    return (
+        <div id={title} ref={intersectionRef}>
+            <Title text={title} size="lg" className="font-extrabold mb-5" />
 
-        <Title text={title} size="lg" className="font-extrabold mb-5" />
-
-        <div className="flex flex-col md:flex-row md:flex-wrap justify-start gap-10 mb-8">
-            {
-                recipes.map((recipe, i) => (
+            <div className="flex flex-col md:flex-row md:flex-wrap justify-start gap-10 mb-8">
+                {recipes.map((recipe, i) => (
                     <RecipeCard
                         id={recipe.id}
                         key={recipe.id}
@@ -49,8 +48,8 @@ export const RecipesGroupList: React.FC<Props> = ({
                         imageUrl={recipe.imageUrl as string}
                         shortDescription={recipe.shortDescription}
                     />
-                ))
-            }
+                ))}
+            </div>
         </div>
-    </div>;
+    );
 };

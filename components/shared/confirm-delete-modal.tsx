@@ -1,10 +1,6 @@
-'use client';
+"use client";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React from "react";
@@ -24,16 +20,16 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
     show,
     setShow,
     onDelete,
-    deletingItem = 'рецепт',
-    deliting
+    deletingItem = "рецепт",
+    deliting,
 }) => {
-
     return (
         <Dialog open={show} onOpenChange={() => setShow(false)}>
-            <DialogContent className={cn(
-                "sm:max-w-[425px]",
-                className)} >
-                <Title text={`Вы уверены, что хотите удалить ${deletingItem}?`} size="md" />
+            <DialogContent className={cn("sm:max-w-[425px]", className)}>
+                <Title
+                    text={`Вы уверены, что хотите удалить ${deletingItem}?`}
+                    size="md"
+                />
                 <p>Это действие нельзя будет отменить</p>
 
                 <DialogFooter>
@@ -45,8 +41,6 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
                     </Button>
                 </DialogFooter>
             </DialogContent>
-
         </Dialog>
-
     );
 };
