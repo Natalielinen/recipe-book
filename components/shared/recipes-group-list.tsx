@@ -6,6 +6,7 @@ import { Title } from "./title";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/app/store/category";
 import { Recipe } from "@prisma/client";
+import Image from "next/image";
 
 interface Props {
     title: string;
@@ -37,7 +38,16 @@ export const RecipesGroupList: React.FC<Props> = ({
 
     return (
         <div id={title} ref={intersectionRef}>
-            <Title text={title} size="lg" className="font-extrabold mb-5" />
+            <div className="flex justify-start gap-10 items-center mb-5">
+                <Title text={title} size="lg" className="font-extrabold" />
+                <Image
+                    src={`/assets/images/categories/${categoryId}.png` || ""}
+                    width={68}
+                    height={48}
+                    alt={title}
+                    className="rounded-md"
+                />
+            </div>
 
             <div className="flex flex-col md:flex-row md:flex-wrap justify-start gap-10 mb-8">
                 {recipes.map((recipe, i) => (
