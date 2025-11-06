@@ -12,16 +12,17 @@ export const generateMetadata = (): Metadata => ({
 });
 
 export default async function ProfilePage() {
-
     const session = await getServerSession(authOptions);
-    const user = await prisma.user.findUnique({ where: { id: Number(session?.user?.id) } });
+    const user = await prisma.user.findUnique({
+        where: { id: Number(session?.user?.id) },
+    });
 
     if (!session) {
-        return redirect('/');
+        return redirect("/");
     }
 
     if (!user) {
-        return redirect('/');
+        return redirect("/");
     }
 
     return (
@@ -32,6 +33,5 @@ export default async function ProfilePage() {
                 <Statistics data={user} />
             </div>
         </>
-    )
-
+    );
 }
