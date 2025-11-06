@@ -1,16 +1,16 @@
-import { Ingredient, RecipeOfADay } from "@prisma/client"
+import { Ingredient, RecipeOfADay } from "@prisma/client";
 
 export type RecipeOfADayDTO = RecipeOfADay & {
-    ingredients: Ingredient[]
-}
+  ingredients: Ingredient[];
+};
 
 export type UpdateRecipeOfADayBody = {
-    addRecipe: boolean;
-    isVoted: boolean;
-    recipeId: number
-}
+  addRecipe: boolean;
+  isVoted: boolean;
+  recipeId: number;
+};
 
 export type MessageType = {
-    message: string,
-    success: boolean
-}
+  message: string;
+  success: boolean;
+};

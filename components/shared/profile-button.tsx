@@ -1,11 +1,16 @@
-'use client';
+"use client";
 
-import { Button } from "../ui/button"
+import { Button } from "../ui/button";
 import { Album, CircleUser, LogOut, Settings, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { useSession } from "next-auth/react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
@@ -23,45 +28,50 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
 
     return (
         <div>
-            {
-                !session ? <Button onClick={onClickLogin} loading={isLoading} variant="outline" className={cn(className)}>
+            {!session ? (
+                <Button
+                    onClick={onClickLogin}
+                    loading={isLoading}
+                    variant="outline"
+                    className={cn(className)}
+                >
                     <User size={16} className="mr-2" />
                     Войти
                 </Button>
-                    : <DropdownMenu modal={false}>
-                        <DropdownMenuTrigger asChild className="flex items-center">
-                            <Button variant="outline" className={cn(className)}>
-                                <CircleUser size={16} className="mr-2" />
-                                {session.user.name}
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem
-                                className="cursor-pointer"
-                                onClick={() => router.push('/recipes')}
-                            >
-                                <Album />
-                                Мои рецепты
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                className="cursor-pointer"
-                                onClick={() => router.push('/profile')}
-                            >
-                                <Settings />
-                                Профиль
-                            </DropdownMenuItem>
-                            {
-
-                            }
-                            <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
-                                <LogOut />
-                                Выйти
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-
-            }
+            ) : (
+                <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild className="flex items-center">
+                        <Button variant="outline" className={cn(className)}>
+                            <CircleUser size={16} className="mr-2" />
+                            {session.user.name}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => router.push("/recipes")}
+                        >
+                            <Album />
+                            Мои рецепты
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => router.push("/profile")}
+                        >
+                            <Settings />
+                            Профиль
+                        </DropdownMenuItem>
+                        { }
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => signOut()}
+                        >
+                            <LogOut />
+                            Выйти
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )}
         </div>
-    )
-
-}
+    );
+};

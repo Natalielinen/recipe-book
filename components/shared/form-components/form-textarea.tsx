@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Textarea } from '../../ui/textarea';
-import { ClearButton } from '../clear-button';
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { Textarea } from "../../ui/textarea";
+import { ClearButton } from "../clear-button";
 
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     className?: string;
@@ -12,7 +12,13 @@ interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     required?: boolean;
 }
 
-export const FormTextarea: React.FC<Props> = ({ className, name, label, required, ...props }) => {
+export const FormTextarea: React.FC<Props> = ({
+    className,
+    name,
+    label,
+    required,
+    ...props
+}) => {
     const {
         register,
         formState: { errors },
@@ -24,7 +30,7 @@ export const FormTextarea: React.FC<Props> = ({ className, name, label, required
     const errorText = errors[name]?.message as string;
 
     const onClickClear = () => {
-        setValue(name, '');
+        setValue(name, "");
     };
 
     return (

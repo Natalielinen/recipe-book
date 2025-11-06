@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Container } from "./container";
 import { CountButton } from "./count-button";
@@ -11,7 +11,7 @@ import { MoveLeft, Pencil } from "lucide-react";
 import { ShoppinListModal } from "./shopping-list-modal";
 import { useRecipeStore } from "@/app/store/recipe";
 import { AddRecipeModal } from "./add-recipe";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Api } from "@/app/services/api-client";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
@@ -20,15 +20,11 @@ import { Skeleton } from "../ui/skeleton";
 import { getColumnsCount } from "@/lib/get-columns-count";
 import { RecipeButtons } from "./recipe-buttons";
 
-
 interface Props {
     id: number;
 }
 
-
-
 export const RecipeContent: React.FC<Props> = ({ id }) => {
-
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
     const [deliting, setDeliting] = useState(false);
@@ -39,8 +35,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         recipe,
         setRecipe,
         initialServings,
-        setInitialServings
-
+        setInitialServings,
     } = useRecipeStore((state) => state);
 
     const fetchRecipe = async () => {
@@ -50,7 +45,6 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
 
         setInitialServings(recipe.servings);
         setLoading(false);
-
     };
 
     useEffect(() => {
@@ -64,9 +58,8 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         setAddRecipeModalOpen(true);
     };
 
-    const onServingsChange = (type: 'plus' | 'minus') => {
-
-        if (type === 'plus') {
+    const onServingsChange = (type: "plus" | "minus") => {
+        if (type === "plus") {
             setInitialServings(initialServings + 1);
         } else {
             setInitialServings(initialServings - 1);
@@ -77,7 +70,6 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
         return ((amount / recipe.servings) * initialServings).toFixed(2);
     };
 
-
     const handleDeleteRecipe = async () => {
         try {
             const res = await Api.deleteRecipe(id);
@@ -86,108 +78,130 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                 throw Error();
             }
 
-            toast.success('Рецепт успешно удален');
+            toast.success("Рецепт успешно удален");
             router.push(`/recipes`);
-
         } catch (error) {
-            toast.error('Произошла ошибка при удалении рецепта');
-            console.log('DELETE_RECIPE error', error);
+            toast.error("Произошла ошибка при удалении рецепта");
+            console.log("DELETE_RECIPE error", error);
         } finally {
             setShowConfirmDeleteModal(false);
         }
-
     };
 
-    const pdfIngredients = recipe.ingredients?.map((ingredient) => `${ingredient.name}: ${ingredient.toTaste ? "По вкусу" : `${ingredient.amount} ${ingredient.unit}`}  `);
+    const pdfIngredients = recipe.ingredients?.map(
+        (ingredient) =>
+            `${ingredient.name}: ${ingredient.toTaste
+                ? "По вкусу"
+                : `${ingredient.amount} ${ingredient.unit}`
+            }  `
+    );
 
-    return recipe ? (<Container className="flex flex-col my-10 gap-5">
-        <Button onClick={() => router.push(`/recipes`)} type="button" className="w-[60px]">
-            <MoveLeft size={16} />
-        </Button>
-        <div className="flex flex-1 gap-10 flex-wrap">
-            {
-                loading
-                    ? <Skeleton className="w-[215px] h-[215px] rounded-2xl" />
-                    : <RecipeImage imageUrl={recipe.imageUrl as string} recipeName={recipe.recipeName} recipeId={id} canUpdateImage />
-            }
+    return recipe ? (
+        <Container className="flex flex-col my-10 gap-5">
+            <Button
+                onClick={() => router.push(`/recipes`)}
+                type="button"
+                className="w-[60px]"
+            >
+                <MoveLeft size={16} />
+            </Button>
+            <div className="flex flex-1 gap-10 flex-wrap">
+                {loading ? (
+                    <Skeleton className="w-[215px] h-[215px] rounded-2xl" />
+                ) : (
+                    <RecipeImage
+                        imageUrl={recipe.imageUrl as string}
+                        recipeName={recipe.recipeName}
+                        recipeId={id}
+                        canUpdateImage
+                    />
+                )}
 
-            <div>
-                {
-                    loading
-                        ? <Skeleton className="w-[400px] h-[48px] rounded-2xl mb-1" />
-                        : <div className="flex gap-10 items-center">
-                            <Title text={recipe.recipeName} size="lg" className="mb-1 mt-3 font-bold" />
+                <div>
+                    {loading ? (
+                        <Skeleton className="w-[400px] h-[48px] rounded-2xl mb-1" />
+                    ) : (
+                        <div className="flex gap-10 items-center">
+                            <Title
+                                text={recipe.recipeName}
+                                size="lg"
+                                className="mb-1 mt-3 font-bold"
+                            />
                             <Button variant="outline" onClick={onRecipeEdit}>
                                 <Pencil />
                             </Button>
-
                         </div>
-                }
-                {
-                    loading
-                        ? <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
-                        : <div className="flex gap-10 items-center">
+                    )}
+                    {loading ? (
+                        <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
+                    ) : (
+                        <div className="flex gap-10 items-center">
                             <p className="font-bold">Порции</p>
                             <CountButton value={initialServings} onClick={onServingsChange} />
                         </div>
+                    )}
 
-                }
+                    <div>
+                        {loading ? (
+                            <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
+                        ) : (
+                            <Title
+                                text="Ингредиенты"
+                                size="md"
+                                className="mb-1 mt-2 font-bold"
+                            />
+                        )}
 
-                <div>
-                    {
-                        loading
-                            ? <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
-                            : <Title text="Ингредиенты" size="md" className="mb-1 mt-2 font-bold" />
-                    }
-
-                    <ul style={{
-                        columns: getColumnsCount(recipe.ingredients?.length || 0)
-                    }}>
-                        {
-                            recipe.ingredients?.map((ingredient) => <IngredientListItem
-                                key={ingredient.name}
-                                amount={Number(calculateAmount(ingredient.amount))}
-                                unit={ingredient.unit}
-                                title={ingredient.name}
-                                toTaste={ingredient.toTaste}
-                                loading={loading}
-                            />)
-                        }
-                    </ul>
+                        <ul
+                            style={{
+                                columns: getColumnsCount(recipe.ingredients?.length || 0),
+                            }}
+                        >
+                            {recipe.ingredients?.map((ingredient) => (
+                                <IngredientListItem
+                                    key={ingredient.name}
+                                    amount={Number(calculateAmount(ingredient.amount))}
+                                    unit={ingredient.unit}
+                                    title={ingredient.name}
+                                    toTaste={ingredient.toTaste}
+                                    loading={loading}
+                                />
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-
             </div>
 
-        </div>
+            <div>
+                <Title text={"Способ приготовления"} className="mb-1 font-bold" />
+                <p>{recipe.fullDescription}</p>
+            </div>
+            <RecipeButtons
+                setShowConfirmDeleteModal={setShowConfirmDeleteModal}
+                setShowShoppingListModal={setShowShoppingListModal}
+                recipeTitle={recipe.recipeName}
+                recipeImage={recipe.imageUrl as string}
+                ingredients={pdfIngredients || []}
+                description={recipe.fullDescription as string}
+            />
+            <ConfirmDeleteModal
+                onDelete={handleDeleteRecipe}
+                setShow={setShowConfirmDeleteModal}
+                show={showConfirmDeleteModal}
+                deliting={deliting}
+            />
+            <ShoppinListModal
+                showShoppingListModal={showShoppingListModal}
+                setShoppingListModal={setShowShoppingListModal}
+                ingredientsList={recipe.ingredients?.map((ingredient) => ({
+                    ...ingredient,
+                    amount: Number(calculateAmount(ingredient.amount)),
+                }))}
+            />
 
-        <div>
-            <Title text={"Способ приготовления"} className="mb-1 font-bold" />
-            <p>{recipe.fullDescription}</p>
-        </div>
-        <RecipeButtons
-            setShowConfirmDeleteModal={setShowConfirmDeleteModal}
-            setShowShoppingListModal={setShowShoppingListModal}
-            recipeTitle={recipe.recipeName}
-            recipeImage={recipe.imageUrl as string}
-            ingredients={pdfIngredients || []}
-            description={recipe.fullDescription as string}
-        />
-        <ConfirmDeleteModal
-            onDelete={handleDeleteRecipe}
-            setShow={setShowConfirmDeleteModal}
-            show={showConfirmDeleteModal}
-            deliting={deliting}
-        />
-        <ShoppinListModal
-            showShoppingListModal={showShoppingListModal}
-            setShoppingListModal={setShowShoppingListModal}
-            ingredientsList={recipe.ingredients?.map((ingredient) => ({
-                ...ingredient,
-                amount: Number(calculateAmount(ingredient.amount))
-            }))}
-        />
-
-        <AddRecipeModal recipe={recipe as RecipeDto} isEditForm />
-    </Container>) : 'loading';
-
+            <AddRecipeModal recipe={recipe as RecipeDto} isEditForm />
+        </Container>
+    ) : (
+        "loading"
+    );
 };

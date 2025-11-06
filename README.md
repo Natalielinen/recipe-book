@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Code styleguide
+## Экспорты компонентов и функций
 
-## Getting Started
+Экспорты компонентов именованные; стрелочные функции.
+```tsx
+export const MyComponent = () => {
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Экспорты страниц дефолтные, обычная функция.
+```tsx
+export default function Home() {}
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+В папках с компонентами и функциями делаем реэкспорт из индекса.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Использование хуков и функций React
 
-## Learn More
+Все хуки и другие функции из реакта импортируем, не пишем так:
+`React.useState()`, делаем так:
+```tsx
+import { useState } from 'react';
 
-To learn more about Next.js, take a look at the following resources:
+const [state, setState] = useState(null);
+```
+## Типизация
+Типизация компонентов через FC
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```tsx
+export const Component: React.FC<ComponentProps> = ({ prop1 }) => {}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Названия типов для пропсов компонента <componentName>Props:
 
-## Deploy on Vercel
+```tsx
+type ComponentProps = {
+    prop1: string;
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Архетикрура компонента
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Сначала идут данные, потом их получение и обработка, после этого ui
+
+```tsx
+const { ьodalOpen, setModalOpen } = useStore((state) => state); // сначала данные из стора
+const [state, setState] = useState(null); // после  данные самого компонента
+
+useEffect(() => { // обработка данных
+    setState("data");
+}, []);
+
+return <div>{state}</div> // UI
+```

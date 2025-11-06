@@ -1,8 +1,11 @@
 import { prisma } from "@/prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
-    try {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  try {
     const updatedRecipe = await prisma.recipe.update({
       where: { id: Number(params.id) },
       data: { imageUrl: null },

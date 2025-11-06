@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -17,70 +17,62 @@ interface Props {
 }
 
 export const LoginForm: React.FC<Props> = ({ onClose }) => {
-
     const router = useRouter();
 
     const form = useForm<TFormLoginValues>({
         resolver: zodResolver(formLoginSchema),
         defaultValues: {
-            email: '',
-            password: ''
-        }
-    })
+            email: "",
+            password: "",
+        },
+    });
 
     const onSubmit = async (data: TFormLoginValues) => {
         try {
-
-            const resp = await signIn('credentials', {
+            const resp = await signIn("credentials", {
                 ...data,
-                redirect: false
+                redirect: false,
             });
-
 
             if (!resp?.ok) {
                 throw Error();
             }
 
             onClose?.();
-            toast.success('Вы вошли в аккаунт');
-
+            toast.success("Вы вошли в аккаунт");
         } catch (error) {
-            console.error('Error [LOGIN]', error);
-            toast.error('Не удалось войти в аккаунт');
+            console.error("Error [LOGIN]", error);
+            toast.error("Не удалось войти в аккаунт");
         }
-
-    }
+    };
 
     const forgotPasswordClick = () => {
         onClose?.();
         router.push(`/forgot-password`);
-
-    }
+    };
 
     return (
         <FormProvider {...form}>
-            <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-
+            <form
+                className="flex flex-col gap-5"
+                onSubmit={form.handleSubmit(onSubmit)}
+            >
                 <Title text="Вход в аккаунт" size="md" className="font-bold" />
-                <p className="text-gray-400">Введите свою почту, чтобы войти в свой аккаунт</p>
+                <p className="text-gray-400">
+                    Введите свою почту, чтобы войти в свой аккаунт
+                </p>
 
                 <FormInput name="email" label="Email" required />
                 <PasswordInput />
 
-                <Button
-                    loading={form.formState.isSubmitting}
-                    type="submit"
-                >
+                <Button loading={form.formState.isSubmitting} type="submit">
                     Войти
                 </Button>
 
-                <Button
-                    type="button"
-                    variant="link"
-                    onClick={forgotPasswordClick}
-                >Забыли пароль?</Button>
+                <Button type="button" variant="link" onClick={forgotPasswordClick}>
+                    Забыли пароль?
+                </Button>
             </form>
-        </FormProvider >
-    )
-
-}
+        </FormProvider>
+    );
+};
