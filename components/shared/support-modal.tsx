@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useState } from "react";
 
-
 interface SupportModalProps {
     className?: string,
 }
@@ -18,11 +17,11 @@ export const SupportModal: React.FC<SupportModalProps> = ({ className }) => {
 
     const [show, setShow] = useState<boolean>(false);
 
-    return show ? <Card className={cn('w-[300px] fixed bottom-2 right-2 pt-4', className)}>
+    return show ? <Card className={cn('w-[350px] fixed bottom-2 right-2 pt-4', className)}>
         <CardContent className="pb-0">
             <p className="mb-2 text-primary">Есть вопрос или предложение?</p>
-            <p className="text-primary">
-                Пишите <strong><a href="rec1pebook@yandex.ru" target="_blank" className="underline">rec1pebook@yandex.ru</a></strong>
+            <p className="text-primary flex gap-4 justify-start items-center">
+                Пишите <strong><a href="mailto:rec1pebook@yandex.ru" target="_blank" className="underline">rec1pebook@yandex.ru</a></strong>
             </p>
         </CardContent>
         <CardFooter className="p-1">
