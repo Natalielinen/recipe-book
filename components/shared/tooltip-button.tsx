@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../ui/button";
+import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { VariantProps } from "class-variance-authority";
 
 interface Props {
     className?: string;
@@ -9,6 +8,7 @@ interface Props {
     tooltipContent: string | React.ReactNode;
     buttonVariant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
     onButtonClick?: () => void;
+    size?: "sm" | "lg"
 }
 
 export const TooltipButton: React.FC<Props> = ({
@@ -16,6 +16,7 @@ export const TooltipButton: React.FC<Props> = ({
     children,
     tooltipContent,
     buttonVariant = "outline",
+    size,
     onButtonClick
 }) => {
     return <TooltipProvider >
@@ -25,18 +26,15 @@ export const TooltipButton: React.FC<Props> = ({
                     className={cn('', className)}
                     variant={buttonVariant}
                     onClick={onButtonClick}
+                    size={size}
                 >
                     {children}
                 </Button>
-
 
             </TooltipTrigger>
             <TooltipContent>
                 <p>{tooltipContent}</p>
             </TooltipContent>
-
         </Tooltip>
-
-
     </TooltipProvider>;
 };
