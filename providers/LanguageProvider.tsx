@@ -24,18 +24,28 @@ export function LanguageProvider({
 }) {
     const [lang, setLangState] = useState(initialLang);
 
+    const persistLang = (value: string) => {
+        localStorage.setItem("lang", value);
+        setCookie("lang", value);
+    };
+
     const setLang = (newLang: string) => {
         setLangState(newLang);
-        localStorage.setItem("lang", newLang);
-        setCookie("lang", newLang);
+        persistLang(newLang);
     };
 
     useEffect(() => {
         const lsLang = localStorage.getItem("lang");
-        if (lsLang && lsLang !== lang) {
-            setLangState(lsLang);
+
+        if (lsLang) {
+            // localStorage есть → используем его
+            if (lsLang !== lang) {
+                setLangState(lsLang);
+            }
+        } else {
+            // ❗ первый запуск → сохраняем initialLang
+            persistLang(lang);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

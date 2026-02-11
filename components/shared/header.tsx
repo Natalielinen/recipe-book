@@ -12,6 +12,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { SearchInput } from "./search-input";
 import Image from "next/image";
+import { LanguageButton } from "./language-button";
 
 interface Props {
     className?: string;
@@ -81,6 +82,7 @@ export const Header: React.FC<Props> = ({ className }) => {
                         open={showAuthModal}
                         onClose={() => setShowAuthModal(false)}
                     />
+                    <LanguageButton />
                     <ThemeButton />
                     <ProfileButton onClickLogin={() => setShowAuthModal(true)} />
                 </div>
