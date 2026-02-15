@@ -13,6 +13,8 @@ import {
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Lang, translation } from "@/translation/translation";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 interface Props {
     onClickLogin?: () => void;
@@ -21,6 +23,7 @@ interface Props {
 
 export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
     const { data: session, status } = useSession();
+    const { lang } = useLanguage()
 
     const isLoading = status === "loading";
 
@@ -36,7 +39,7 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
                     className={cn(className)}
                 >
                     <User size={16} className="mr-2" />
-                    Войти
+                    {translation[lang as Lang].signin}
                 </Button>
             ) : (
                 <DropdownMenu modal={false}>
@@ -52,14 +55,14 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
                             onClick={() => router.push("/recipes")}
                         >
                             <Album />
-                            Мои рецепты
+                            {translation[lang as Lang].myRecipes}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="cursor-pointer"
                             onClick={() => router.push("/profile")}
                         >
                             <Settings />
-                            Профиль
+                            {translation[lang as Lang].profile}
                         </DropdownMenuItem>
                         { }
                         <DropdownMenuItem
@@ -67,7 +70,7 @@ export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
                             onClick={() => signOut()}
                         >
                             <LogOut />
-                            Выйти
+                            {translation[lang as Lang].signout}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
