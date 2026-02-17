@@ -9,13 +9,20 @@ export const translation: Record<Lang, Record<string, string>> = {
     myRecipes: "Мои рецепты",
     profile: "Профиль",
     signout: "Выйти",
+    accountConfirmedSuccessMessage: "Ваш аккаунт успешно подтвержден",
+    recipe: "Рецептов",
+    book: "Книга",
   },
   en: {
-    title: "What to choose?",
+    title: "Recipe book",
     description: "Save your favorite recipes. A book for recording, storage and editing recipes.",
     signin: "Sign in",
     myRecipes: "My recipes",
     profile: "Profile",
     signout: "Sign out",
+    accountConfirmedSuccessMessage: "Your account has been successfully confirmed",
+    recipe: "Recipe",
+    book: "Book",
+
   },
 };
