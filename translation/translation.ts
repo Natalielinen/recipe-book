@@ -12,6 +12,10 @@ export const translation: Record<Lang, Record<string, string>> = {
     accountConfirmedSuccessMessage: "Ваш аккаунт успешно подтвержден",
     recipe: "Рецептов",
     book: "Книга",
+    addRecipe: "Добавить рецепт",
+    doYouHaveAQuestion: "Есть вопрос или предложение?",
+    write: "Пишите",
+    hide: "Скрыть",
   },
   en: {
     title: "Recipe book",
@@ -23,6 +27,10 @@ export const translation: Record<Lang, Record<string, string>> = {
     accountConfirmedSuccessMessage: "Your account has been successfully confirmed",
     recipe: "Recipe",
     book: "Book",
+    addRecipe: "Add recipe",
+    doYouHaveAQuestion: "Have a question or suggestion?",
+    write: "Write",
+    hide: "Hide",
 
   },
 };
