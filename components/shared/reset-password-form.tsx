@@ -13,6 +13,8 @@ import { FormInput } from "./form-components";
 import { z } from "zod";
 import { useSession } from "next-auth/react";
 import { User } from "@/generated/prisma";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     token: string;
@@ -32,6 +34,8 @@ const formResetPasswordSchema = z
 
 type TResetPasswordFormValues = z.infer<typeof formResetPasswordSchema>;
 export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
+    const { lang } = useLanguage();
+
     const [verified, setVerified] = React.useState(false);
     const [user, setUser] = React.useState<User | null>(null);
     const router = useRouter();
@@ -48,7 +52,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
             }
         } catch (error) {
             console.log("VERIFY_TOKEN error", error);
-            toast.error("Ссылка недействительна");
+            toast.error(translation[lang as Lang].linkIsNotValid);
         }
     };
 
@@ -72,14 +76,13 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
 
     const onSubmit = async (data: TResetPasswordFormValues) => {
         try {
-            console.log("Отправка запроса с email:", user?.email);
             await Api.resetPassword({
                 password: data.newPassword,
                 email: user?.email as string,
             });
 
             router.push(`/`);
-            toast.success("Пароль успешно изменен");
+            toast.success(translation[lang as Lang].passwordSuccessfullyChanged);
         } catch (error) {
             console.log("RESET_PASSWORD error", error);
         } finally {
@@ -93,12 +96,15 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
                     className="flex flex-col gap-5 w-full md:w-[30%]"
                     onSubmit={form.handleSubmit(onSubmit)}
                 >
-                    <Title text={"Новый пароль"} size="md" />
+                    <Title text={translation[lang as Lang].newPassword} size="md" />
 
-                    <FormInput name="newPassword" placeholder="Новый пароль" />
+                    <FormInput
+                        name="newPassword"
+                        placeholder={translation[lang as Lang].newPassword}
+                    />
                     <FormInput
                         name="retypeNewPassword"
-                        placeholder="Повторите новый пароль"
+                        placeholder={translation[lang as Lang].retypeNewPassword}
                     />
 
                     <Button
@@ -107,7 +113,7 @@ export const ResetPasswordForm: React.FC<Props> = ({ token }) => {
                         loading={form.formState.isSubmitting}
                         disabled={!verified}
                     >
-                        {"Сменить пароль"}
+                        {translation[lang as Lang].changePassword}
                     </Button>
                 </form>
             </FormProvider>

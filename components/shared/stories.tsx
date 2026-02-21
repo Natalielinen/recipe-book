@@ -1,20 +1,19 @@
-'use client';
+"use client";
 
 import React from "react";
 import { cn } from "../../lib/utils";
 import { X } from "lucide-react";
-import ReactStories from 'react-insta-stories';
+import ReactStories from "react-insta-stories";
 import { IStory } from "@/app/services/stories";
 import { Api } from "@/app/services/api-client";
 import { Container } from "./container";
-import Image from 'next/image'
+import Image from "next/image";
 
 interface Props {
     className?: string;
 }
 
 export const Stories: React.FC<Props> = ({ className }) => {
-
     const [stories, setStories] = React.useState<IStory[]>([]);
     const [open, setOpen] = React.useState(false);
     const [selectedStory, setSelectedStory] = React.useState<IStory>();
@@ -36,48 +35,57 @@ export const Stories: React.FC<Props> = ({ className }) => {
         }
     };
 
-
-    return <Container className={cn('flex items-center justify-start gap-2 my-10', className)}>
-        {stories.length === 0 &&
-            [...Array(6)].map((_, index) => (
-                <div key={index} className="w-[200px] h-[250px] bg-gray-200 rounded-md animate-pulse" />
-            ))}
-
-        {stories.map((story) => (
-            <Image
-                key={story.id}
-                onClick={() => onClickStory(story)}
-                className="rounded-md cursor-pointer"
-                height={250}
-                width={200}
-                src={story.previewImageUrl}
-                alt={story.title}
-                loading="eager"
-                priority={story === stories[0]}
-            />
-        )).reverse()}
-
-        {open && (
-            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-30">
-                <div
-                    className="relative w-full max-w-[520px] h-full max-h-[90vh] flex items-center justify-center"
-                >
-                    <button
-                        className="absolute -right-10 -top-5 z-30"
-                        onClick={() => setOpen(false)}
-                    >
-                        <X className="absolute top-0 right-0 w-8 h-8 text-white/50" />
-                    </button>
-
-                    <ReactStories
-                        onAllStoriesEnd={() => setOpen(false)}
-                        stories={selectedStory?.items.map((item) => ({ url: item.sourceUrl })) || []}
-                        defaultInterval={3000}
-                        width="100%" // Растягиваем на 100% ширины родителя
-                        height="100%" // Используем полную высоту родителя
+    return (
+        <Container
+            className={cn("flex items-center justify-start gap-2 my-10", className)}
+        >
+            {stories.length === 0 &&
+                [...Array(6)].map((_, index) => (
+                    <div
+                        key={index}
+                        className="w-[200px] h-[250px] bg-gray-200 rounded-md animate-pulse"
                     />
+                ))}
+
+            {stories
+                .map((story) => (
+                    <Image
+                        key={story.id}
+                        onClick={() => onClickStory(story)}
+                        className="rounded-md cursor-pointer"
+                        height={250}
+                        width={200}
+                        src={story.previewImageUrl}
+                        alt={story.title}
+                        loading="eager"
+                        priority={story === stories[0]}
+                    />
+                ))
+                .reverse()}
+
+            {open && (
+                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-30">
+                    <div className="relative w-full max-w-[520px] h-full max-h-[90vh] flex items-center justify-center">
+                        <button
+                            className="absolute -right-10 -top-5 z-30"
+                            onClick={() => setOpen(false)}
+                        >
+                            <X className="absolute top-0 right-0 w-8 h-8 text-white/50" />
+                        </button>
+
+                        <ReactStories
+                            onAllStoriesEnd={() => setOpen(false)}
+                            stories={
+                                selectedStory?.items.map((item) => ({ url: item.sourceUrl })) ||
+                                []
+                            }
+                            defaultInterval={3000}
+                            width="100%" // Растягиваем на 100% ширины родителя
+                            height="100%" // Используем полную высоту родителя
+                        />
+                    </div>
                 </div>
-            </div>
-        )}
-    </Container>;
+            )}
+        </Container>
+    );
 };
