@@ -3,6 +3,7 @@ import { TooltipButton } from "./tooltip-button";
 import React from "react";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { PDFRecipe } from "./recipe-pdf";
+import { useLanguage } from "@/providers/LanguageProvider";
 
 interface RecipeButtonsProps {
     setShowShoppingListModal: (value: boolean) => void;
@@ -21,6 +22,7 @@ export const RecipeButtons: React.FC<RecipeButtonsProps> = ({
     ingredients,
     description
 }) => {
+    const { lang } = useLanguage();
 
     return <div className="flex justify-between">
         <div className="flex gap-2">
@@ -39,6 +41,7 @@ export const RecipeButtons: React.FC<RecipeButtonsProps> = ({
                     description={description}
                     imageUrl={recipeImage}
                     ingredients={ingredients}
+                    lang={lang}
                 />
                 } fileName={`${recipeTitle}.pdf`}>
                     {({ loading }) => (loading ? '...' : 'PDF')}

@@ -49,7 +49,7 @@ export const RecipesList = () => {
                                         recipes={category.recipes}
                                         title={category.nameKey}
                                     />
-                                )
+                                ),
                         )}
                 </div>
             )}

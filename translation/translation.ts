@@ -27,6 +27,11 @@ export const translation: Record<Lang, Record<string, string>> = {
     newPassword: "Новый пароль",
     retypeNewPassword: "Повторите новый пароль",
     changePassword: "Сменить пароль",
+    ingredients: "Ингредиенты",
+    save: "Сохранить",
+    createRecipe: "Создать рецепт",
+    selectRecipe: "Выбрать рецепт",
+    confirm: "Подтвердить",
   },
   en: {
     title: "Recipe book",
@@ -53,6 +58,11 @@ export const translation: Record<Lang, Record<string, string>> = {
     newPassword: "New password",
     retypeNewPassword: "Retype new password",
     changePassword: "Change password",
+    ingredients: "Ingredients",
+    save: "Save",
+    createRecipe: "Create recipe",
+    selectRecipe: "Select recipe",
+    confirm: "Confirm",
 
   },
 };
