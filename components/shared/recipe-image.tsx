@@ -9,6 +9,8 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { ConfirmDeleteModal } from "./confirm-delete-modal";
 import { onLoadFile } from "@/lib/upload-image";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     imageUrl: string;
@@ -23,6 +25,8 @@ export const RecipeImage: React.FC<Props> = ({
     recipeId,
     canUpdateImage = false,
 }) => {
+    const { lang } = useLanguage();
+
     const [isUploading, setIsUploading] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -32,7 +36,7 @@ export const RecipeImage: React.FC<Props> = ({
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (
-        event: React.ChangeEvent<HTMLInputElement>
+        event: React.ChangeEvent<HTMLInputElement>,
     ) => {
         setIsUploading(true);
 
@@ -44,7 +48,7 @@ export const RecipeImage: React.FC<Props> = ({
             const recipe = await Api.getRecipeById(recipeId!);
             setRecipe(recipe);
         } catch (error) {
-            console.error("Ошибка загрузки:", error);
+            console.error(translation[lang as Lang].uploadError, error);
         } finally {
             setIsUploading(false);
         }
@@ -71,7 +75,7 @@ export const RecipeImage: React.FC<Props> = ({
         <div
             className={cn(
                 !imageUrl && noImageWrapperClass,
-                "group flex justify-center h-[260px] rounded-lg relative"
+                "group flex justify-center h-[260px] rounded-lg relative",
             )}
         >
             {canUpdateImage && (
@@ -115,7 +119,7 @@ export const RecipeImage: React.FC<Props> = ({
             <ConfirmDeleteModal
                 show={showConfirmModal}
                 setShow={setShowConfirmModal}
-                deletingItem="изображение"
+                deletingItem={translation[lang as Lang].image}
                 deliting={isDeleting}
                 onDelete={handleDeleteImage}
             />
