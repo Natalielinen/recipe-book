@@ -1,4 +1,4 @@
-import { Ingredient, Recipe } from "@prisma/client";
+import { Ingredient, Recipe } from "@/generated/prisma";
 
 export type CategoryDto = {
   id: number;

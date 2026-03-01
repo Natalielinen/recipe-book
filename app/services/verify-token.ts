@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma";
 import { axiosInstance } from "./instance";
 
 export const verifyToken = async (body: { token: string }): Promise<User> => {

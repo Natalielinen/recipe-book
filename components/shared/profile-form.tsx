@@ -7,7 +7,7 @@ import {
     formUpdateUserShema,
     TFormUpdateUserValues,
 } from "../../schemas/auth-schemas";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma";
 import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
 import { FormInput } from "./form-components";

@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "./form-components";
 import { z } from "zod";
 import { useSession } from "next-auth/react";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma";
 
 interface Props {
     token: string;

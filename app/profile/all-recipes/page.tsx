@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { DataTable } from "@/components/shared/admin";
 import { columns } from "./columns";
-import { RecipeOfADay } from "@prisma/client";
+import { RecipeOfADay } from "@/generated/prisma";
 
 export default async function AllRecipesPage() {
     const session = await getServerSession(authOptions);

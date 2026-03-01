@@ -1,5 +1,5 @@
 import { prisma } from "@/prisma/prisma-client";
-import { Ingredient } from "@prisma/client";
+import { Ingredient } from "@/generated/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/constants/auth-options";

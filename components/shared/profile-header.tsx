@@ -1,6 +1,6 @@
 import { Sparkles } from "lucide-react";
 import { Title } from "./title";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma";
 import React from "react";
 
 interface ProfileHeaderProps {

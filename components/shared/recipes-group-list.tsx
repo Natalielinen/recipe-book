@@ -5,7 +5,7 @@ import { RecipeCard } from "./recipe-card";
 import { Title } from "./title";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/app/store/category";
-import { Recipe } from "@prisma/client";
+import { Recipe } from "@/generated/prisma";
 import Image from "next/image";
 
 interface Props {

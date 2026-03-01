@@ -1,4 +1,4 @@
-import { Story, StoryItem } from "@prisma/client";
+import { Story, StoryItem } from "@/generated/prisma";
 import { axiosInstance } from "./instance";
 
 export type IStory = Story & {

@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Categories } from "./categories";
 import { cn } from "@/lib/utils";
 import { Container } from "./container";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma";
 import { useRecipeStore } from "@/app/store/recipe";
 import { useMedia } from "react-use";
 

@@ -2,7 +2,7 @@
 
 import { useCategoryStore } from "@/app/store/category";
 import { cn } from "../../lib/utils";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma";
 import { Button } from "../ui/button";
 import { AlignJustify } from "lucide-react";
 import React from "react";

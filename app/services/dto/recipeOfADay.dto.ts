@@ -1,4 +1,4 @@
-import { Ingredient, RecipeOfADay } from "@prisma/client";
+import { Ingredient, RecipeOfADay } from "@/generated/prisma";
 
 export type RecipeOfADayDTO = RecipeOfADay & {
   ingredients: Ingredient[];

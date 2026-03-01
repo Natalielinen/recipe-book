@@ -1,4 +1,4 @@
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma";
 import { ApiRoutes } from "./constants";
 import { CategoryDto } from "./dto/recipe.dto";
 import { axiosInstance } from "./instance";

@@ -2,7 +2,7 @@
 
 import { Api } from "@/app/services/api-client";
 import React, { useState } from "react";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 
