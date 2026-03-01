@@ -42,7 +42,7 @@
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^3.7.15",
     "nodemailer": "^6.9.16",
-    "prisma": "^5.19.0",
+    "prisma": "^7.4.2",
     "react": "^18",
     "react-cookie": "^7.2.0",
     "react-dom": "^18",
