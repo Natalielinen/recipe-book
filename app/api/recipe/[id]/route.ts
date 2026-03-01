@@ -1,8 +1,8 @@
 import { prisma } from "@/prisma/prisma-client";
-import { Ingredient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/constants/auth-options";
+import { Ingredient } from "@/generated/prisma";
 
 export async function GET(
   req: NextRequest,
