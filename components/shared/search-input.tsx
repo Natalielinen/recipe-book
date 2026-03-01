@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { Search, Soup } from 'lucide-react';
 import { useClickAway, useDebounce } from 'react-use';
 import Link from 'next/link';
-import { Recipe } from '@prisma/client';
+import { Recipe } from '@/generated/prisma';
 import { Api } from '@/app/services/api-client';
 
 interface Props {
