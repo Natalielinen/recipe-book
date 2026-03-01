@@ -14,12 +14,16 @@ import { FormInput } from "./form-components";
 import { Button } from "../ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { updateUserInfo } from "@/server/actions/update-user-info";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     data: User;
 }
 
 export const ProfileForm: React.FC<Props> = ({ data }) => {
+    const { lang } = useLanguage();
+
     const form = useForm({
         resolver: zodResolver(formUpdateUserShema),
         defaultValues: {
@@ -58,13 +62,17 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <FormInput name="email" label="E-Mail" />
-                <FormInput name="fullName" label="Полное имя" />
+                <FormInput name="fullName" label={translation[lang as Lang].fullName} />
 
-                <FormInput type="password" name="password" label="Новый пароль" />
+                <FormInput
+                    type="password"
+                    name="password"
+                    label={translation[lang as Lang].newPassword}
+                />
                 <FormInput
                     type="password"
                     name="confirmPassword"
-                    label="Повторите пароль"
+                    label={translation[lang as Lang].retypeNewPassword}
                 />
 
                 <Button
@@ -72,7 +80,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
                     className="text-base mt-10"
                     type="submit"
                 >
-                    Сохранить
+                    {translation[lang as Lang].save}
                 </Button>
 
                 <Button
@@ -82,7 +90,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
                     className="text-base"
                     type="button"
                 >
-                    Выйти
+                    {translation[lang as Lang].signout}
                 </Button>
             </form>
         </FormProvider>

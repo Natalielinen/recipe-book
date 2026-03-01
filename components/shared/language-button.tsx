@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -10,13 +10,17 @@ export const LanguageButton = () => {
     const router = useRouter();
 
     const onLangChange = () => {
-        setLang(lang === 'ru' ? 'en' : 'ru');
+        setLang(lang === "ru" ? "en" : "ru");
 
         router.refresh();
     };
 
     return (
-        <Button variant="outline" onClick={onLangChange} aria-label="Toggle language">
+        <Button
+            variant="outline"
+            onClick={onLangChange}
+            aria-label="Toggle language"
+        >
             {lang.toUpperCase()}
         </Button>
     );

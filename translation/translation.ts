@@ -55,6 +55,13 @@ export const translation: Record<Lang, Record<string, string>> = {
     shoppingList: "Список покупок",
     savePDF: "Сохранить в PDF",
     deleteRecipe: "Удалить рецепт",
+    personalData: "Личные данные",
+    fullName: "Полное имя",
+    emailSent: "Письмо отправлено",
+    errorSendingEmail: "Произошла ошибка при отправке письма",
+    passwordRecovery: "Восстановление пароля",
+    send: "Отправить",
+    goBack: "Вернуться",
   },
   en: {
     title: "Recipe book",
@@ -109,6 +116,13 @@ export const translation: Record<Lang, Record<string, string>> = {
     shoppingList: "Shopping list",
     savePDF: "Save to PDF",
     deleteRecipe: "Delete recipe",
+    personalData: "Personal data",
+    fullName: "Full name",
+    emailSent: "Email sent",
+    errorSendingEmail: "An error occurred while sending the email",
+    passwordRecovery: "Password recovery",
+    send: "Send",
+    goBack: "Go back",
 
   },
 };

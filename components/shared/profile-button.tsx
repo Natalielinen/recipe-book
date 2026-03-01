@@ -23,7 +23,7 @@ interface Props {
 
 export const ProfileButton: React.FC<Props> = ({ onClickLogin, className }) => {
     const { data: session, status } = useSession();
-    const { lang } = useLanguage()
+    const { lang } = useLanguage();
 
     const isLoading = status === "loading";
 

@@ -63,10 +63,15 @@ export const Header: React.FC<Props> = ({ className }) => {
 
                         <div>
                             <h1 className="text-2xl uppercase font-black flex gap-1 items-center">
-                                {lang === "ru" ? translation[lang as Lang].book : translation[lang as Lang].recipe} <Album />
+                                {lang === "ru"
+                                    ? translation[lang as Lang].book
+                                    : translation[lang as Lang].recipe}{" "}
+                                <Album />
                             </h1>
                             <h1 className="text-2xl uppercase font-black flex gap-1 items-center">
-                                {lang === "ru" ? translation[lang as Lang].recipe : translation[lang as Lang].book}
+                                {lang === "ru"
+                                    ? translation[lang as Lang].recipe
+                                    : translation[lang as Lang].book}
                             </h1>
                         </div>
                     </div>
