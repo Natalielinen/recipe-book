@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React from "react";
 import { Title } from "./title";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     className?: string;
@@ -23,21 +25,22 @@ export const ConfirmDeleteModal: React.FC<Props> = ({
     deletingItem = "рецепт",
     deliting,
 }) => {
+    const { lang } = useLanguage();
     return (
         <Dialog open={show} onOpenChange={() => setShow(false)}>
             <DialogContent className={cn("sm:max-w-[425px]", className)}>
                 <Title
-                    text={`Вы уверены, что хотите удалить ${deletingItem}?`}
+                    text={`${translation[lang as Lang].areYouSureYouWantToDelete} ${deletingItem}?`}
                     size="md"
                 />
-                <p>Это действие нельзя будет отменить</p>
+                <p>{translation[lang as Lang].thisActionCannotBeUndone}</p>
 
                 <DialogFooter>
                     <Button variant="destructive" onClick={onDelete} disabled={deliting}>
-                        Удалить
+                        {translation[lang as Lang].delete}
                     </Button>
                     <Button variant="outline" onClick={() => setShow(false)}>
-                        Отмена
+                        {translation[lang as Lang].cancel}
                     </Button>
                 </DialogFooter>
             </DialogContent>

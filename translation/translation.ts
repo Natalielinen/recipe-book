@@ -62,6 +62,10 @@ export const translation: Record<Lang, Record<string, string>> = {
     passwordRecovery: "Восстановление пароля",
     send: "Отправить",
     goBack: "Вернуться",
+    areYouSureYouWantToDelete: "Вы уверены, что хотите удалить",
+    thisActionCannotBeUndone: "Это действие нельзя будет отменить",
+    delete: "Удалить",
+    cancel: "Отмена",
   },
   en: {
     title: "Recipe book",
@@ -123,6 +127,10 @@ export const translation: Record<Lang, Record<string, string>> = {
     passwordRecovery: "Password recovery",
     send: "Send",
     goBack: "Go back",
+    areYouSureYouWantToDelete: "Are you sure you want to delete",
+    thisActionCannotBeUndone: "This action cannot be undone",
+    delete: "Delete",
+    cancel: "Cancel",
 
   },
 };
