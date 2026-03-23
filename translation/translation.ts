@@ -66,6 +66,12 @@ export const translation: Record<Lang, Record<string, string>> = {
     thisActionCannotBeUndone: "Это действие нельзя будет отменить",
     delete: "Удалить",
     cancel: "Отмена",
+    "Салаты и закуски": "Салаты",
+    "Первые блюда": "Первые блюда",
+    "Горячие блюда": "Горячие блюда",
+    "Выпечка": "Выпечка",
+    "Десерты и напитки": "Десерты и напитки",
+    "Домашние заготовки": "Домашние заготовки",
   },
   en: {
     title: "Recipe book",
@@ -131,6 +137,12 @@ export const translation: Record<Lang, Record<string, string>> = {
     thisActionCannotBeUndone: "This action cannot be undone",
     delete: "Delete",
     cancel: "Cancel",
+    "Салаты и закуски": "Salads and snacks",
+    "Первые блюда": "Soups",
+    "Горячие блюда": "Main dishes",
+    "Выпечка": "Baking",
+    "Десерты и напитки": "Desserts and drinks",
+    "Домашние заготовки": "Homemade preserves",
 
   },
 };
