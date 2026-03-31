@@ -1,55 +1,61 @@
-# Code styleguide
-## Экспорты компонентов и функций
+# Recipe Book
 
-Экспорты компонентов именованные; стрелочные функции.
-```tsx
-export const MyComponent = () => {
+A fullstack web application for creating, managing, and sharing recipes.
 
-}
-```
+Built with Next.js and TypeScript, the app allows users to create their own recipes and manage personal collections.
 
-Экспорты страниц дефолтные, обычная функция.
-```tsx
-export default function Home() {}
-```
+## 🚀 Live Demo
 
-В папках с компонентами и функциями делаем реэкспорт из индекса.
+https://myrecipebook.ru/
 
-## Использование хуков и функций React
+## 🛠 Tech Stack
 
-Все хуки и другие функции из реакта импортируем, не пишем так:
-`React.useState()`, делаем так:
-```tsx
-import { useState } from 'react';
+- React / Next.js
+- TypeScript
+- REST API
+- Tailwind / CSS
+- State Management (Zustand)
 
-const [state, setState] = useState(null);
-```
-## Типизация
-Типизация компонентов через FC
+## ✨ Features
 
-```tsx
-export const Component: React.FC<ComponentProps> = ({ prop1 }) => {}
-```
+- User authentication and authorization  
+- Create, edit, and delete recipes  
+- Create shopping list for recipe
+- Download PDF
+- Admin panel
 
-Названия типов для пропсов компонента <componentName>Props:
+## 🏗 Architecture
 
-```tsx
-type ComponentProps = {
-    prop1: string;
-}
-```
+The application is built using modern frontend architecture principles:
 
-## Архетикрура компонента
+- Feature-Sliced Design (FSD)
+- Separation of concerns
+- Reusable component structure
 
-Сначала идут данные, потом их получение и обработка, после этого ui
+## 📌 Status
 
-```tsx
-const { ьodalOpen, setModalOpen } = useStore((state) => state); // сначала данные из стора
-const [state, setState] = useState(null); // после  данные самого компонента
+Actively developed. New features and improvements are continuously added.
 
-useEffect(() => { // обработка данных
-    setState("data");
-}, []);
+## 🚧 Roadmap
 
-return <div>{state}</div> // UI
-```
+### Short-term
+- Optimize image loading and improve performance  
+- Remove unused dependencies  
+- Implement global error handling (ErrorBoundary)  
+- Improve mobile layout (320×832 resolution)  
+- Replace description input with rich text editor  
+
+### Mid-term
+- Add recipe cost calculation  
+- Implement weekly meal planning feature  
+- Introduce dedicated "Menu" section  
+
+### Premium Features (VIP)
+- Recipe calorie calculation  
+- Add video support for recipes  
+- Smart recipe suggestions based on available ingredients  
+- Payment integration for premium access  
+
+### Experimental
+- AI-powered features for recipe generation and recommendations 
+
