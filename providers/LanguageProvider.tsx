@@ -22,12 +22,27 @@ export function LanguageProvider({
     initialLang: string;
     children: React.ReactNode;
 }) {
-    const [lang, setLangState] = useState(initialLang);
+    const [lang, setLangState] = useState(() => {
+        if (typeof window !== "undefined") {
+            const lsLang = localStorage.getItem("lang");
+            return lsLang || initialLang;
+        }
+        return initialLang;
+    });
 
     const persistLang = (value: string) => {
         localStorage.setItem("lang", value);
         setCookie("lang", value);
     };
+
+    useEffect(() => {
+        const lsLang = localStorage.getItem("lang");
+        if (!lsLang) {
+            persistLang(lang);
+        }
+    }, []);
+
+
 
     const setLang = (newLang: string) => {
         setLangState(newLang);
