@@ -1,5 +1,7 @@
+import { useLanguage } from "@/providers/LanguageProvider";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../ui/skeleton";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     className?: string;
@@ -18,6 +20,7 @@ export const IngredientListItem: React.FC<Props> = ({
     toTaste,
     loading,
 }) => {
+    const { lang } = useLanguage();
     return loading ? (
         <Skeleton className="w-[240px] h-[30px] rounded-2xl mb-1" />
     ) : (
@@ -27,7 +30,7 @@ export const IngredientListItem: React.FC<Props> = ({
                 <div className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2"></div>
             </span>
             {toTaste ? (
-                "по вкусу"
+                translation[lang as Lang].toTaste
             ) : (
                 <span className="font-bold text-lg">
                     {amount} {unit}

@@ -13,8 +13,11 @@ import toast from "react-hot-toast";
 import { getColumnsCount } from "@/lib/get-columns-count";
 import { TooltipButton } from "./tooltip-button";
 import { RecipeOfferModal } from "./recipe-offer-modal";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 export const RecipeOfADayCard = () => {
+    const { lang } = useLanguage();
     const { data: session, status } = useSession();
     const { user } = session || {};
 
@@ -22,7 +25,7 @@ export const RecipeOfADayCard = () => {
     const [currentUserVoted, setCurrentUserVoted] = useState<boolean>(false);
     const [userHasRecipe, setUserHasRecipe] = useState(false);
     const [recipeOfADay, setRecipeOfADay] = useState<RecipeOfADayDTO | null>(
-        null
+        null,
     );
     const [loading, setLoading] = useState(true);
     const [addingRecipe, setAddingRecipe] = useState(false);
@@ -39,13 +42,13 @@ export const RecipeOfADayCard = () => {
         if (status === "authenticated") {
             setCurrentUserVoted(
                 recipeOfADay?.votedUsersIds.includes(
-                    Number(session?.user.id)
-                ) as boolean
+                    Number(session?.user.id),
+                ) as boolean,
             );
             setUserHasRecipe(
                 recipeOfADay?.usersIdsAddedRecipe.includes(
-                    Number(session?.user.id)
-                ) as boolean
+                    Number(session?.user.id),
+                ) as boolean,
             );
         }
         setVoted(recipeOfADay?.votedUsersIds.length as number);
@@ -57,7 +60,7 @@ export const RecipeOfADayCard = () => {
 
     const onVoteClick = async () => {
         if (status !== "authenticated") {
-            toast.error("Пожалуйста, войдите в аккаунт");
+            toast.error(translation[lang as Lang].pleaseSignIn);
         }
         const res = await Api.updateRecipeOfADay({
             addRecipe: false,
@@ -70,19 +73,19 @@ export const RecipeOfADayCard = () => {
                 setVoted(voted - 1);
                 setCurrentUserVoted(false);
 
-                toast.success("Ваш голос успешно отменен");
+                toast.success(translation[lang as Lang].yourVoteSuccessfullyCanceled);
             } else {
                 setCurrentUserVoted(true);
                 setVoted(voted + 1);
 
-                toast.success("Ваш голос успешно принят");
+                toast.success(translation[lang as Lang].yourVoteSuccessfullySaved);
             }
         }
     };
 
     const onAddRecipeClick = async () => {
         if (status !== "authenticated") {
-            toast.error("Пожалуйста, войдите в аккаунт");
+            toast.error(translation[lang as Lang].pleaseSignIn);
             return;
         }
 
@@ -108,18 +111,18 @@ export const RecipeOfADayCard = () => {
             setAddingRecipe(false);
             setUserHasRecipe(true);
 
-            toast.success("Рецепт успешно добавлен");
+            toast.success(translation[lang as Lang].recipeSuccessfullyAdded);
         }
     };
 
     const onOfferRecipe = () => {
         if (!user) {
-            toast.error("Пожалуйста, войдите в аккаунт");
+            toast.error(translation[lang as Lang].pleaseSignIn);
             return;
         }
 
         if (!user.vip) {
-            toast.error("Только VIP пользователи могут предложить свой рецепт");
+            toast.error(translation[lang as Lang].onlyVIPUsersCanOfferRecipes);
             return;
         }
         setOpenRecipeOfferModal(true);
@@ -127,7 +130,9 @@ export const RecipeOfADayCard = () => {
 
     return (
         <article className="mb-8 p-6 bg-background rounded-2xl shadow-md mx-auto">
-            <h2 className="text-3xl font-bold mb-2 text-orange-600">Рецепт дня</h2>
+            <h2 className="text-3xl font-bold mb-2 text-orange-600">
+                {translation[lang as Lang].recipeOfTheDay}
+            </h2>
 
             <div className="flex justify-between">
                 {loading ? (
@@ -141,7 +146,8 @@ export const RecipeOfADayCard = () => {
                         />
                         {recipeOfADay?.authorId !== 3 && (
                             <p className="p-0 m-0 text-sm text-primary font-bold">
-                                Рецепт от пользователя: {recipeOfADay?.authorName}
+                                {translation[lang as Lang].recipeFromUser}:{" "}
+                                {recipeOfADay?.authorName}
                             </p>
                         )}
                     </div>
@@ -149,21 +155,22 @@ export const RecipeOfADayCard = () => {
 
                 <div className="flex gap-2 items-center">
                     <TooltipButton
-                        tooltipContent="Предложить свой рецепт"
+                        tooltipContent={translation[lang as Lang].offerYourRecipe}
                         onButtonClick={onOfferRecipe}
                     >
-                        Предложить
+                        {translation[lang as Lang].offer}
                     </TooltipButton>
                     {userHasRecipe && status === "authenticated" ? (
                         <p className="text-primary flex gap-2">
-                            <Check /> <span>Вы добавили этот рецепт</span>
+                            <Check />{" "}
+                            <span>{translation[lang as Lang].youHaveAddedTheRecipe}</span>
                         </p>
                     ) : (
                         <Button
                             onClick={onAddRecipeClick}
                             loading={loading || addingRecipe}
                         >
-                            Добавить себе
+                            {translation[lang as Lang].addToYourBook}
                         </Button>
                     )}
                 </div>
@@ -192,7 +199,7 @@ export const RecipeOfADayCard = () => {
 
             <div className="mt-6">
                 <h3 className="text-xl font-semibold text-secondary-foreground mb-2">
-                    Ингредиенты:
+                    {translation[lang as Lang].ingredients}:
                 </h3>
                 <div className="flex justify-between">
                     <ul
@@ -208,7 +215,7 @@ export const RecipeOfADayCard = () => {
                                 <li key={index}>
                                     {ingredient.name}:{" "}
                                     {ingredient.toTaste
-                                        ? "по вкусу"
+                                        ? translation[lang as Lang].toTaste
                                         : `${ingredient.amount} ${ingredient.unit}`}{" "}
                                 </li>
                             ))
@@ -216,7 +223,7 @@ export const RecipeOfADayCard = () => {
                     </ul>
                     <div
                         className="flex items-center gap-2 text-muted-foreground self-end"
-                        aria-label="Рейтинг"
+                        aria-label={translation[lang as Lang].rating}
                     >
                         <Button variant="ghost" onClick={onVoteClick}>
                             <Star fill={currentUserVoted ? "yellow" : "none"} />

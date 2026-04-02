@@ -12,6 +12,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { SearchInput } from "./search-input";
 import Image from "next/image";
+import { LanguageButton } from "./language-button";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     className?: string;
@@ -19,6 +22,7 @@ interface Props {
 
 export const Header: React.FC<Props> = ({ className }) => {
     const router = useRouter();
+    const { lang } = useLanguage();
 
     const [showAuthModal, setShowAuthModal] = React.useState(false);
     const searchParams = useSearchParams();
@@ -30,7 +34,7 @@ export const Header: React.FC<Props> = ({ className }) => {
         let toastMessage = "";
 
         if (searchParams.has("verified")) {
-            toastMessage = "Ваш аккаунт успешно подтвержден";
+            toastMessage = translation[lang as Lang].accountConfirmedSuccessMessage;
         }
 
         if (toastMessage) {
@@ -59,10 +63,15 @@ export const Header: React.FC<Props> = ({ className }) => {
 
                         <div>
                             <h1 className="text-2xl uppercase font-black flex gap-1 items-center">
-                                Книга <Album />
+                                {lang === "ru"
+                                    ? translation[lang as Lang].book
+                                    : translation[lang as Lang].recipe}{" "}
+                                <Album />
                             </h1>
                             <h1 className="text-2xl uppercase font-black flex gap-1 items-center">
-                                Рецептов
+                                {lang === "ru"
+                                    ? translation[lang as Lang].recipe
+                                    : translation[lang as Lang].book}
                             </h1>
                         </div>
                     </div>
@@ -81,6 +90,7 @@ export const Header: React.FC<Props> = ({ className }) => {
                         open={showAuthModal}
                         onClose={() => setShowAuthModal(false)}
                     />
+                    <LanguageButton />
                     <ThemeButton />
                     <ProfileButton onClickLogin={() => setShowAuthModal(true)} />
                 </div>

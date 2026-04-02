@@ -19,12 +19,15 @@ import toast from "react-hot-toast";
 import { Skeleton } from "../ui/skeleton";
 import { getColumnsCount } from "@/lib/get-columns-count";
 import { RecipeButtons } from "./recipe-buttons";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     id: number;
 }
 
 export const RecipeContent: React.FC<Props> = ({ id }) => {
+    const { lang } = useLanguage();
     const [showShoppingListModal, setShowShoppingListModal] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
     const [deliting, setDeliting] = useState(false);
@@ -78,10 +81,10 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                 throw Error();
             }
 
-            toast.success("Рецепт успешно удален");
+            toast.success(translation[lang as Lang].recipeSuccessfullyDeleted);
             router.push(`/recipes`);
         } catch (error) {
-            toast.error("Произошла ошибка при удалении рецепта");
+            toast.error(translation[lang as Lang].errorDeletingRecipe);
             console.log("DELETE_RECIPE error", error);
         } finally {
             setShowConfirmDeleteModal(false);
@@ -91,9 +94,9 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
     const pdfIngredients = recipe.ingredients?.map(
         (ingredient) =>
             `${ingredient.name}: ${ingredient.toTaste
-                ? "По вкусу"
+                ? translation[lang as Lang].toTaste
                 : `${ingredient.amount} ${ingredient.unit}`
-            }  `
+            }  `,
     );
 
     return recipe ? (
@@ -136,7 +139,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                         <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
                     ) : (
                         <div className="flex gap-10 items-center">
-                            <p className="font-bold">Порции</p>
+                            <p className="font-bold">{translation[lang as Lang].servings}</p>
                             <CountButton value={initialServings} onClick={onServingsChange} />
                         </div>
                     )}
@@ -146,7 +149,7 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
                             <Skeleton className="w-[500px] h-[30px] rounded-2xl mb-1" />
                         ) : (
                             <Title
-                                text="Ингредиенты"
+                                text={translation[lang as Lang].ingredients}
                                 size="md"
                                 className="mb-1 mt-2 font-bold"
                             />
@@ -173,7 +176,10 @@ export const RecipeContent: React.FC<Props> = ({ id }) => {
             </div>
 
             <div>
-                <Title text={"Способ приготовления"} className="mb-1 font-bold" />
+                <Title
+                    text={translation[lang as Lang].cookingMethod}
+                    className="mb-1 font-bold"
+                />
                 <p>{recipe.fullDescription}</p>
             </div>
             <RecipeButtons

@@ -6,6 +6,8 @@ import { Category } from "@/generated/prisma";
 import { Button } from "../ui/button";
 import { AlignJustify } from "lucide-react";
 import React from "react";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     className?: string;
@@ -15,6 +17,8 @@ interface Props {
 export const Categories: React.FC<Props> = ({ className, categories }) => {
     const menuOpen = useCategoryStore((state) => state.menuOpen);
     const setMenuOpen = useCategoryStore((state) => state.setMenuOpen);
+
+    const { lang } = useLanguage();
 
     const activeCategoryId = useCategoryStore((state) => state.activeId);
 
@@ -34,10 +38,11 @@ export const Categories: React.FC<Props> = ({ className, categories }) => {
                     "sm:width-[250px]",
                     menuOpen ? "block" : "hidden",
                     "bg-secondary p-1 rounded-2xl", // общие классы для любой шириный экрана
-                    className
+                    className,
                 )}
             >
                 {categories.map((category) => {
+                    console.log("category", category);
                     return (
                         <a
                             key={category.id}
@@ -45,10 +50,10 @@ export const Categories: React.FC<Props> = ({ className, categories }) => {
                             className={cn(
                                 "flex items-center font-bold h-11 rounded-2xl px-5",
                                 activeCategoryId === category.id &&
-                                "bg-background shadow-md shadow-shd text-primary"
+                                "bg-background shadow-md shadow-shd text-primary",
                             )}
                         >
-                            <button>{category.nameKey}</button>
+                            <button>{translation[lang as Lang][category.nameKey]}</button>
                         </a>
                     );
                 })}

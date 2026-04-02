@@ -4,14 +4,20 @@ import { Header } from "@/components/shared";
 import { Providers } from "@/components/shared/providers";
 import React from "react";
 import Script from "next/script";
+import { LanguageProvider } from "@/providers/LanguageProvider";
+import { cookies } from "next/headers";
 
 const nunito = Nunito({ subsets: ["latin", "cyrillic", "latin-ext"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const cookieStore = cookies();
+  const lang = (await cookieStore).get("lang");
+
   return (
     <html lang="ru" suppressHydrationWarning>
       <head>
@@ -50,8 +56,10 @@ export default function RootLayout({
       </head>
       <body className={nunito.className}>
         <Providers>
-          <Header />
-          {children}
+          <LanguageProvider initialLang={lang?.value || "ru"}>
+            <Header />
+            {children}
+          </LanguageProvider>
         </Providers>
       </body>
     </html>

@@ -5,6 +5,8 @@ import { cn } from "../../lib/utils";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { RecipeImage } from "./recipe-image";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface Props {
     id: number;
@@ -21,11 +23,12 @@ export const RecipeCard: React.FC<Props> = ({
     shortDescription,
     className,
 }) => {
+    const { lang } = useLanguage();
     return (
         <div
             className={cn(
                 "flex flex-col justify-between w-full md:w-[280px] md:min-w-[280px]",
-                className
+                className,
             )}
         >
             <div>
@@ -40,7 +43,7 @@ export const RecipeCard: React.FC<Props> = ({
 
             <Link href={`recipe/${id}`}>
                 <Button variant="outline" className="w-full mt-4">
-                    Подробнее...
+                    {translation[lang as Lang].more}...
                 </Button>
             </Link>
         </div>

@@ -15,6 +15,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addRecipeOfADay } from "@/server/actions/add-recipe-of-a-day";
 import { RecipeDto } from "@/app/services/dto/recipe.dto";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 interface RecipeOfferModalProps {
     open: boolean;
@@ -26,13 +28,14 @@ export const RecipeOfferModal = ({
     handleClose,
 }: RecipeOfferModalProps) => {
     const { data: session } = useSession();
+    const { lang } = useLanguage();
 
     const [chosenOption, setChosenOption] = React.useState<
         ("add" | "select") | null
     >(null);
     const [recipesList, setRecipesList] = React.useState<RecipeDto[]>([]);
     const [selectedRecipeId, setSelectedRecipeId] = React.useState<number | null>(
-        null
+        null,
     );
 
     const defaultFormValues = {
@@ -74,7 +77,7 @@ export const RecipeOfferModal = ({
                     setRecipesList(data?.data?.recipes);
                 }
             },
-        }
+        },
     );
 
     const { execute: createRecipeOfTheDay, status: createRecipeOfTheDayStatus } =
@@ -96,7 +99,7 @@ export const RecipeOfferModal = ({
 
     const onSelectRecipe = async () => {
         const selectedRecipe = recipesList.find(
-            (recipe) => recipe.id === selectedRecipeId
+            (recipe) => recipe.id === selectedRecipeId,
         );
         if (selectedRecipe) {
             createRecipeOfTheDay({
@@ -150,7 +153,7 @@ export const RecipeOfferModal = ({
                                 type="submit"
                                 loading={createRecipeOfTheDayStatus === "executing"}
                             >
-                                Сохранить
+                                {translation[lang as Lang].save}
                             </Button>
                         </form>
                     </FormProvider>
@@ -160,7 +163,7 @@ export const RecipeOfferModal = ({
                     <>
                         <Button onClick={() => setChosenOption("add")}>
                             {" "}
-                            Создать рецепт
+                            {translation[lang as Lang].createRecipe}
                         </Button>
                         <Button
                             onClick={() =>
@@ -171,7 +174,7 @@ export const RecipeOfferModal = ({
                             loading={fetchRecipesStatus === "executing"}
                         >
                             {" "}
-                            Выбрать рецепт
+                            {translation[lang as Lang].selectRecipe}
                         </Button>
                     </>
                 )}
@@ -183,7 +186,7 @@ export const RecipeOfferModal = ({
                             onClick={onSelectRecipe}
                             loading={createRecipeOfTheDayStatus === "executing"}
                         >
-                            Подтвердить
+                            {translation[lang as Lang].confirm}
                         </Button>
                     </DialogFooter>
                 )}

@@ -9,9 +9,12 @@ import { MoveLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Api } from "@/app/services/api-client";
 import toast from "react-hot-toast";
+import { useLanguage } from "@/providers/LanguageProvider";
+import { Lang, translation } from "@/translation/translation";
 
 export const ForgotPasswordForm = () => {
     const router = useRouter();
+    const { lang } = useLanguage();
 
     const [email, setEmail] = React.useState("");
     const [sending, setSending] = React.useState(false);
@@ -22,10 +25,10 @@ export const ForgotPasswordForm = () => {
             await Api.forgotPassword({ email });
 
             router.push(`/`);
-            toast.success("Письмо отправлено");
+            toast.success(translation[lang as Lang].emailSent);
         } catch (error) {
             console.log("FORGOT_PASSWORD error", error);
-            toast.error("Произошла ошибка при отправке письма");
+            toast.error(translation[lang as Lang].errorSendingEmail);
         } finally {
             setSending(false);
         }
@@ -34,16 +37,16 @@ export const ForgotPasswordForm = () => {
     return (
         <Container className="flex align-center justify-center">
             <div className="flex flex-col gap-5 w-[30%]">
-                <Title text={"Восстановление пароля"} size="md" />
+                <Title text={translation[lang as Lang].passwordRecovery} size="md" />
 
                 <Input
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={"Email"}
+                    placeholder="Email"
                 />
 
                 <Button type="button" onClick={onForgotPassword} loading={sending}>
-                    {"Отправить"}
+                    {translation[lang as Lang].send}
                 </Button>
                 <Button
                     type="button"
@@ -51,7 +54,7 @@ export const ForgotPasswordForm = () => {
                     onClick={() => router.push(`/`)}
                 >
                     <MoveLeft />
-                    {"Вернуться"}
+                    {translation[lang as Lang].goBack}
                 </Button>
             </div>
         </Container>
