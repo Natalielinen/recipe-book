@@ -25,7 +25,7 @@ export const SocialButtons = () => {
                     height={20}
                 />
             </Button>
-            <Button
+            {/* <Button
                 variant="default"
                 onClick={() => handleSocialButtonClick("google")}
                 type="button"
@@ -37,7 +37,7 @@ export const SocialButtons = () => {
                     width={20}
                     height={20}
                 />
-            </Button>
+            </Button> */}
         </div>
     );
 };
